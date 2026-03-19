@@ -11,7 +11,7 @@ const BlogDetais = () => {
     
       const fetchBlogs = async () => {
         try {
-          const res = await fetch(`https://pleasing-consideration-production.up.railway.app/api/blogs/${id}`);
+          const res = await fetch(`http://localhost:5000/api/blogs/${id}`);
           const data = await res.json();
           setBlogs(data);
           console.log(data);

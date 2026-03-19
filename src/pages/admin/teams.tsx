@@ -31,7 +31,7 @@ export default function Teams() {
   const fetchMembers = async () => {
     try {
       const res = await fetch(
-        "https://pleasing-consideration-production.up.railway.app/api/members/"
+        "http://localhost:5000/api/members/"
       );
       const data = await res.json();
       setMembers(data.members || []);
@@ -48,7 +48,7 @@ export default function Teams() {
   const handleDelete = async (Id: string) => {
     try {
       const res = await fetch(
-        `https://pleasing-consideration-production.up.railway.app/api/admin/delete-member/${Id}`,
+        `http://localhost:5000/api/admin/delete-member/${Id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -120,7 +120,7 @@ export default function Teams() {
 
       if (editForm && currentMemberId) {
         res = await fetch(
-          `https://pleasing-consideration-production.up.railway.app/api/admin/edit-member/${currentMemberId}`,
+          `http://localhost:5000/api/admin/edit-member/${currentMemberId}`,
           {
             method: "PUT",
             headers: { Authorization: `Bearer ${token}` },
@@ -129,7 +129,7 @@ export default function Teams() {
         );
       } else {
         res = await fetch(
-          "https://pleasing-consideration-production.up.railway.app/api/admin/new-member",
+          "http://localhost:5000/api/admin/new-member",
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },

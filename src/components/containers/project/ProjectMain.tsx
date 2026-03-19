@@ -3,12 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import hrone from "public/images/projects/hr-one.png";
-import hrtwo from "public/images/projects/hr-two.png";
-import hrthree from "public/images/projects/hr-three.png";
-import hrfour from "public/images/projects/hr-four.png";
-import hrfive from "public/images/projects/hr-five.png";
-import hrsix from "public/images/projects/hr-six.png";
 
 gsap.registerPlugin(ScrollTrigger);
 const ProjectMain = ({ projects }: { projects: any }) => {
@@ -43,8 +37,10 @@ const ProjectMain = ({ projects }: { projects: any }) => {
   }, []);
 
   return (
-    <section className="section project-sl" ref={slider}>
+    <section className="section project-sl" style={{marginTop: '270px'}} ref={slider}>
       {/* {projects.length > 0 ? ( */}
+      
+
       {projects.map((project: any) => (
         <div key={project._id} className="project-sl__single">
           <div className="thumb">
@@ -66,188 +62,6 @@ const ProjectMain = ({ projects }: { projects: any }) => {
           </div>
         </div>
       ))}
-      {/* </div>
-      ) : (
-        <p className="text-white text-center mt-4">No projects found.</p>
-      )} */}
-      {/* <div className="project-sl__single">
-        <div className="thumb">
-          <Link href="project-single">
-            <Image src={hrtwo} alt="Image" />
-          </Link>
-        </div>
-        <div className="content">
-          <h2>
-            <Link href="project-single">
-              brand identity
-              <br />
-              difference
-            </Link>
-          </h2>
-        </div>
-      </div>
-      <div className="project-sl__single">
-        <div className="thumb">
-          <Link href="project-single">
-            <Image src={hrthree} alt="Image" />
-          </Link>
-        </div>
-        <div className="content">
-          <h2>
-            <Link href="project-single">
-              marketing app
-              <br />
-              solutions
-            </Link>
-          </h2>
-        </div>
-      </div>
-      <div className="project-sl__single">
-        <div className="thumb">
-          <Link href="project-single">
-            <Image src={hrfour} alt="Image" />
-          </Link>
-        </div>
-        <div className="content">
-          <h2>
-            <Link href="project-single">
-              LMS web app
-              <br />
-              lication
-            </Link>
-          </h2>
-        </div>
-      </div>
-       */}
-
-      {/* <div className="project-sl__single">
-        <div className="thumb">
-          <Link href="project-single">
-            <Image src={hrfive} alt="Image" />
-          </Link>
-        </div>
-        <div className="content">
-          <h2>
-            <Link href="project-single">
-              brand identity
-              <br />
-              difference
-            </Link>
-          </h2>
-        </div>
-      </div>
-      <div className="project-sl__single">
-        <div className="thumb">
-          <Link href="project-single">
-            <Image src={hrsix} alt="Image" />
-          </Link>
-        </div>
-        <div className="content">
-          <h2>
-            <Link href="project-single">
-              digital website
-              <br />
-              development
-            </Link>
-          </h2>
-        </div>
-      </div>
-      <div className="project-sl__single">
-        <div className="thumb">
-          <Link href="project-single">
-            <Image src={hrone} alt="Image" />
-          </Link>
-        </div>
-        <div className="content">
-          <h2>
-            <Link href="project-single">
-              mobile app
-              <br />
-              development
-            </Link>
-          </h2>
-        </div>
-      </div>
-      <div className="project-sl__single">
-        <div className="thumb">
-          <Link href="project-single">
-            <Image src={hrtwo} alt="Image" />
-          </Link>
-        </div>
-        <div className="content">
-          <h2>
-            <Link href="project-single">
-              brand identity
-              <br />
-              difference
-            </Link>
-          </h2>
-        </div>
-      </div>
-      <div className="project-sl__single">
-        <div className="thumb">
-          <Link href="project-single">
-            <Image src={hrthree} alt="Image" />
-          </Link>
-        </div>
-        <div className="content">
-          <h2>
-            <Link href="project-single">
-              marketing app
-              <br />
-              solutions
-            </Link>
-          </h2>
-        </div>
-      </div>
-      <div className="project-sl__single">
-        <div className="thumb">
-          <Link href="project-single">
-            <Image src={hrfour} alt="Image" />
-          </Link>
-        </div>
-        <div className="content">
-          <h2>
-            <Link href="project-single">
-              LMS web app
-              <br />
-              lication
-            </Link>
-          </h2>
-        </div>
-      </div>
-      <div className="project-sl__single">
-        <div className="thumb">
-          <Link href="project-single">
-            <Image src={hrfive} alt="Image" />
-          </Link>
-        </div>
-        <div className="content">
-          <h2>
-            <Link href="project-single">
-              brand identity
-              <br />
-              difference
-            </Link>
-          </h2>
-        </div>
-      </div>
-      <div className="project-sl__single">
-        <div className="thumb">
-          <Link href="project-single">
-            <Image src={hrsix} alt="Image" />
-          </Link>
-        </div>
-        <div className="content">
-          <h2>
-            <Link href="project-single">
-              digital website
-              <br />
-              development
-            </Link>
-          </h2>
-        </div>
-      </div> */}
     </section>
   );
 };

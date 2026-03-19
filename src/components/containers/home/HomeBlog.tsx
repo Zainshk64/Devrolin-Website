@@ -11,7 +11,7 @@ const HomeBlog = () => {
 
   const fetchBlogs = async () => {
     try {
-      const recent = await fetch("https://pleasing-consideration-production.up.railway.app/api/blogs/recent").then(
+      const recent = await fetch("http://localhost:5000/api/blogs/recent").then(
         (res) => res.json()
       );
       setRecentBlogs(recent);

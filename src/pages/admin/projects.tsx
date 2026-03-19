@@ -31,7 +31,7 @@ export default function Projects() {
     const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch(
-        "https://pleasing-consideration-production.up.railway.app/api/projects/",
+        "http://localhost:5000/api/projects/",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ export default function Projects() {
     const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch(
-        `https://pleasing-consideration-production.up.railway.app/api/admin/delete-project/${id}`,
+        `http://localhost:5000/api/admin/delete-project/${id}`,
         {
           method: "DELETE",
           headers: {

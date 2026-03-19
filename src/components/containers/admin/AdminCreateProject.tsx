@@ -167,7 +167,7 @@ export default function AdminCreateProject({
       if (editingProject?._id) {
         // ✅ PUT edit
         res = await fetch(
-          `https://pleasing-consideration-production.up.railway.app/api/admin/edit-project/${editingProject._id}`,
+          `http://localhost:5000/api/admin/edit-project/${editingProject._id}`,
           {
             method: "PUT",
             headers: { Authorization: `Bearer ${token}` },
@@ -177,7 +177,7 @@ export default function AdminCreateProject({
       } else {
         // ✅ POST create
         res = await fetch(
-          "https://pleasing-consideration-production.up.railway.app/api/admin/new-project",
+          "http://localhost:5000/api/admin/new-project",
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },

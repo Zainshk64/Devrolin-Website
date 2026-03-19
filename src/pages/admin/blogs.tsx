@@ -12,7 +12,7 @@ const AdminBlogs = () => {
   const fetchBlogs = async () => {
     try {
       const recent = await fetch(
-        "https://pleasing-consideration-production.up.railway.app/api/blogs/recent"
+        "http://localhost:5000/api/blogs/recent"
       ).then((res) => res.json());
       setRecentBlogs(recent);
     } catch (err) {
@@ -116,7 +116,7 @@ const AdminBlogs = () => {
       if (editForm && currentBlogId) {
         // Update blog
         res = await fetch(
-          `https://pleasing-consideration-production.up.railway.app/api/admin/edit-blog/${currentBlogId}`,
+          `http://localhost:5000/api/admin/edit-blog/${currentBlogId}`,
           {
             method: "PUT",
             headers: { Authorization: `Bearer ${token}` },
@@ -126,7 +126,7 @@ const AdminBlogs = () => {
       } else {
         // Create blog
         res = await fetch(
-          "https://pleasing-consideration-production.up.railway.app/api/admin/new-blog",
+          "http://localhost:5000/api/admin/new-blog",
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
@@ -154,7 +154,7 @@ const AdminBlogs = () => {
 
     try {
       const res = await fetch(
-        `https://pleasing-consideration-production.up.railway.app/api/admin/delete-blog/${Id}`,
+        `http://localhost:5000/api/admin/delete-blog/${Id}`,
         {
           method: "DELETE",
           headers: {

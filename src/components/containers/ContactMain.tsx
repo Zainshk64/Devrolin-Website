@@ -5,6 +5,8 @@ import phone from "public/images/phone.png";
 import mail from "public/images/mail.png";
 import location from "public/images/location.png";
 import time from "public/images/time.png";
+import { StartProjectButton } from "@/components/ConsultForm";
+import { ConsultFormModal} from "@/components/ConsultForm"
 
 const ContactMain = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -40,7 +42,10 @@ const ContactMain = () => {
   return (
     <section className="section contact-m fade-wrapper">
       <div className="container">
+              {/* <StartProjectButton label="Work With Us" />             */}
+
         <div className="row gaper">
+
           <div className="col-12 col-sm-6 col-xl-3">
             <div className="contact-m__single topy-tilt fade-top">
               <div className="thumb">
@@ -124,62 +129,11 @@ const ContactMain = () => {
                       referrerPolicy="no-referrer-when-downgrade"
                     ></iframe>
                   </div>
+                  
                 </div>
                 <div className="col-12 col-lg-6">
-                  <div className="contact-main__form fade-top">
-                    <h3>Leave A Message</h3>
-                    <form
-                      onSubmit={handleSubmit}
-                      className="section__content-cta"
-                    >
-                      <div className="group-wrapper">
-                        <div className="group-input">
-                          <input
-                            type="text"
-                            name="contact-name"
-                            id="contactName"
-                            placeholder="Name"
-                            required
-                          />
-                        </div>
-                        <div className="group-input">
-                          <input
-                            type="email"
-                            name="contact-email"
-                            id="contactEmail"
-                            placeholder="Email"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="group-input drt">
-                        <select className="subject" name="contact-subject" required>
-                          <option value="" disabled selected>Subject</option>
-                          <option value="Design & Development">Design & Development</option>
-                          <option value="AI Solutions">AI Brilliance</option>
-                        </select>
-                      </div>
-                      <div className="group-input">
-                        <textarea
-                          name="contact-message"
-                          id="contactMessage"
-                          placeholder="Message"
-                          required
-                        ></textarea>
-                      </div>
-                      <div className="form-cta justify-content-start">
-                        <button type="submit" className="btn btn--primary">
-                          Send Message
-                        </button>
-                      </div>
-                    </form>
-                    {isPopupVisible && (
-                      <div className="popup-message">
-                        <p>Thank you! Your message has been sent successfully.</p>
-                      </div>
-                    )}
+                  <ConsultFormModal/>
                   </div>
-                </div>
               </div>
             </div>
           </div>

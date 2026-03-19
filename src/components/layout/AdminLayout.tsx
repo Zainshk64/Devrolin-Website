@@ -13,6 +13,7 @@ const tabs = [
   { name: "Projects", href: "/admin/projects" },
   { name: "Team Members", href: "/admin/teams" },
   { name: "Testimonials", href: "/admin/testimonial" },
+  { name: "Clients", href: "/admin/client" },
 ];
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
@@ -23,16 +24,13 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     const token = localStorage.getItem("adminToken");
 
     try {
-      const res = await fetch(
-        "https://pleasing-consideration-production.up.railway.app/api/admin/logout",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await fetch("http://localhost:5000/api/admin/logout", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       const data = await res.json();
 

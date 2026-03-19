@@ -21,7 +21,7 @@ const HomeTestimonial = () => {
   const fetchTestimonials = async () => {
     try {
       const res = await fetch(
-        "https://pleasing-consideration-production.up.railway.app/api/testimonials/"
+        "http://localhost:5000/api/testimonials/"
       );
       const data = await res.json();
       setTestimonials(data);

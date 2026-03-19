@@ -19,7 +19,7 @@ const TeamMembers = () => {
   const fetchMembers = async () => {
     try {
       const res = await fetch(
-        "https://pleasing-consideration-production.up.railway.app/api/members/"
+        "http://localhost:5000/api/members/"
       );
       const data = await res.json();
       setMembers(data.members || []);

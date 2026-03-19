@@ -18,7 +18,7 @@ const AdminLogin = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        "https://pleasing-consideration-production.up.railway.app/api/admin/login",
+        "http://localhost:5000/api/admin/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

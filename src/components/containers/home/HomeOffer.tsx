@@ -36,8 +36,8 @@ const HomeOffer = () => {
 
   const fetchService = async () => {
     try {
-      const recent = await fetch("https://pleasing-consideration-production.up.railway.app/api/services").then(
-        (res) => res.json()
+      const recent = await fetch("http://localhost:5000/api/services").then(
+        (res) => res.json(),
       );
       setOurServices(recent.services);
     } catch (err) {
@@ -109,7 +109,6 @@ const HomeOffer = () => {
                 </div>
               </div> */}
               {ourService.map((service) => (
-                
                 <>
                   <div className="offer__cta-single fade-top">
                     <span className="sub-title">
@@ -123,7 +122,12 @@ const HomeOffer = () => {
                       </Link>
                     </h2>
                     <div className="offer-thumb-hover d-none d-md-block">
-                      <Image src={service.mainImage.url} width={100} height={100} alt="Image" />
+                      <Image
+                        src={service.mainImage.url}
+                        width={100}
+                        height={100}
+                        alt="Image"
+                      />
                     </div>
                   </div>
                 </>

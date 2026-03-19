@@ -506,6 +506,46 @@
     }
   }
 
+
+
+
+  // ─── Add these rules to your existing project-sl SCSS ───────────────────────
+
+.project-sl {
+  // The section must be exactly one viewport tall so pin works correctly
+  height: 100vh;
+  display: flex;
+  align-items: center;
+
+  // __track is the moving flex container — do NOT constrain its width
+  &__track {
+    display: flex;
+    flex-wrap: nowrap;        // cards must stay on one horizontal line
+    align-items: center;
+    will-change: transform;   // GPU hint for smooth translation
+  }
+
+  // __single — your existing card styles stay the same,
+  // just make sure flex-shrink is 0 so cards don't compress
+  &__single {
+    flex-shrink: 0;           // ← the critical line — prevents cards squishing
+  }
+}
+
+// ─── Mobile: revert to normal vertical stack ────────────────────────────────
+@media (max-width: 991px) {
+  .project-sl {
+    height: auto;
+    overflow: visible !important;
+
+    &__track {
+      flex-wrap: wrap;
+    }
+  }
+}
+  
+
+
   .project-d {
     .quote-pj {
       padding-right: 0px;

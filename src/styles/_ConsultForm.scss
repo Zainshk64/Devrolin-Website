@@ -1,0 +1,937 @@
+// components/ConsultForm/_ConsultForm.scss
+// Devrolin brand: #0a0a0a base · #e87b2b orange · Syne + DM Sans
+
+// @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+// ── Tokens ────────────────────────────────────────────────────────────────────
+$bg:          #0a0a0a;
+$bg-card:     #111111;
+$bg-input:    #161616;
+$border:      #222222;
+$border-soft: #1e1e1e;
+$orange:      #e87b2b;
+$orange-lt:   #f5a05a;
+$orange-dim:  rgba(232,123,43,0.1);
+$orange-glow: rgba(232,123,43,0.25);
+$text:        #f0ece4;
+$text-2:      #8a8a8a;
+$text-3:      #444444;
+$green:       #2be87b;
+$radius:      14px;
+$radius-sm:   8px;
+$ease:        cubic-bezier(0.4,0,0.2,1);
+$font-d:      'Syne', sans-serif;
+$font-b:      'DM Sans', sans-serif;
+
+// ── Keyframes ─────────────────────────────────────────────────────────────────
+@keyframes cf-backdrop-in  { from{opacity:0}       to{opacity:1}       }
+@keyframes cf-modal-in     { from{opacity:0;transform:translateY(32px) scale(0.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes cf-step-in      { from{opacity:0;transform:translateX(18px)} to{opacity:1;transform:translateX(0)} }
+@keyframes cf-success-pop  { 0%{transform:scale(0.7);opacity:0} 70%{transform:scale(1.08)} 100%{transform:scale(1);opacity:1} }
+@keyframes cf-spin         { to{transform:rotate(360deg)} }
+@keyframes cf-pulse-ring   { 0%{box-shadow:0 0 0 0 rgba(232,123,43,.45)} 70%{box-shadow:0 0 0 10px rgba(232,123,43,0)} 100%{box-shadow:0 0 0 0 rgba(232,123,43,0)} }
+
+// ── Backdrop ──────────────────────────────────────────────────────────────────
+.cf-backdrop {
+  position: static;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: cf-backdrop-in 0.22s ease;
+  overflow-y: auto;
+}
+
+// ── Modal Shell ───────────────────────────────────────────────────────────────
+.cf-modal {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 720px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(232,123,43,0.1);
+  animation: cf-modal-in 0.3s $ease;
+  overflow: hidden;
+  position: relative;
+  my-margin: auto;
+
+  @media (max-width: 640px) {
+    border-radius: 16px;
+  }
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+.cf-header {
+  padding: 28px 32px 24px;
+  border-bottom: 1px solid $border-soft;
+  background: linear-gradient(135deg, #0f0f0f 0%, #140c04 100%);
+  position: relative;
+
+  @media (max-width: 640px) { padding: 20px 20px 18px; }
+}
+
+.cf-header__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cf-header__text {}
+
+.cf-header__eyebrow {
+  display: inline-block;
+  font-family: $font-d;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: $orange;
+  background: $orange-dim;
+  border: 1px solid rgba(232,123,43,0.22);
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.cf-header__title {
+  font-family: $font-d;
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 800;
+  color: $text;
+  margin: 0 0 4px;
+  line-height: 1.1;
+}
+
+.cf-header__sub {
+  font-family: $font-b;
+  font-size: 0.85rem;
+  color: $text-2;
+  font-weight: 300;
+  margin: 0;
+
+  a {
+    color: $orange;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+.cf-header__close {
+  background: #1a1a1a;
+  border: 1px solid $border;
+  color: $text-2;
+  width: 38px;
+  height: 38px;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  line-height: 1;
+
+  &:hover {
+    background: #2a2a2a;
+    color: $text;
+    border-color: #444;
+    transform: rotate(90deg);
+  }
+}
+
+// ── Step Progress ─────────────────────────────────────────────────────────────
+.cf-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.cf-step-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+
+  &:last-child .cf-step-item__line { display: none; }
+}
+
+.cf-step-item__dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-d;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  border: 1.5px solid $border;
+  color: $text-3;
+  background: $bg-card;
+  transition: all 0.25s $ease;
+
+  .cf-step-item--active &  {
+    background: $orange;
+    border-color: $orange;
+    color: $bg;
+    animation: cf-pulse-ring 2s infinite;
+  }
+
+  .cf-step-item--done & {
+    background: rgba(43,232,123,0.15);
+    border-color: $green;
+    color: $green;
+  }
+}
+
+.cf-step-item__label {
+  font-family: $font-d;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $text-3;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+
+  .cf-step-item--active & { color: $orange; }
+  .cf-step-item--done &   { color: $green; }
+
+  @media (max-width: 500px) { display: none; }
+}
+
+.cf-step-item__line {
+  flex: 1;
+  height: 1px;
+  background: $border;
+  margin: 0 8px;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: $orange;
+    transition: width 0.4s $ease;
+    width: 0%;
+  }
+
+  .cf-step-item--done + * &::before { width: 100%; }
+}
+
+// ── Body / Step Content ───────────────────────────────────────────────────────
+.cf-body {
+  padding: 28px 32px;
+  min-height: 320px;
+
+  @media (max-width: 640px) { padding: 20px; }
+}
+
+.cf-step {
+  animation: cf-step-in 0.25s $ease;
+}
+
+.cf-step__title {
+  font-family: $font-d;
+  font-size: 1rem;
+  font-weight: 700;
+  color: $text;
+  margin: 0 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: $orange;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+}
+
+// ── Form Controls ─────────────────────────────────────────────────────────────
+.cf-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+
+  &--full { grid-template-columns: 1fr; }
+
+  @media (max-width: 560px) { grid-template-columns: 1fr; }
+}
+
+.cf-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cf-label {
+  font-family: $font-d;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $text-2;
+
+  span { color: $orange; margin-left: 2px; }
+}
+
+%cf-base-control {
+  width: 100%;
+  background: $bg-input;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  padding: 11px 14px;
+  font-family: $font-b;
+  font-size: 0.88rem;
+  color: $text;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+
+  &::placeholder { color: $text-3; }
+
+  &:focus {
+    border-color: $orange-glow;
+    box-shadow: 0 0 0 3px rgba(232,123,43,0.08);
+  }
+}
+
+.cf-input   { @extend %cf-base-control; }
+.cf-textarea {
+  @extend %cf-base-control;
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.6;
+}
+.cf-select  {
+  @extend %cf-base-control;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-color: $bg-input;
+  padding-right: 36px;
+  option { background: #161616; }
+}
+
+// ── Budget Pills ──────────────────────────────────────────────────────────────
+.cf-budget-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.cf-budget-pill {
+  padding: 9px 18px;
+  border-radius: 100px;
+  border: 1px solid $border;
+  background: $bg-input;
+  color: $text-2;
+  font-family: $font-d;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: $orange-glow;
+    color: $text;
+  }
+
+  &--active {
+    background: $orange-dim;
+    border-color: $orange;
+    color: $orange;
+    box-shadow: 0 0 0 1px rgba(232,123,43,0.2);
+  }
+}
+
+// ── Service Checkboxes ────────────────────────────────────────────────────────
+.cf-service-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+
+  @media (max-width: 500px) { grid-template-columns: 1fr; }
+}
+
+.cf-service-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: $bg-input;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  padding: 11px 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+
+  &:hover { border-color: $orange-glow; }
+
+  &--active {
+    background: $orange-dim;
+    border-color: $orange;
+  }
+
+  input { display: none; }
+}
+
+.cf-service-check__box {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid $border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  font-size: 0.7rem;
+
+  .cf-service-check--active & {
+    background: $orange;
+    border-color: $orange;
+    color: $bg;
+  }
+}
+
+.cf-service-check__label {
+  font-family: $font-b;
+  font-size: 0.84rem;
+  color: $text-2;
+  font-weight: 400;
+
+  .cf-service-check--active & { color: $text; }
+}
+
+// ── File Upload ───────────────────────────────────────────────────────────────
+.cf-upload {
+  border: 1.5px dashed $border;
+  border-radius: $radius;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: $bg-input;
+  position: relative;
+
+  &:hover, &--drag { border-color: $orange; background: $orange-dim; }
+
+  input { display: none; }
+}
+
+.cf-upload__icon {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.cf-upload__text {
+  font-family: $font-b;
+  font-size: 0.85rem;
+  color: $text-2;
+  margin-bottom: 4px;
+
+  strong { color: $orange; }
+}
+
+.cf-upload__hint {
+  font-size: 0.72rem;
+  color: $text-3;
+}
+
+.cf-upload__files {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.cf-upload__file-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #1a1a1a;
+  border: 1px solid $border;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  color: $text-2;
+  font-family: $font-b;
+
+  button {
+    background: none;
+    border: none;
+    color: $text-3;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.8rem;
+    line-height: 1;
+    &:hover { color: #e84b4b; }
+  }
+}
+
+// ── Source Radio ──────────────────────────────────────────────────────────────
+.cf-source-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 4px;
+
+  @media (max-width: 500px) { grid-template-columns: 1fr 1fr; }
+}
+
+.cf-source-pill {
+  padding: 10px 8px;
+  text-align: center;
+  border-radius: $radius-sm;
+  border: 1px solid $border;
+  background: $bg-input;
+  color: $text-2;
+  font-family: $font-b;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+
+  &:hover { border-color: $orange-glow; color: $text; }
+
+  &--active {
+    background: $orange-dim;
+    border-color: $orange;
+    color: $orange;
+    font-weight: 500;
+  }
+
+  input { display: none; }
+}
+
+// ── Calendar ──────────────────────────────────────────────────────────────────
+.cf-calendar {
+  background: $bg-input;
+  border: 1px solid $border;
+  border-radius: $radius;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.cf-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid $border-soft;
+}
+
+.cf-calendar__nav {
+  background: none;
+  border: 1px solid $border;
+  color: $text-2;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.15s ease;
+
+  &:hover { border-color: $orange; color: $orange; }
+}
+
+.cf-calendar__month {
+  font-family: $font-d;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: $text;
+}
+
+.cf-calendar__days {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  padding: 16px;
+  gap: 8px;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.cf-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+  border-radius: $radius-sm;
+  border: 1px solid $border;
+  background: $bg-card;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  min-width: 60px;
+
+  &:hover:not(.cf-day--disabled) {
+    border-color: $orange-glow;
+    background: $orange-dim;
+  }
+
+  &--active {
+    background: $orange !important;
+    border-color: $orange !important;
+
+    .cf-day__name, .cf-day__num, .cf-day__month { color: $bg !important; }
+  }
+
+  &--disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.cf-day__name {
+  font-family: $font-d;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $text-3;
+}
+
+.cf-day__num {
+  font-family: $font-d;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: $text;
+  line-height: 1;
+}
+
+.cf-day__month {
+  font-size: 0.65rem;
+  color: $text-3;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cf-calendar__slots {
+  padding: 0 16px 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-top: 1px solid $border-soft;
+  padding-top: 14px;
+}
+
+.cf-slot {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid $border;
+  background: $bg-card;
+  color: $text-2;
+  font-family: $font-b;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover { border-color: $orange-glow; color: $text; }
+
+  &--active {
+    background: $orange-dim;
+    border-color: $orange;
+    color: $orange;
+    font-weight: 500;
+  }
+}
+
+.cf-tz-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-top: 1px solid $border-soft;
+}
+
+.cf-tz-label {
+  font-family: $font-d;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $text-3;
+  white-space: nowrap;
+}
+
+.cf-tz-select {
+  @extend %cf-base-control;
+  padding: 7px 32px 7px 12px;
+  font-size: 0.8rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-color: $bg-input;
+}
+
+// ── Consents ──────────────────────────────────────────────────────────────────
+.cf-consents {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.cf-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+
+  input { display: none; }
+}
+
+.cf-consent__box {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid $border;
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  transition: all 0.15s ease;
+
+  .cf-consent--checked & {
+    background: $orange;
+    border-color: $orange;
+    color: $bg;
+  }
+}
+
+.cf-consent__text {
+  font-family: $font-b;
+  font-size: 0.8rem;
+  color: $text-2;
+  line-height: 1.5;
+  font-weight: 300;
+
+  a {
+    color: $orange;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+// ── Footer Actions ────────────────────────────────────────────────────────────
+.cf-footer {
+  padding: 20px 32px;
+  border-top: 1px solid $border-soft;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0d0d0d;
+
+  @media (max-width: 640px) { padding: 16px 20px; }
+}
+
+.cf-footer__back {
+  background: transparent;
+  border: 1px solid $border;
+  color: $text-2;
+  padding: 10px 20px;
+  border-radius: $radius-sm;
+  font-family: $font-d;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover { border-color: #444; color: $text; background: #1a1a1a; }
+  &:disabled { opacity: 0.3; cursor: not-allowed; }
+}
+
+.cf-footer__next {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, $orange 0%, $orange-lt 100%);
+  color: $bg;
+  border: none;
+  padding: 11px 28px;
+  border-radius: $radius-sm;
+  font-family: $font-d;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(232,123,43,0.3);
+  transition: all 0.18s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 26px rgba(232,123,43,0.45);
+  }
+
+  &:active { transform: translateY(0); }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  svg { flex-shrink: 0; }
+}
+
+.cf-footer__step-count {
+  font-family: $font-d;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: $text-3;
+  text-transform: uppercase;
+}
+
+// ── Spinner (inside submit button) ───────────────────────────────────────────
+.cf-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(10,10,10,0.3);
+  border-top-color: $bg;
+  border-radius: 50%;
+  animation: cf-spin 0.7s linear infinite;
+}
+
+// ── Success Screen ────────────────────────────────────────────────────────────
+.cf-success {
+  padding: 52px 32px;
+  text-align: center;
+  animation: cf-step-in 0.3s $ease;
+
+  @media (max-width: 640px) { padding: 36px 20px; }
+}
+
+.cf-success__icon {
+  width: 72px;
+  height: 72px;
+  background: rgba(43,232,123,0.12);
+  border: 1.5px solid rgba(43,232,123,0.35);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 1.8rem;
+  animation: cf-success-pop 0.5s $ease;
+}
+
+.cf-success__title {
+  font-family: $font-d;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: $text;
+  margin: 0 0 10px;
+}
+
+.cf-success__sub {
+  font-family: $font-b;
+  font-size: 0.9rem;
+  color: $text-2;
+  font-weight: 300;
+  max-width: 400px;
+  margin: 0 auto 28px;
+  line-height: 1.6;
+}
+
+.cf-success__close {
+  display: inline-flex;
+  margin-top:10px;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, $orange 0%, $orange-lt 100%);
+  color: $bg;
+  border: none;
+  padding: 12px 32px;
+  border-radius: $radius-sm;
+  font-family: $font-d;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(232,123,43,0.3);
+  transition: all 0.18s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 26px rgba(232,123,43,0.45);
+  }
+}
+
+// ── Trigger Button (exported separately) ─────────────────────────────────────
+.cf-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, $orange 0%, $orange-lt 100%);
+  color: $bg;
+  border: none;
+  padding: 14px 32px;
+  border-radius: $radius-sm;
+  font-family: $font-d;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(232,123,43,0.35);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(232,123,43,0.5);
+  }
+
+  &:active { transform: translateY(-1px); }
+
+  // size variants
+  &--sm {
+    padding: 9px 20px;
+    font-size: 0.75rem;
+    gap: 7px;
+  }
+
+  &--ghost {
+    background: transparent;
+    color: $orange;
+    border: 1.5px solid $orange;
+    box-shadow: none;
+
+    &:hover {
+      background: $orange-dim;
+      box-shadow: 0 0 0 3px rgba(232,123,43,0.12);
+    }
+  }
+}

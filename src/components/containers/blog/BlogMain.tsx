@@ -19,7 +19,7 @@ const BlogMain = () => {
   const fetchBlogs = async () => {
     try {
       const recent = await fetch(
-        "https://pleasing-consideration-production.up.railway.app/api/blogs/recent"
+        "http://localhost:5000/api/blogs/recent"
       ).then((res) => res.json());
       setRecentBlogs(recent);
     } catch (err) {
