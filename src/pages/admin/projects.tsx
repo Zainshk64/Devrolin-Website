@@ -31,7 +31,7 @@ export default function Projects() {
     const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch(
-        "http://localhost:5000/api/projects/",
+        "https://devrolin.com/api/projects/",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ export default function Projects() {
     const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch(
-        `http://localhost:5000/api/admin/delete-project/${id}`,
+        `https://devrolin.com/api/admin/delete-project/${id}`,
         {
           method: "DELETE",
           headers: {

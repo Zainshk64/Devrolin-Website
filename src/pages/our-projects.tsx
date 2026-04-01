@@ -12,7 +12,7 @@ const OurProjects = () => {
     const fetchProjects = async () => {
       const token = localStorage.getItem('adminToken');
       try {
-        const res = await fetch('http://localhost:5000/api/projects/', {
+        const res = await fetch('https://devrolin.com/api/projects/', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

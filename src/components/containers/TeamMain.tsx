@@ -14,7 +14,7 @@ const TeamMain = () => {
 
   const fetchMembers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/members/");
+      const res = await fetch("https://devrolin.com/api/members/");
       const data = await res.json();
       setMembers(data.members || []);
       // console.log(data.members);

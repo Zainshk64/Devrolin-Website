@@ -36,7 +36,7 @@ const HomeOffer = () => {
 
   const fetchService = async () => {
     try {
-      const recent = await fetch("http://localhost:5000/api/services").then(
+      const recent = await fetch("https://devrolin.com/api/services").then(
         (res) => res.json(),
       );
       setOurServices(recent.services);

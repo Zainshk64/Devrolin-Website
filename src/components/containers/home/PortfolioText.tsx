@@ -22,7 +22,7 @@ const PortfolioText = () => {
     const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch(
-        "http://localhost:5000/api/projects/",
+        "https://devrolin.com/api/projects/",
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -22,7 +22,7 @@ export default function AdminDashboard() {
   const fetchAllStats = async () => {
     const token = localStorage.getItem("adminToken");
     try {
-      const res = await fetch("http://localhost:5000/api/admin/", {
+      const res = await fetch("https://devrolin.com/api/admin/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
