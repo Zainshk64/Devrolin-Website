@@ -12,6 +12,7 @@ export default function TestimonialsPage() {
     name: "",
     feedback: "",
     job: "",
+    videoIframe: "",
   });
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -24,7 +25,7 @@ export default function TestimonialsPage() {
   const fetchTestimonials = async () => {
     try {
       const res = await fetch(
-        "https://devrolin.com/api/testimonials/"
+        "http://localhost:5000/api/testimonials/"
       );
       const data = await res.json();
       setTestimonials(data);
@@ -37,7 +38,7 @@ export default function TestimonialsPage() {
   const handleTestDelete = async (Id: string) => {
     try {
       const res = await fetch(
-        `https://devrolin.com/api/admin/delete-testimonial/${Id}`,
+        `http://localhost:5000/api/admin/delete-testimonial/${Id}`,
         {
           method: "DELETE",
           headers: {
@@ -68,6 +69,7 @@ export default function TestimonialsPage() {
         name: test.name,
         feedback: test.feedback,
         job: test.job,
+        videoIframe: test.videoIframe || "",
       });
       setImage(null);
       setImagePreview(test.image?.url || null);
@@ -104,6 +106,7 @@ export default function TestimonialsPage() {
     fd.append("name", form.name);
     fd.append("feedback", form.feedback);
     fd.append("job", form.job.trim());
+    fd.append("videoIframe", form.videoIframe.trim());
     if (image) fd.append("image", image);
 
     try {
@@ -111,10 +114,10 @@ export default function TestimonialsPage() {
       let method: "POST" | "PUT" = "POST";
 
       if (editId) {
-        url = `https://devrolin.com/api/admin/edit-testimonial/${editId}`;
+        url = `http://localhost:5000/api/admin/edit-testimonial/${editId}`;
         method = "PUT";
       } else {
-        url = "https://devrolin.com/api/admin/new-testimonial";
+        url = "http://localhost:5000/api/admin/new-testimonial";
         method = "POST";
       }
 
@@ -134,7 +137,7 @@ export default function TestimonialsPage() {
         } else {
           toast.success("Testimonial added");
         }
-        setForm({ name: "", feedback: "", job: "" });
+        setForm({ name: "", feedback: "", job: "", videoIframe: "" });
         setImage(null);
         setImagePreview(null);
         setEditId(null);
@@ -194,6 +197,19 @@ export default function TestimonialsPage() {
               ></textarea>
             </div>
             <div className="col-12">
+              <label className="form-label text-white">
+                Video (optional) — iframe src URL
+              </label>
+              <textarea
+                className="form-control"
+                name="videoIframe"
+                rows={3}
+                value={form.videoIframe}
+                onChange={handleChange}
+                placeholder='Paste iframe code from YouTube/Vimeo, or a direct embed URL'
+              />
+            </div>
+            <div className="col-12">
               <label className="form-label text-white">Image</label>
               <input
                 type="file"
@@ -219,7 +235,7 @@ export default function TestimonialsPage() {
                   className="btn btn-secondary ms-2"
                   onClick={() => {
                     setEditId(null);
-                    setForm({ name: "", feedback: "", job: "" });
+                    setForm({ name: "", feedback: "", job: "", videoIframe: "" });
                     setImage(null);
                     setImagePreview(null);
                   }}

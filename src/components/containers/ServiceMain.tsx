@@ -1,10 +1,153 @@
-import React from "react";
-import Link from "next/link";
+import React, { useEffect, useMemo, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/swiper-bundle.css";
+import {
+  ourServiceSlideAPI,
+  type OurServiceSlide,
+} from "@/lib/api";
+
+type SlideView = { heading: string; bullets: string[]; _key: string };
+
+const PLACEHOLDER_SLIDES: SlideView[] = [
+  {
+    _key: "ph-0",
+    heading: "Web Development",
+    bullets: [
+      "Responsive modern design",
+      "Fast and secure",
+      "SEO optimized",
+      "Custom web solutions",
+      "Maintenance & support",
+    ],
+  },
+  {
+    _key: "ph-1",
+    heading: "AI Development",
+    bullets: [
+      "Smart automation tools",
+      "Data-driven insights",
+      "Custom AI models",
+      "Predictive analytics",
+      "Natural language tech",
+    ],
+  },
+  {
+    _key: "ph-2",
+    heading: "Saas & Business Automation",
+    bullets: [
+      "Cloud-based solutions",
+      "Workflow automation",
+      "Scalable platforms",
+      "Real-time analytics",
+      "Integration with tools",
+    ],
+  },
+  {
+    _key: "ph-3",
+    heading: "Machine Learning Operations",
+    bullets: [
+      "Model training & deployment",
+      "Automated data pipelines",
+      "Performance monitoring",
+      "Scalable ML systems",
+      "Continuous optimization",
+    ],
+  },
+  {
+    _key: "ph-4",
+    heading: "Mobile App Development",
+    bullets: [
+      "Cross-platform apps",
+      "Intuitive user interface",
+      "High performance code",
+      "API & backend integration",
+      "App store deployment",
+    ],
+  },
+  {
+    _key: "ph-5",
+    heading: "UI/UX Design",
+    bullets: [
+      "User-centered layouts",
+      "Interactive prototypes",
+      "Modern design systems",
+      "Seamless user flow",
+      "Brand-focused visuals",
+    ],
+  },
+  {
+    _key: "ph-6",
+    heading: "Digital Marketing",
+    bullets: [
+      "Targeted ad campaigns",
+      "Performance analytics",
+      "Lead generation",
+      "Conversion optimization",
+      "Brand awareness growth",
+    ],
+  },
+  {
+    _key: "ph-7",
+    heading: "Social Media Marketing (LinkedIn & IG)",
+    bullets: [
+      "Content strategy planning",
+      "Audience engagement",
+      "Post scheduling",
+      "Ad campaign management",
+      "Profile optimization",
+    ],
+  },
+  {
+    _key: "ph-8",
+    heading: "SEO & GEO",
+    bullets: [
+      "Keyword optimization",
+      "Local SEO targeting",
+      "Backlink building",
+      "Content performance tracking",
+      "Search visibility boost",
+    ],
+  },
+];
+
+function mapApiToView(slides: OurServiceSlide[]): SlideView[] {
+  return slides.map((s) => ({
+    _key: s._id,
+    heading: s.heading,
+    bullets: Array.isArray(s.bullets) ? s.bullets : [],
+  }));
+}
 
 const ServiceMain = () => {
+  const [apiSlides, setApiSlides] = useState<OurServiceSlide[] | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const data = await ourServiceSlideAPI.getAll();
+        if (!cancelled) {
+          setApiSlides(Array.isArray(data) ? data : []);
+        }
+      } catch {
+        if (!cancelled) setApiSlides(null);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const slidesToRender = useMemo(() => {
+    if (apiSlides !== null && apiSlides.length > 0) {
+      return mapApiToView(apiSlides);
+    }
+    return PLACEHOLDER_SLIDES;
+  }, [apiSlides]);
+
+  const useLoop = slidesToRender.length > 1;
+
   return (
     <section className="section service-t">
       <div className="container">
@@ -16,7 +159,7 @@ const ServiceMain = () => {
                 spaceBetween={30}
                 slidesPerGroup={1}
                 speed={800}
-                loop={true}
+                loop={useLoop}
                 centeredSlides={false}
                 modules={[Autoplay, Navigation]}
                 autoplay={{
@@ -41,207 +184,28 @@ const ServiceMain = () => {
                   },
                 }}
               >
-                <SwiperSlide>
-                  <div className="service-t-single-wrapper">
-                    <div className="service-t__slider-single">
-                      <div className="intro">
-                        <span className="sub-title">
-                          01
-                          <i className="fa-solid fa-arrow-right"></i>
-                        </span>
-                        <h4>
-                          Web Development
-                        </h4>
+                {slidesToRender.map((slide, index) => (
+                  <SwiperSlide key={slide._key}>
+                    <div className="service-t-single-wrapper">
+                      <div className="service-t__slider-single">
+                        <div className="intro">
+                          <span className="sub-title">
+                            {String(index + 1).padStart(2, "0")}
+                            <i className="fa-solid fa-arrow-right"></i>
+                          </span>
+                          <h4>{slide.heading}</h4>
+                        </div>
+                        {slide.bullets.length > 0 && (
+                          <ul>
+                            {slide.bullets.map((line, i) => (
+                              <li key={i}>{line}</li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
-                      <ul>
-                        <li>Responsive modern design</li>
-                        <li>Fast and secure</li>
-                        <li>SEO optimized</li>
-                        <li>Custom web solutions</li>
-                        <li>Maintenance & support</li>
-                      </ul>
                     </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="service-t-single-wrapper">
-                    <div className="service-t__slider-single">
-                      <div className="intro">
-                        <span className="sub-title">
-                          02
-                          <i className="fa-solid fa-arrow-right"></i>
-                        </span>
-                        <h4>
-                          AI Development
-                        </h4>
-                      </div>
-                      <ul>
-                        <li>Smart automation tools</li>
-                        <li>Data-driven insights</li>
-                        <li>Custom AI models</li>
-                        <li>Predictive analytics</li>
-                        <li>Natural language tech</li>
-                      </ul>
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="service-t-single-wrapper">
-                    <div className="service-t__slider-single">
-                      <div className="intro">
-                        <span className="sub-title">
-                          03
-                          <i className="fa-solid fa-arrow-right"></i>
-                        </span>
-                        <h4>
-                            Saas & Business Automation
-                        </h4>
-                      </div>
-                      <ul>
-                        <li>Cloud-based solutions</li>
-                        <li>Workflow automation</li>
-                        <li>Scalable platforms</li>
-                        <li>Real-time analytics</li>
-                        <li>Integration with tools</li>
-                      </ul>
-                    </div>
-                  </div>
-                </SwiperSlide>
-
-                <SwiperSlide>
-                  <div className="service-t-single-wrapper">
-                    <div className="service-t__slider-single">
-                      <div className="intro">
-                        <span className="sub-title">
-                          04
-                          <i className="fa-solid fa-arrow-right"></i>
-                        </span>
-                        <h4>
-                            Machine Learning Operations
-                        </h4>
-                      </div>
-                      <ul>
-                        <li>Model training & deployment</li>
-                        <li>Automated data pipelines</li>
-                        <li>Performance monitoring</li>
-                        <li>Scalable ML systems</li>
-                        <li>Continuous optimization</li>
-                      </ul>
-                    </div>
-                  </div>
-                </SwiperSlide>
-
-                <SwiperSlide>
-                  <div className="service-t-single-wrapper">
-                    <div className="service-t__slider-single">
-                      <div className="intro">
-                        <span className="sub-title">
-                          05
-                          <i className="fa-solid fa-arrow-right"></i>
-                        </span>
-                        <h4>
-                            Mobile App Development
-                        </h4>
-                      </div>
-                      <ul>
-                        <li>Cross-platform apps</li>
-                        <li>Intuitive user interface</li>
-                        <li>High performance code</li>
-                        <li>API & backend integration</li>
-                        <li>App store deployment</li>
-                      </ul>
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="service-t-single-wrapper">
-                    <div className="service-t__slider-single">
-                      <div className="intro">
-                        <span className="sub-title">
-                          06
-                          <i className="fa-solid fa-arrow-right"></i>
-                        </span>
-                        <h4>
-                          UI/UX Design
-                        </h4>
-                      </div>
-                      <ul>
-                        <li>User-centered layouts</li>
-                        <li>Interactive prototypes</li>
-                        <li>Modern design systems</li>
-                        <li>Seamless user flow</li>
-                        <li>Brand-focused visuals</li>
-                      </ul>
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="service-t-single-wrapper">
-                    <div className="service-t__slider-single">
-                      <div className="intro">
-                        <span className="sub-title">
-                          07
-                          <i className="fa-solid fa-arrow-right"></i>
-                        </span>
-                        <h4>
-                          Digital Marketing
-                        </h4>
-                      </div>
-                      <ul>
-                        <li>Targeted ad campaigns</li>
-                        <li>Performance analytics</li>
-                        <li>Lead generation</li>
-                        <li>Conversion optimization</li>
-                        <li>Brand awareness growth</li>
-                      </ul>
-                      
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="service-t-single-wrapper">
-                    <div className="service-t__slider-single">
-                      <div className="intro">
-                        <span className="sub-title">
-                          08
-                          <i className="fa-solid fa-arrow-right"></i>
-                        </span>
-                        <h4>
-                            Social Media Marketing (LinkedIn & IG)
-                        </h4>
-                      </div>
-                      <ul>
-                        <li>Content strategy planning</li>
-                        <li>Audience engagement</li>
-                        <li>Post scheduling</li>
-                        <li>Ad campaign management</li>
-                        <li>Profile optimization</li>
-                      </ul>
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="service-t-single-wrapper">
-                    <div className="service-t__slider-single">
-                      <div className="intro">
-                        <span className="sub-title">
-                          09
-                          <i className="fa-solid fa-arrow-right"></i>
-                        </span>
-                        <h4>
-                          SEO & GEO
-                        </h4>
-                      </div>
-                      <ul>
-                        <li>Keyword optimization</li>
-                        <li>Local SEO targeting</li>
-                        <li>Backlink building</li>
-                        <li>Content performance tracking</li>
-                        <li>Search visibility boost</li>
-                      </ul>
-                    </div>
-                  </div>
-                </SwiperSlide>
+                  </SwiperSlide>
+                ))}
               </Swiper>
             </div>
           </div>

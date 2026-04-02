@@ -10,6 +10,7 @@ const tabs = [
   { name: "Dashboard", href: "/admin" },
   { name: "Blogs", href: "/admin/blogs" },
   { name: "Services", href: "/admin/services" },
+  { name: "Our services", href: "/admin/our-services" },
   { name: "Projects", href: "/admin/projects" },
   { name: "Team Members", href: "/admin/teams" },
   { name: "Testimonials", href: "/admin/testimonial" },
@@ -79,12 +80,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               top: 0,
               left: 0,
               height: "100vh",
-              overflowY: "auto",
               borderRight: "1px solid #dee2e6",
               zIndex: 1040,
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
             }}
           >
-            <div className="d-flex flex-column align-items-center px-2 pt-3 min-vh-100">
+            <div className="flex-shrink-0 px-2 pt-3 text-center w-100">
               <div className="mb-3">
                 <Link href="/" aria-label="go to home">
                   <Image
@@ -96,7 +99,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                   />
                 </Link>
               </div>
-              <ul className="nav nav-pills flex-column mb-auto w-100">
+            </div>
+            <div
+              className="flex-grow-1 px-2 w-100"
+              style={{ minHeight: 0, overflowY: "auto" }}
+            >
+              <ul className="nav nav-pills flex-column w-100 pb-2">
                 {tabs.map((tab) => (
                   <li key={tab.name} className="w-100 mb-2">
                     <Link
@@ -108,9 +116,11 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                   </li>
                 ))}
               </ul>
+            </div>
+            <div className="flex-shrink-0 px-2 pb-3 pt-2 w-100">
               <button
                 onClick={handleLogout}
-                className="btn btn--secondary mt-auto mb-3 w-100"
+                className="btn btn--secondary w-100"
               >
                 Logout
               </button>
@@ -134,7 +144,10 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 onClick={() => setShowSidebar(false)}
               ></button>
             </div>
-            <div className="offcanvas-body">
+            <div
+              className="offcanvas-body"
+              style={{ maxHeight: "calc(100vh - 56px)", overflowY: "auto" }}
+            >
               <ul className="nav flex-column">
                 {tabs.map((tab) => (
                   <li key={tab.name} className="mb-2">

@@ -236,3 +236,32 @@ export const homeSponsorAPI = {
       method: "DELETE",
     }),
 };
+
+// ─── Our service slides (ServiceMain carousel) ───────────────────────────────
+
+export interface OurServiceSlide {
+  _id: string;
+  heading: string;
+  bullets: string[];
+  sortOrder?: number;
+}
+
+export const ourServiceSlideAPI = {
+  getAll: () =>
+    apiFetch<OurServiceSlide[]>("/our-service-slides", { auth: false }),
+
+  create: (body: {
+    heading: string;
+    bullets: string[];
+    sortOrder?: number;
+  }) =>
+    apiFetch<OurServiceSlide>("/admin/new-our-service-slide", {
+      method: "POST",
+      body: body as Record<string, unknown>,
+    }),
+
+  delete: (id: string) =>
+    apiFetch<{ message: string }>(`/admin/delete-our-service-slide/${id}`, {
+      method: "DELETE",
+    }),
+};
