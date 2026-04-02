@@ -36,13 +36,13 @@ $font-b:      'DM Sans', sans-serif;
   position: static;
   inset: 0;
   z-index: 10000;
-  background: rgba(0,0,0,0.82);
+  // background: rgba(0,0,0,0.82);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 4px;
   animation: cf-backdrop-in 0.22s ease;
   overflow-y: auto;
 }

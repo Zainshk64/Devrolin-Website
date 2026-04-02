@@ -4,77 +4,131 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import thumbone from "public/images/agency/thumb-one.png";
-import thumbtwo from "public/images/agency/thumb-two.png";
 import star from "public/images/star.png";
 import dotlarge from "public/images/agency/dot-large.png";
+import { agencySkillAPI, type AgencySkill } from "@/lib/api";
 
 gsap.registerPlugin(ScrollTrigger);
+
+function SkillBarRow({ title, percent }: { title: string; percent: number }) {
+  const clamped = Math.min(100, Math.max(0, percent));
+  const pctStr = `${clamped}%`;
+  return (
+    <div className="skill-bar-single">
+      <div className="skill-bar-title">
+        <p className="primary-text">{title}</p>
+      </div>
+      <div className="skill-bar-wrapper" data-percent={pctStr}>
+        <div className="skill-bar">
+          <div className="skill-bar-percent">
+            <span className="percent-value"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const Agency = () => {
+  const [openService, setOpenService] = useState(false);
+  const [skills, setSkills] = useState<AgencySkill[]>([]);
+
   useEffect(() => {
-    const percentElements = document.querySelectorAll("[data-percent]");
-
-    percentElements.forEach((el) => {
-      const skillBarPercent = el.querySelector(
-        ".skill-bar-percent"
-      ) as HTMLElement | null;
-      const percentValue = el.parentNode?.querySelector(
-        ".percent-value"
-      ) as HTMLElement | null;
-
-      if (skillBarPercent && percentValue) {
-        const percent = el.getAttribute("data-percent") || "0%";
-        skillBarPercent.style.width = percent;
-        percentValue.textContent = percent;
+    let cancelled = false;
+    (async () => {
+      try {
+        const data = await agencySkillAPI.getAll();
+        if (!cancelled && Array.isArray(data)) {
+          setSkills(data);
+        }
+      } catch {
+        if (!cancelled) setSkills([]);
       }
-    });
-
-    const axProgressBar = document.querySelectorAll(".skill-bar-single");
-    axProgressBar.forEach((element) => {
-      const skillBarPercent = element.querySelector(
-        ".skill-bar-percent"
-      ) as HTMLElement | null;
-      const percentValue = element.querySelector(
-        ".percent-value"
-      ) as HTMLElement | null;
-
-      if (skillBarPercent && percentValue) {
-        const target = percentValue.textContent || "0%";
-
-        const axBarTimeline = gsap.timeline({
-          defaults: {
-            duration: 2,
-          },
-          scrollTrigger: {
-            trigger: element,
-          },
-        });
-
-        axBarTimeline.fromTo(
-          skillBarPercent,
-          {
-            width: 0,
-          },
-          {
-            width: target,
-          }
-        );
-
-        axBarTimeline.from(
-          percentValue,
-          {
-            textContent: "0%",
-            snap: {
-              textContent: 5,
-            },
-          },
-          "<"
-        );
-      }
-    });
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const [openService, setOpenService] = useState(false);
-  const value = 100;
+  useEffect(() => {
+    if (skills.length === 0) return;
+
+    const section = document.querySelector(".agency");
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      const percentElements = section.querySelectorAll("[data-percent]");
+
+      percentElements.forEach((el) => {
+        const skillBarPercent = el.querySelector(
+          ".skill-bar-percent",
+        ) as HTMLElement | null;
+        const percentValue = el.parentNode?.querySelector(
+          ".percent-value",
+        ) as HTMLElement | null;
+
+        if (skillBarPercent && percentValue) {
+          const percent = el.getAttribute("data-percent") || "0%";
+          skillBarPercent.style.width = percent;
+          percentValue.textContent = percent;
+        }
+      });
+
+      const axProgressBar = section.querySelectorAll(".skill-bar-single");
+      axProgressBar.forEach((element) => {
+        const skillBarPercent = element.querySelector(
+          ".skill-bar-percent",
+        ) as HTMLElement | null;
+        const percentValue = element.querySelector(
+          ".percent-value",
+        ) as HTMLElement | null;
+
+        if (skillBarPercent && percentValue) {
+          const target = percentValue.textContent || "0%";
+
+          const axBarTimeline = gsap.timeline({
+            defaults: {
+              duration: 2,
+            },
+            scrollTrigger: {
+              trigger: element,
+            },
+          });
+
+          axBarTimeline.fromTo(
+            skillBarPercent,
+            {
+              width: 0,
+            },
+            {
+              width: target,
+            },
+          );
+
+          axBarTimeline.from(
+            percentValue,
+            {
+              textContent: "0%",
+              snap: {
+                textContent: 5,
+              },
+            },
+            "<",
+          );
+        }
+      });
+    }, section);
+
+    ScrollTrigger.refresh();
+
+    return () => {
+      ctx.revert();
+    };
+  }, [skills, openService]);
+
+  const primarySkills = skills.slice(0, 3);
+  const extraSkills = skills.slice(3);
+  const hasMore = extraSkills.length > 0;
 
   return (
     <section className="section agency">
@@ -89,8 +143,7 @@ const Agency = () => {
                 priority
               />
               <Image
-                // src={thumbtwo}
-                src='https://res.cloudinary.com/daljxhxzf/image/upload/v1760507566/banner3_ejcjqq.jpg'
+                src="https://res.cloudinary.com/daljxhxzf/image/upload/v1760507566/banner3_ejcjqq.jpg"
                 height={400}
                 width={400}
                 alt="Image"
@@ -116,149 +169,41 @@ const Agency = () => {
                 </p>
               </div>
               <div className="skill-wrap">
-                <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p className="primary-text"> Web Application Development</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="100%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p className="primary-text">AI Developement</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="100%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p className="primary-text">Machine Learning Operations</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="100%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {primarySkills.map((s) => (
+                  <SkillBarRow
+                    key={s._id}
+                    title={s.title}
+                    percent={s.percent}
+                  />
+                ))}
+              </div>
+
+              {hasMore && (
                 <div
-                  className={`skill-bar-single  ${
+                  className={`skill-wrap ${
                     openService ? "visually-visible" : "visually-hidden"
-                  } `}
+                  }`}
                 >
-                  <div className="skill-bar-title">
-                    <p className="primary-text">SaaS</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="100%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
+                  {extraSkills.map((s) => (
+                    <SkillBarRow
+                      key={s._id}
+                      title={s.title}
+                      percent={s.percent}
+                    />
+                  ))}
                 </div>
-              </div>
+              )}
 
-              <div
-                className={`skill-wrap  ${
-                  openService ? "visually-visible" : "visually-hidden"
-                } `}
-              >
-                <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p className="primary-text">SaaS</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="100%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
+              {hasMore && (
+                <div className="section__content-cta">
+                  <button
+                    onClick={() => setOpenService(!openService)}
+                    className="btn btn--primary"
+                  >
+                    {openService ? "Show Less" : "Show More"}
+                  </button>
                 </div>
-                <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p className="primary-text"> Mobile App Development</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="100%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p className="primary-text">UI/UX Design</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="100%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p className="primary-text">Digital Marketing</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="100%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>{" "}
-                <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p className="primary-text">
-                      Social Media Marketing (LinkedIn & IG)
-                    </p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="100%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p className="primary-text">SEO & GEO</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="100%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="section__content-cta">
-                <button
-                  onClick={() => setOpenService(!openService)}
-                  className="btn btn--primary"
-                >
-                  {openService ? "Show Less" : "Show More"}
-                </button>
-              </div>
+              )}
             </div>
           </div>
         </div>

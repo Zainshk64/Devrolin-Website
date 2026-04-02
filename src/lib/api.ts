@@ -1,5 +1,5 @@
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL || "https://devrolin.com/api";
+export const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 // ─── Generic fetch wrapper ───────────────────────────────────────────────────
 
@@ -180,6 +180,59 @@ export const invoiceAPI = {
 
   delete: (id: string) =>
     apiFetch<{ message: string }>(`/admin/delete-invoice/${id}`, {
+      method: "DELETE",
+    }),
+};
+
+// ─── Agency skills (home agency progress bars) ───────────────────────────────
+
+export interface AgencySkill {
+  _id: string;
+  title: string;
+  percent: number;
+  sortOrder?: number;
+}
+
+export const agencySkillAPI = {
+  getAll: () =>
+    apiFetch<AgencySkill[]>("/agency-skills", { auth: false }),
+
+  create: (body: { title: string; percent: number; sortOrder?: number }) =>
+    apiFetch<AgencySkill>("/admin/new-agency-skill", {
+      method: "POST",
+      body: body as Record<string, unknown>,
+    }),
+
+  delete: (id: string) =>
+    apiFetch<{ message: string }>(`/admin/delete-agency-skill/${id}`, {
+      method: "DELETE",
+    }),
+};
+
+// ─── Home sponsor logos (carousel on home) ───────────────────────────────────
+
+export interface HomeSponsorLogo {
+  _id: string;
+  image: {
+    url: string;
+    alt?: string;
+    public_id?: string;
+  };
+  sortOrder?: number;
+}
+
+export const homeSponsorAPI = {
+  getAll: () =>
+    apiFetch<HomeSponsorLogo[]>("/home-sponsors", { auth: false }),
+
+  create: (formData: FormData) =>
+    apiFetch<HomeSponsorLogo>("/admin/new-home-sponsor", {
+      method: "POST",
+      body: formData,
+    }),
+
+  delete: (id: string) =>
+    apiFetch<{ message: string }>(`/admin/delete-home-sponsor/${id}`, {
       method: "DELETE",
     }),
 };

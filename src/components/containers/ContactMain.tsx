@@ -6,10 +6,24 @@ import mail from "public/images/mail.png";
 import location from "public/images/location.png";
 import time from "public/images/time.png";
 import { StartProjectButton } from "@/components/ConsultForm";
-import { ConsultFormModal} from "@/components/ConsultForm"
+import { ConsultFormModal } from "@/components/ConsultForm";
 
 const ContactMain = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [activeForm, setActiveForm] = useState<"contact" | "hiring">("contact");
+  const [selectedPosition, setSelectedPosition] = useState("");
+
+  const positions = [
+    "Frontend Developer",
+    "Backend Developer",
+    "Full Stack Developer",
+    "UI/UX Designer",
+    "Project Manager",
+    "Digital Marketing Specialist",
+    "Mobile App Developer",
+    "DevOps Engineer",
+    "Other",
+  ];
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,9 +42,10 @@ const ContactMain = () => {
       if (response.ok) {
         setIsPopupVisible(true);
         form.reset();
+        setSelectedPosition("");
         setTimeout(() => {
           setIsPopupVisible(false);
-        }, 3000); // Hide the popup after 3 seconds
+        }, 3000);
       } else {
         console.error("Form submission error:", response.statusText);
       }
@@ -42,10 +57,7 @@ const ContactMain = () => {
   return (
     <section className="section contact-m fade-wrapper">
       <div className="container">
-              {/* <StartProjectButton label="Work With Us" />             */}
-
         <div className="row gaper">
-
           <div className="col-12 col-sm-6 col-xl-3">
             <div className="contact-m__single topy-tilt fade-top">
               <div className="thumb">
@@ -70,9 +82,7 @@ const ContactMain = () => {
               <div className="content">
                 <h4>Mail Address</h4>
                 <p>
-                  <Link href="mailto:info@devrolin.com">
-                    info@devrolin.com
-                  </Link>
+                  <Link href="mailto:info@devrolin.com">info@devrolin.com</Link>
                 </p>
                 <p>
                   <Link href="mailto:info.company@gmail.com">
@@ -91,10 +101,10 @@ const ContactMain = () => {
                 <h4>Our Location</h4>
                 <p>
                   <Link
-                    href="https://www.google.com/maps/@/data=!3m1!4b1!4m3!11m2!2s8S-NwjLkSriany36uZpzxw!4sPHrDUkM-TFI?g_ep=CAISEjI1LjA4LjAuNzI3OTM5NzI3MBgAII-pDCpsLDk0MjU1NDQ1LDk0MjQyNTYyLDk0MjI0ODI1LDk0MjI3MjQ3LDk0MjI3MjQ4LDQ3MDcxNzA0LDQ3MDY5NTA4LDk0MjE4NjQxLDk0MjAzMDE5LDQ3MDg0MzA0LDk0MjA4NDU4LDk0MjA4NDQ3QgJQSw%3D%3D"
+                    href="https://www.google.com/maps/@/data=!3m1!4b1!4m3!11m2!2s8S-NwjLkSriany36uZpzxw!4sPHrDUkM-TFI?g_ep=CAISEjI1LjA4LjAuNzI3OTM5NzI3MBgAII-pDCpsLDk0MjU1NDQ1LDk0MjQyNTYyLDk0MjIyNDgyNSw5NDIyNzI0Nyw5NDIyNzI0OCw0NzA3MTcwNCw0NzA2OTUwOCw5NDIxODY0MSw5NDIwMzAxOSw0NzA4NDMwNCw5NDIwODQ1OCw5NDIwODQ0N0IyUEt3PT0%3D"
                     target="_blank"
                   >
-                     Marasi Dr - Business Bay - Dubai - United Arab Emirates
+                    Marasi Dr - Business Bay - Dubai - United Arab Emirates
                   </Link>
                 </p>
               </div>
@@ -113,6 +123,7 @@ const ContactMain = () => {
             </div>
           </div>
         </div>
+
         <div className="row">
           <div className="col-12">
             <div className="map-wrapper">
@@ -129,28 +140,199 @@ const ContactMain = () => {
                       referrerPolicy="no-referrer-when-downgrade"
                     ></iframe>
                   </div>
-                  
                 </div>
+
                 <div className="col-12 col-lg-6">
-                  <ConsultFormModal/>
+                  <div className="contact-form-wrapper fade-top">
+                    {/* Tab Switcher */}
+                    <div className="form-tab-switcher">
+                      <button
+                        type="button"
+                        className={`tab-btn ${
+                          activeForm === "contact" ? "active" : ""
+                        }`}
+                        onClick={() => setActiveForm("contact")}
+                      >
+                        <span className="tab-icon">💬</span>
+                        Contact Us
+                      </button>
+                      <button
+                        type="button"
+                        className={`tab-btn ${
+                          activeForm === "hiring" ? "active" : ""
+                        }`}
+                        onClick={() => setActiveForm("hiring")}
+                      >
+                        <span className="tab-icon">💼</span>
+                        We're Hiring
+                      </button>
+                    </div>
+
+                    {/* Contact Form */}
+                    {activeForm === "contact" && (
+                      <div className="form-container">
+                        <h3 className="form-title">Get In Touch</h3>
+                        <p className="form-subtitle">
+                          We'd love to hear from you. Send us a message!
+                        </p>
+                        <div>
+
+                        <ConsultFormModal />
+                          </div>
+                      </div>
+                    )}
+
+                    {/* Hiring Form */}
+                    {activeForm === "hiring" && (
+                      <div className="form-container hiring-form">
+                        <h3 className="form-title">Join Our Team</h3>
+                        <p className="form-subtitle">
+                          Ready to make an impact? Apply now!
+                        </p>
+
+                        <form onSubmit={handleSubmit} className="hiring-application-form">
+                          <input
+                            type="hidden"
+                            name="form_type"
+                            value="hiring"
+                          />
+
+                          <div className="form-group">
+                            <label htmlFor="full_name">Full Name *</label>
+                            <input
+                              type="text"
+                              id="full_name"
+                              name="full_name"
+                              required
+                              placeholder="John Doe"
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label htmlFor="email">Email Address *</label>
+                            <input
+                              type="email"
+                              id="email"
+                              name="email"
+                              required
+                              placeholder="johndoe@example.com"
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label htmlFor="phone">Phone Number *</label>
+                            <input
+                              type="tel"
+                              id="phone"
+                              name="phone"
+                              required
+                              placeholder="+971 50 123 4567"
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label htmlFor="position">
+                              Position Applying For *
+                            </label>
+                            <select
+                              id="position"
+                              name="position"
+                              required
+                              value={selectedPosition}
+                              onChange={(e) => setSelectedPosition(e.target.value)}
+                            >
+                              <option value="">Select a position</option>
+                              {positions.map((pos) => (
+                                <option key={pos} value={pos}>
+                                  {pos}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div className="form-group">
+                            <label htmlFor="experience">
+                              Years of Experience *
+                            </label>
+                            <input
+                              type="number"
+                              id="experience"
+                              name="experience"
+                              required
+                              min="0"
+                              placeholder="3"
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label htmlFor="portfolio">
+                              Portfolio/LinkedIn URL
+                            </label>
+                            <input
+                              type="url"
+                              id="portfolio"
+                              name="portfolio"
+                              placeholder="https://linkedin.com/in/yourprofile"
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label htmlFor="resume">Upload Resume (PDF) *</label>
+                            <input
+                              type="file"
+                              id="resume"
+                              name="resume"
+                              accept=".pdf,.doc,.docx"
+                              required
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label htmlFor="cover_letter">Cover Letter</label>
+                            <textarea
+                              id="cover_letter"
+                              name="cover_letter"
+                              rows={5}
+                              placeholder="Tell us why you'd be a great fit..."
+                            ></textarea>
+                          </div>
+
+                          <button type="submit" className="submit-btn">
+                            Submit Application
+                          </button>
+                        </form>
+                      </div>
+                    )}
                   </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Success Popup */}
+        {isPopupVisible && (
+          <div className="popup-message">
+            {activeForm === "contact"
+              ? "✅ Message sent successfully!"
+              : "✅ Application submitted successfully! We'll get back to you soon."}
+          </div>
+        )}
       </div>
+
       <style jsx>{`
         .popup-message {
-          position: relative;
+          position: fixed;
           top: 20px;
           right: 20px;
           background-color: #4caf50;
           color: white;
-          padding: 15px;
-          border-radius: 5px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          padding: 15px 25px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
           z-index: 1001;
           animation: fadeInOut 3s ease-in-out;
+          font-weight: 500;
         }
 
         @keyframes fadeInOut {

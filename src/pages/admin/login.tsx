@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "@/components/layout/Layout";
+import { API_BASE } from "@/lib/api";
 import { toast } from "react-hot-toast";
 
 const AdminLogin = () => {
@@ -17,14 +18,11 @@ const AdminLogin = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(
-        "https://devrolin.com/api/admin/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, password }),
-        }
-      );
+      const res = await fetch(`${API_BASE}/admin/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, password }),
+      });
 
       const data = await res.json();
 

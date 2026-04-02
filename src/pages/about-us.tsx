@@ -5,7 +5,7 @@ import HomeTwoModal from "@/components/containers/home-two/HomeTwoModal";
 import Agency from "@/components/containers/home/Agency";
 import TeamMembers from "@/components/containers/TeamMembers";
 import HomeTestimonial from "@/components/containers/home/HomeTestimonial";
-import AboutSponsor from "@/components/containers/home-three/AboutSponsor";
+import HomeSponsor from "@/components/containers/home/HomeSponsor";
 import AboutCta from "@/components/containers/home-two/AboutCta";
 
 const AboutUs = () => {
@@ -16,7 +16,7 @@ const AboutUs = () => {
       <Agency />
       <TeamMembers />
       <HomeTestimonial />
-      <AboutSponsor />
+      <HomeSponsor />
       <AboutCta />
     </Layout>
   );

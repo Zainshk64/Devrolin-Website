@@ -1,5 +1,6 @@
 import AdminLayout from "@/components/layout/AdminLayout";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { API_BASE } from "@/lib/api";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -22,7 +23,7 @@ export default function AdminDashboard() {
   const fetchAllStats = async () => {
     const token = localStorage.getItem("adminToken");
     try {
-      const res = await fetch("https://devrolin.com/api/admin/", {
+      const res = await fetch(`${API_BASE}/admin/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

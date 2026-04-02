@@ -94,9 +94,7 @@ const ServiceMain = () => {
                           <i className="fa-solid fa-arrow-right"></i>
                         </span>
                         <h4>
-                          <Link href="service-single">
                             Saas & Business Automation
-                          </Link>
                         </h4>
                       </div>
                       <ul>
