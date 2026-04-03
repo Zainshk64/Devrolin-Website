@@ -12,33 +12,30 @@ export default function TestimonialsPage() {
     name: "",
     feedback: "",
     job: "",
-    videoIframe: "",
   });
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [video, setVideo] = useState<File | null>(null);
+  const [existingVideoUrl, setExistingVideoUrl] = useState<string | null>(null);
 
-  const [editId, setEditId] = useState<string | null>(null); // track editing mode
+  const [editId, setEditId] = useState<string | null>(null);
 
   const token = localStorage.getItem("adminToken");
 
-  // Fetch All Testimonials
   const fetchTestimonials = async () => {
     try {
-      const res = await fetch(
-        "http://localhost:5000/api/testimonials/"
-      );
+      const res = await fetch("https://devrolin.com/api/testimonials/");
       const data = await res.json();
       setTestimonials(data);
-    } catch (err) {
+    } catch {
       toast.error("Failed to fetch testimonials");
     }
   };
 
-  // Delete
   const handleTestDelete = async (Id: string) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/admin/delete-testimonial/${Id}`,
+        `https://devrolin.com/api/admin/delete-testimonial/${Id}`,
         {
           method: "DELETE",
           headers: {
@@ -55,12 +52,11 @@ export default function TestimonialsPage() {
       } else {
         toast.error(data.message || "Failed to delete testimonial");
       }
-    } catch (err) {
+    } catch {
       toast.error("Something went wrong");
     }
   };
 
-  // Enter Edit Mode
   const handleTestEdit = (Id: string) => {
     const test = testimonials.find((t) => t._id === Id);
     if (test) {
@@ -69,15 +65,15 @@ export default function TestimonialsPage() {
         name: test.name,
         feedback: test.feedback,
         job: test.job,
-        videoIframe: test.videoIframe || "",
       });
       setImage(null);
       setImagePreview(test.image?.url || null);
+      setVideo(null);
+      setExistingVideoUrl(test.video?.url || null);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
-  // Form Input Change
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -85,7 +81,6 @@ export default function TestimonialsPage() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Image Change
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -94,7 +89,20 @@ export default function TestimonialsPage() {
     }
   };
 
-  // Create / Update
+  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setVideo(file || null);
+  };
+
+  const resetForm = () => {
+    setForm({ name: "", feedback: "", job: "" });
+    setImage(null);
+    setImagePreview(null);
+    setVideo(null);
+    setExistingVideoUrl(null);
+    setEditId(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.feedback || !form.job) {
@@ -106,18 +114,18 @@ export default function TestimonialsPage() {
     fd.append("name", form.name);
     fd.append("feedback", form.feedback);
     fd.append("job", form.job.trim());
-    fd.append("videoIframe", form.videoIframe.trim());
     if (image) fd.append("image", image);
+    if (video) fd.append("video", video);
 
     try {
       let url = "";
       let method: "POST" | "PUT" = "POST";
 
       if (editId) {
-        url = `http://localhost:5000/api/admin/edit-testimonial/${editId}`;
+        url = `https://devrolin.com/api/admin/edit-testimonial/${editId}`;
         method = "PUT";
       } else {
-        url = "http://localhost:5000/api/admin/new-testimonial";
+        url = "https://devrolin.com/api/admin/new-testimonial";
         method = "POST";
       }
 
@@ -132,20 +140,13 @@ export default function TestimonialsPage() {
       const data = await res.json();
 
       if (res.ok) {
-        if (editId) {
-          toast.success("Testimonial updated");
-        } else {
-          toast.success("Testimonial added");
-        }
-        setForm({ name: "", feedback: "", job: "", videoIframe: "" });
-        setImage(null);
-        setImagePreview(null);
-        setEditId(null);
+        toast.success(editId ? "Testimonial updated" : "Testimonial added");
+        resetForm();
         fetchTestimonials();
       } else {
         toast.error(data.message || "Failed to save testimonial");
       }
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong");
     }
   };
@@ -197,23 +198,11 @@ export default function TestimonialsPage() {
               ></textarea>
             </div>
             <div className="col-12">
-              <label className="form-label text-white">
-                Video (optional) — iframe src URL
-              </label>
-              <textarea
-                className="form-control"
-                name="videoIframe"
-                rows={3}
-                value={form.videoIframe}
-                onChange={handleChange}
-                placeholder='Paste iframe code from YouTube/Vimeo, or a direct embed URL'
-              />
-            </div>
-            <div className="col-12">
-              <label className="form-label text-white">Image</label>
+              <label className="form-label text-white">Profile image</label>
               <input
                 type="file"
                 className="form-control p-3"
+                accept="image/jpeg,image/png,image/gif,image/webp"
                 onChange={handleImageChange}
               />
               {imagePreview && (
@@ -226,6 +215,30 @@ export default function TestimonialsPage() {
               )}
             </div>
             <div className="col-12">
+              <label className="form-label text-white">
+                Client video (optional) — upload from device; stored on Cloudinary
+              </label>
+              <input
+                type="file"
+                className="form-control p-3"
+                accept="video/*,.mp4,.webm,.mov,.mkv,.avi"
+                onChange={handleVideoChange}
+              />
+              {video && (
+                <p className="text-white-50 small mt-2 mb-0">
+                  Selected: {video.name}
+                </p>
+              )}
+              {!video && existingVideoUrl && (
+                <video
+                  src={existingVideoUrl}
+                  controls
+                  className="mt-2 rounded"
+                  style={{ maxHeight: 160, maxWidth: "100%" }}
+                />
+              )}
+            </div>
+            <div className="col-12">
               <button className="btn" type="submit">
                 {editId ? "Update" : "Submit"}
               </button>
@@ -233,12 +246,7 @@ export default function TestimonialsPage() {
                 <button
                   type="button"
                   className="btn btn-secondary ms-2"
-                  onClick={() => {
-                    setEditId(null);
-                    setForm({ name: "", feedback: "", job: "", videoIframe: "" });
-                    setImage(null);
-                    setImagePreview(null);
-                  }}
+                  onClick={resetForm}
                 >
                   Cancel
                 </button>
@@ -278,8 +286,11 @@ export default function TestimonialsPage() {
                       <h5 className="card-title">{item.name}</h5>
                       {item.job && <p className="mb-1">{item.job}</p>}
                       <p className="card-text text-secondary">
-                        "{item.feedback}"
+                        &quot;{item.feedback}&quot;
                       </p>
+                      {item.video?.url && (
+                        <p className="small text-info mb-0">Has video</p>
+                      )}
                     </div>
                   </div>
                 </div>
