@@ -27,88 +27,68 @@ const ProjectDetailsMain = ({ project }: { project: any }) => {
           </div>
          
         </div>
+
         <div className="row">
-          <div className="col-12">
-            <div className="poster__slider-wrapper">
-              <div className="poster__slider-w">
-                <Swiper
-                  slidesPerView={1}
-                  spaceBetween={30}
-                  slidesPerGroup={1}
-                  speed={800}
-                  loop={true}
-                  centeredSlides={false}
-                  modules={[Autoplay, Navigation]}
-                  autoplay={{
-                    delay: 5000,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: true,
-                  }}
-                  navigation={{
-                    nextEl: ".next-project-d",
-                    prevEl: ".prev-project-d",
-                  }}
-                  className="poster__slider"
-                >
-                  <SwiperSlide>
-                    <div className="poster__slider-single">
-                      <img src={project.thumbnail?.url} alt="Image" />
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="poster__slider-single">
-                      <img src={project.mainImage?.url} alt="Image" />
-                    </div>
-                  </SwiperSlide>
-                  {/* <SwiperSlide>
-                    <div className="poster__slider-single">
-                      <Image src={poster} alt="Image" />
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="poster__slider-single">
-                      <Image src={poster} alt="Image" />
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="poster__slider-single">
-                      <Image src={poster} alt="Image" />
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="poster__slider-single">
-                      <Image src={poster} alt="Image" />
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="poster__slider-single">
-                      <Image src={poster} alt="Image" />
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="poster__slider-single">
-                      <Image src={poster} alt="Image" />
-                    </div>
-                  </SwiperSlide> */}
-                </Swiper>
-              </div>
-              <div className="slide-group">
-                <button
-                  aria-label="previous item"
-                  className="slide-btn prev-project-d"
-                >
-                  <i className="fa-light fa-angle-left"></i>
-                </button>
-                <button
-                  aria-label="next item"
-                  className="slide-btn next-project-d"
-                >
-                  <i className="fa-light fa-angle-right"></i>
-                </button>
-              </div>
+  <div className="col-12">
+    <div className="poster__slider-wrapper">
+      <div className="poster__slider-w">
+        <Swiper
+          slidesPerView={1}
+          spaceBetween={30}
+          slidesPerGroup={1}
+          speed={800}
+          loop={true}
+          centeredSlides={false}
+          modules={[Autoplay, Navigation]}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          navigation={{
+            nextEl: ".next-project-d",
+            prevEl: ".prev-project-d",
+          }}
+          className="poster__slider"
+        >
+          {/* <SwiperSlide>
+            <div
+              className="poster__slider-single"
+              style={{ maxHeight: "70vh", overflow: "hidden", borderRadius: 12 }}
+            >
+              <img
+                src={project.thumbnail?.url}
+                alt="Image"
+                style={{ width: "100%", height: "100%", maxHeight: "70vh", objectFit: "contain" }}
+              />
             </div>
-          </div>
-        </div>
+          </SwiperSlide> */}
+          <SwiperSlide>
+            <div
+              className="poster__slider-single"
+              style={{ maxHeight: "70vh", overflow: "hidden", borderRadius: 12 }}
+            >
+              <img
+                src={project.mainImage?.url}
+                alt="Image"
+                style={{ width: "100%", height: "100%", maxHeight: "70vh", objectFit: "contain" }}
+              />
+            </div>
+          </SwiperSlide>
+        </Swiper>
+      </div>
+      <div className="slide-group">
+        <button aria-label="previous item" className="slide-btn prev-project-d">
+          <i className="fa-light fa-angle-left"></i>
+        </button>
+        <button aria-label="next item" className="slide-btn next-project-d">
+          <i className="fa-light fa-angle-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
         <div className="row gaper fade-wrapper">
           <div className="col-12 col-sm-6 col-xl-4">
             <div className="project-d-o__single fade-top">
@@ -269,76 +249,6 @@ const ProjectDetailsMain = ({ project }: { project: any }) => {
             </SwiperSlide>
           ))}
 
-          {/* <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dtwo} alt="Image" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dthree} alt="Image" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dfour} alt="Image" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dfive} alt="Image" />
-            </div>
-          </SwiperSlide> */}
-          {/* <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={done} alt="Image" />
-            </div>
-          </SwiperSlide> */}
-          {/* <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dtwo} alt="Image" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dthree} alt="Image" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dfour} alt="Image" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dfive} alt="Image" />
-            </div>
-          </SwiperSlide> */}
-          {/* <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={done} alt="Image" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dtwo} alt="Image" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dthree} alt="Image" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dfour} alt="Image" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="project-d__slider-single">
-              <Image src={dfive} alt="Image" />
-            </div>
-          </SwiperSlide> */}
         </Swiper>
       </div>
     </section>

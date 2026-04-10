@@ -1,5 +1,5 @@
 export const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL || "https://devrolin.com/api";
+  process.env.NEXT_PUBLIC_API_URL || "https://devrolin-backend-production.up.railway.app/api";
 
 // ─── Generic fetch wrapper ───────────────────────────────────────────────────
 

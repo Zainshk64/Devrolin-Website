@@ -137,13 +137,15 @@ const Agency = () => {
           <div className="col-12 col-lg-6">
             <div className="agency__thumb">
               <Image
-                src={thumbone}
+                src='/home-premier1.png'
                 alt="Image"
+                width={400}
+                height={400}
                 className="thumb-one fade-left"
                 priority
               />
               <Image
-                src="https://res.cloudinary.com/daljxhxzf/image/upload/v1760507566/banner3_ejcjqq.jpg"
+                src="/home-premier2.png"
                 height={400}
                 width={400}
                 alt="Image"
