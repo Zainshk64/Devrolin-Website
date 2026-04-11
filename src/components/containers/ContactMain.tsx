@@ -5,8 +5,7 @@ import phone from "public/images/phone.png";
 import mail from "public/images/mail.png";
 import location from "public/images/location.png";
 import time from "public/images/time.png";
-import { StartProjectButton } from "@/components/ConsultForm";
-import { ConsultFormModal } from "@/components/ConsultForm";
+import { ConsultFormModal, StartProjectButton } from "@/components/ConsultForm";
 
 const ContactMain = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -177,7 +176,7 @@ const ContactMain = () => {
                         </p>
                         <div>
 
-                        <ConsultFormModal />
+                        <ConsultFormModal onClose={() => setActiveForm("contact")} />
                           </div>
                       </div>
                     )}
