@@ -79,6 +79,28 @@ const VideoModal = () => {
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
         >
+          {/* Hello! badge — sits above the video top edge */}
+          <span
+            style={{
+              position: "absolute",
+              top: -14,
+              left: "-15%",
+              transform: "translateX(-50%)",
+              zIndex: 5,
+              background: "#f97316",
+              color: "#fff",
+              fontSize: 19,
+              fontWeight: 600,
+              padding: "3px 12px",
+              borderRadius: 20,
+              pointerEvents: "none",
+              whiteSpace: "nowrap",
+              letterSpacing: "0.4px",
+            }}
+          >
+            Hello!
+          </span>
+
           <video
             ref={videoRef}
             key={src}
@@ -93,7 +115,7 @@ const VideoModal = () => {
             <source src={src} />
           </video>
 
-          {/* "1 / 3" counter */}
+          {/* 1 / 3 counter */}
           {total > 1 && (
             <span
               style={{
