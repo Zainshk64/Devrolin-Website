@@ -11,6 +11,8 @@ const VideoModal = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+const [showControls, setShowControls] = useState(false);
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const total = VIDEO_SOURCES.length;
 
@@ -54,10 +56,21 @@ const VideoModal = () => {
     alignItems: "center",
     justifyContent: "center",
     fontSize: 15,
-    opacity: hovered ? 1 : 0,
-    pointerEvents: hovered ? "auto" : "none",
+opacity: hovered || showControls ? 1 : 0,
+pointerEvents: hovered || showControls ? "auto" : "none",
     transition: "opacity 0.2s ease",
   });
+
+  const handleVideoClick = () => {
+  if (isMobile) {
+    setShowControls(true);
+
+    // auto hide after 3 sec
+    setTimeout(() => {
+      setShowControls(false);
+    }, 3000);
+  }
+};
 
   return (
     <div className="vid-m vid-a">
@@ -77,25 +90,32 @@ const VideoModal = () => {
         <div
           style={{ position: "relative", width: "100%" }}
           onMouseEnter={() => setHovered(true)}
+          onFocus={() => setHovered(true)}
+        
           onMouseLeave={() => setHovered(false)}
         >
-          {/* Hello! badge — sits above the video top edge */}
           <span
             style={{
               position: "absolute",
-              top: -14,
-              left: "-15%",
-              transform: "translateX(-50%)",
+              left: "-37%",
+              top: "26%",
+              transform: "translateY(-50%)",
               zIndex: 5,
               background: "#f97316",
               color: "#fff",
-              fontSize: 19,
-              fontWeight: 600,
-              padding: "3px 12px",
-              borderRadius: 20,
-              pointerEvents: "none",
+              fontSize: 18,
+              fontWeight: 400,
+              fontFamily: "inherit",
+              padding: "5px 16px",
+   borderTopLeftRadius: "50px",
+    borderTopRightRadius: "50px",
+    borderBottomLeftRadius: "50px",
+    borderBottomRightRadius: "0px",
+                  pointerEvents: "none",
               whiteSpace: "nowrap",
-              letterSpacing: "0.4px",
+              letterSpacing: "0.3px",
+              // chat-bubble tail pointing right toward video
+              boxShadow: "2px 2px 8px rgba(249,115,22,0.4)",
             }}
           >
             Hello!
@@ -110,6 +130,8 @@ const VideoModal = () => {
             muted
             loop={total === 1}
             onEnded={handleEnded}
+              onClick={handleVideoClick}
+
             style={{ width: "100%", display: "block", borderRadius: "8px" }}
           >
             <source src={src} />
