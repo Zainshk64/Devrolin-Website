@@ -11,7 +11,7 @@ const HomeBlog = () => {
 
   const fetchBlogs = async () => {
     try {
-      const recent = await fetch("https://devrolin.com/api/blogs/recent").then(
+      const recent = await fetch("https://devrolin-backend-production.up.railway.app/api/blogs/recent").then(
         (res) => res.json()
       );
       setRecentBlogs(recent);
@@ -39,12 +39,12 @@ const HomeBlog = () => {
           </div>
         </div>
         <div className="row gaper">
-          {recentBlogs.slice(1, 3).map((blog: any) => (
+          {recentBlogs.slice(0, 2).map((blog: any) => (
             <div className="col-12 col-md-6">
               <div className="blog__single fade-top">
                 <div className="blog__single-thumb topy-tilt">
                   <Link href={`/blog-single/${blog._id}`}>
-                    <Image src={blog.mainImage?.url} width={550} height={550} alt="Image" />
+                    <Image src={blog.mainImage?.url} width={550} height={350} alt="Image" />
                   </Link>
                 </div>
                 <div className="blog__single-content">

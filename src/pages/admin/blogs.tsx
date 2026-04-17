@@ -5,6 +5,7 @@ import Head from "next/head";
 import { toast } from "react-hot-toast";
 import moment from "moment";
 
+
 const AdminBlogs = () => {
   const isAuthorized = useAdminAuth();
   const [recentBlogs, setRecentBlogs] = useState<any[]>([]);
@@ -12,7 +13,7 @@ const AdminBlogs = () => {
   const fetchBlogs = async () => {
     try {
       const recent = await fetch(
-        "https://devrolin.com/api/blogs/recent"
+        "https://devrolin-backend-production.up.railway.app/api/blogs/recent"
       ).then((res) => res.json());
       setRecentBlogs(recent);
     } catch (err) {
@@ -116,7 +117,7 @@ const AdminBlogs = () => {
       if (editForm && currentBlogId) {
         // Update blog
         res = await fetch(
-          `https://devrolin.com/api/admin/edit-blog/${currentBlogId}`,
+          `https://devrolin-backend-production.up.railway.app/api/admin/edit-blog/${currentBlogId}`,
           {
             method: "PUT",
             headers: { Authorization: `Bearer ${token}` },
@@ -126,7 +127,7 @@ const AdminBlogs = () => {
       } else {
         // Create blog
         res = await fetch(
-          "https://devrolin.com/api/admin/new-blog",
+          "https://devrolin-backend-production.up.railway.app/api/admin/new-blog",
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
@@ -154,7 +155,7 @@ const AdminBlogs = () => {
 
     try {
       const res = await fetch(
-        `https://devrolin.com/api/admin/delete-blog/${Id}`,
+        `https://devrolin-backend-production.up.railway.app/api/admin/delete-blog/${Id}`,
         {
           method: "DELETE",
           headers: {

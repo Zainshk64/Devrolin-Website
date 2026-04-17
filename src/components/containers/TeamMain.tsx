@@ -14,7 +14,7 @@ const TeamMain = () => {
 
   const fetchMembers = async () => {
     try {
-      const res = await fetch("https://devrolin.com/api/members/");
+      const res = await fetch("https://devrolin-backend-production.up.railway.app/api/members/");
       const data = await res.json();
       setMembers(data.members || []);
       // console.log(data.members);

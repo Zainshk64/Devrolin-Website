@@ -14,8 +14,8 @@ const Home = () => {
     <Layout header={1} footer={1} video={true}>
       <HomeOneBanner />
       <Agency />
-      <PortfolioText />
       <HomeOffer />
+      <PortfolioText />
       <HomeTestimonial />
       <HomeBlog />
       <HomeSponsor />

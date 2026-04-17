@@ -14,22 +14,47 @@ import seven from "public/images/portfolio/seven.png";
 import dot from "public/images/portfolio/dot.png";
 import toast from "react-hot-toast";
 
+const PortfolioSkeleton = () => (
+  <>
+    <style>{`
+      @keyframes pk-shimmer {
+        0%   { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+      .pk-skel {
+        background: linear-gradient(90deg, #1a1a1a 25%, #262626 50%, #1a1a1a 75%);
+        background-size: 200% 100%;
+        animation: pk-shimmer 1.4s ease-in-out infinite;
+        border-radius: 6px;
+        display: block;
+      }
+    `}</style>
+    {Array.from({ length: 4 }).map((_, i) => (
+      <div className="col-12 col-sm-6 col-xl-3" key={i}>
+        <div className="portfolio__single">
+          {/* image placeholder */}
+          <span className="pk-skel" style={{ width: "100%", height: 320 }} />
+          {/* title placeholder */}
+          <div className="portfolio__single-content" style={{ pointerEvents: "none" }}>
+            <span className="pk-skel" style={{ width: "60%", height: 14, marginTop: 10 }} />
+          </div>
+        </div>
+      </div>
+    ))}
+  </>
+);
+
 const PortfolioText = () => {
   const [hover, setHover] = useState(1);
   const [portfolio, setportfolio] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchportfolio = async () => {
     const token = localStorage.getItem("adminToken");
     try {
-      const res = await fetch(
-        "https://devrolin.com/api/projects/",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+      const res = await fetch("https://devrolin.com/api/projects/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await res.json();
       if (res.ok) {
         setportfolio(data.projects || []);
@@ -38,12 +63,15 @@ const PortfolioText = () => {
       }
     } catch (err) {
       toast.error("Server error while fetching portfolio");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchportfolio();
   }, []);
+
   return (
     <section className="section portfolio pb-0 fade-wrapper position-relative">
       <div className="portfolio__text-slider-w">
@@ -65,272 +93,101 @@ const PortfolioText = () => {
           <SwiperSlide>
             <div className="portfolio__text-slider-single">
               <h2 className="h1">
-                {/* <Link href="portfolio"> */}
                 Project Highlights
                 <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-                {/* </Link> */}
               </h2>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="portfolio__text-slider-single">
               <h2 className="h1 str">
-                {/* <Link href="portfolio"> */}
                 Project Highlights
                 <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-                {/* </Link> */}
               </h2>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="portfolio__text-slider-single">
               <h2 className="h1">
-                {/* <Link href="portfolio"> */}
                 Project Highlights
                 <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-                {/* </Link> */}
               </h2>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="portfolio__text-slider-single">
               <h2 className="h1 str">
-                {/* <Link href="portfolio"> */}
                 Project Highlights
                 <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-                {/* </Link> */}
               </h2>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="portfolio__text-slider-single">
               <h2 className="h1">
-                {/* <Link href="portfolio"> */}
                 Project Highlights
                 <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-                {/* </Link> */}
               </h2>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="portfolio__text-slider-single">
               <h2 className="h1 str">
-                {/* <Link href="portfolio"> */}
                 Project Highlights
                 <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-                {/* </Link> */}
               </h2>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="portfolio__text-slider-single">
               <h2 className="h1">
-                {/* <Link href="portfolio"> */}
                 Project Highlights
                 <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-                {/* </Link> */}
               </h2>
             </div>
           </SwiperSlide>
         </Swiper>
       </div>
+
       <div className="container-fluid">
         <div className="row gaper">
-          {portfolio.map((portfo: any) => (
-            <div className="col-12 col-sm-6 col-xl-3">
-              <div
-                className={
-                  "portfolio__single topy-tilt fade-top" +
-                  (hover === 0 ? " portfolio__single-active" : " ")
-                }
-                onMouseEnter={() => setHover(hover+1)}
-              >
-                <Link  href={`/project-single/${portfo._id}`}>
-                {/* <Image src={one} alt="Image" /> */}
-                  <Image src={portfo.thumbnail?.url} width={200} height={100} alt="Image" />
-                </Link>
-                <div className="portfolio__single-content">
+          {loading ? (
+            <PortfolioSkeleton />
+          ) : (
+            portfolio.map((portfo: any) => (
+              <div className="col-12 col-sm-6 col-xl-3" key={portfo._id}>
+                <div
+                  className={
+                    "portfolio__single topy-tilt fade-top" +
+                    (hover === 0 ? " portfolio__single-active" : " ")
+                  }
+                  onMouseEnter={() => setHover(hover + 1)}
+                >
                   <Link href={`/project-single/${portfo._id}`}>
-                    <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
+                    <Image
+                      src={portfo.thumbnail?.url}
+                      width={400}
+                      height={300}
+                      alt="Image"
+                    />
                   </Link>
-                  <h4>
-                    <Link href={`/project-single/${portfo._id}`}>Explore Our Work</Link>
-                  </h4>
+                  <div className="portfolio__single-content">
+                    <Link href={`/project-single/${portfo._id}`}>
+                      <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
+                    </Link>
+                    <h4>
+                      <Link href={`/project-single/${portfo._id}`}>
+                        Explore Our Work
+                      </Link>
+                    </h4>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-
-          {/* <div className="col-12 col-sm-6 col-xl-3">
-            <div
-              className={
-                "portfolio__single topy-tilt fade-top" +
-                (hover === 1 ? " portfolio__single-active" : " ")
-              }
-              onMouseEnter={() => setHover(1)}
-            >
-              <Link href="portfolio">
-                <Image src={two} alt="Image" />
-              </Link>
-              <div className="portfolio__single-content">
-                <Link href="portfolio">
-                  <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
-                </Link>
-                <h4>
-                  <Link href="portfolio">Explore Our Work</Link>
-                </h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-sm-6 col-xl-3">
-            <div
-              className={
-                "portfolio__single topy-tilt fade-top" +
-                (hover === 2 ? " portfolio__single-active" : " ")
-              }
-              onMouseEnter={() => setHover(2)}
-            >
-              <Link href="portfolio">
-                <Image src={three} alt="Image" />
-              </Link>
-              <div className="portfolio__single-content">
-                <Link href="portfolio">
-                  <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
-                </Link>
-                <h4>
-                  <Link href="portfolio">Explore Our Work</Link>
-                </h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-sm-6 col-xl-3">
-            <div
-              className={
-                "portfolio__single topy-tilt fade-top" +
-                (hover === 3 ? " portfolio__single-active" : " ")
-              }
-              onMouseEnter={() => setHover(3)}
-            >
-              <Link href="portfolio">
-                <Image src={four} alt="Image" />
-              </Link>
-              <div className="portfolio__single-content">
-                <Link href="portfolio">
-                  <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
-                </Link>
-                <h4>
-                  <Link href="portfolio">Explore Our Work</Link>
-                </h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-sm-6 col-xl-3">
-            <div
-              className={
-                "portfolio__single topy-tilt fade-top" +
-                (hover === 4 ? " portfolio__single-active" : " ")
-              }
-              onMouseEnter={() => setHover(4)}
-            >
-              <Link href="portfolio">
-                <Image src={five} alt="Image" />
-              </Link>
-              <div className="portfolio__single-content">
-                <Link href="portfolio">
-                  <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
-                </Link>
-                <h4>
-                  <Link href="portfolio">Explore Our Work</Link>
-                </h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-sm-6 col-xl-3">
-            <div
-              className={
-                "portfolio__single topy-tilt fade-top" +
-                (hover === 5 ? " portfolio__single-active" : " ")
-              }
-              onMouseEnter={() => setHover(5)}
-            >
-              <Link href="portfolio">
-                <Image src={six} alt="Image" />
-              </Link>
-              <div className="portfolio__single-content">
-                <Link href="portfolio">
-                  <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
-                </Link>
-                <h4>
-                  <Link href="portfolio">Explore Our Work</Link>
-                </h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-sm-6 col-xl-3">
-            <div className="portfolio__single-alt-wrapper fade-top">
-              <div className="portfolio__single-alt topy-tilt">
-                <h4>
-                  <Link href="portfolio">view all work</Link>
-                </h4>
-                <Link href="portfolio" className="arr">
-                  <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
-                </Link>
-                <Image src={dot} alt="Image" className="dot-one" />
-                <Image src={dot} alt="Image" className="dot-two" />
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-sm-6 col-xl-3">
-            <div
-              className={
-                "portfolio__single topy-tilt fade-top" +
-                (hover === 6 ? " portfolio__single-active" : " ")
-              }
-              onMouseEnter={() => setHover(6)}
-            >
-              <Link href="portfolio">
-                <Image src={seven} alt="Image" />
-              </Link>
-              <div className="portfolio__single-content">
-                <Link href="portfolio">
-                  <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
-                </Link>
-                <h4>
-                  <Link href="portfolio">Explore Our Work</Link>
-                </h4>
-              </div>
-            </div>
-          </div> */}
+            ))
+          )}
         </div>
       </div>
 
-      {/* <div className="container-fluid">
-        <div className="row gaper">
-          <div className="col-12 col-sm-6 col-xl-3">
-            {portfolio.map((portfo: any) => (
-              <div
-                className={
-                  "portfolio__single topy-tilt fade-top" +
-                  (hover === 0 ? " portfolio__single-active" : " ")
-                }
-                onMouseEnter={() => setHover(0)}
-              >
-                <Link href="portfolio">
-                  <Image src={one} alt="Image" />
-                </Link>
-                <div className="portfolio__single-content">
-                  <Link href="portfolio">
-                    <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
-                  </Link>
-                  <h4>
-                    <Link href="portfolio">Explore Our Work</Link>
-                  </h4>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div> */}
       <div className="lines d-none d-lg-flex">
         <div className="line"></div>
         <div className="line"></div>

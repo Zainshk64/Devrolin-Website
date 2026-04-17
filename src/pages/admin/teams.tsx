@@ -31,7 +31,7 @@ export default function Teams() {
   const fetchMembers = async () => {
     try {
       const res = await fetch(
-        "https://devrolin.com/api/members/"
+        "https://devrolin-backend-production.up.railway.app/api/members/"
       );
       const data = await res.json();
       setMembers(data.members || []);
@@ -48,7 +48,7 @@ export default function Teams() {
   const handleDelete = async (Id: string) => {
     try {
       const res = await fetch(
-        `https://devrolin.com/api/admin/delete-member/${Id}`,
+        `https://devrolin-backend-production.up.railway.app/api/admin/delete-member/${Id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -120,7 +120,7 @@ export default function Teams() {
 
       if (editForm && currentMemberId) {
         res = await fetch(
-          `https://devrolin.com/api/admin/edit-member/${currentMemberId}`,
+          `https://devrolin-backend-production.up.railway.app/api/admin/edit-member/${currentMemberId}`,
           {
             method: "PUT",
             headers: { Authorization: `Bearer ${token}` },
@@ -129,7 +129,7 @@ export default function Teams() {
         );
       } else {
         res = await fetch(
-          "https://devrolin.com/api/admin/new-member",
+          "https://devrolin-backend-production.up.railway.app/api/admin/new-member",
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },

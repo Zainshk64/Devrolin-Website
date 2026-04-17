@@ -31,7 +31,7 @@ const AdminServices = () => {
   const fetchService = async () => {
     try {
       const response = await fetch(
-        "https://devrolin.com/api/services"
+        "https://devrolin-backend-production.up.railway.app/api/services"
       );
       const data = await response.json();
       setOurService(data.services);
@@ -107,7 +107,7 @@ const AdminServices = () => {
       let res: Response;
       if (editForm && currentServiceId) {
         res = await fetch(
-          `https://devrolin.com/api/admin/edit-service/${currentServiceId}`,
+          `https://devrolin-backend-production.up.railway.app/api/admin/edit-service/${currentServiceId}`,
           {
             method: "PUT",
             headers: {
@@ -118,7 +118,7 @@ const AdminServices = () => {
         );
       } else {
         res = await fetch(
-          "https://devrolin.com/api/admin/new-service",
+          "https://devrolin-backend-production.up.railway.app/api/admin/new-service",
           {
             method: "POST",
             headers: {
@@ -162,7 +162,7 @@ const AdminServices = () => {
     const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch(
-        `https://devrolin.com/api/admin/delete-service/${serviceId}`,
+        `https://devrolin-backend-production.up.railway.app/api/admin/delete-service/${serviceId}`,
         {
           method: "DELETE",
           headers: {
