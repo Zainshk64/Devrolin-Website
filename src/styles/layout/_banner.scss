@@ -726,3 +726,70 @@
 /* ==== 
  --------- (4.02) banner styles end ---------
  ==== */
+
+.ux-process {
+
+  .section__header {
+    margin-bottom: 40px;
+
+    .service-filter-wrapper {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .service-filter-btn {
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: transparent;
+      color: #ffffff;        // ✅ white text for dark background
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+        color: #fff;
+      }
+
+      &.active {
+        background: #f97316;   // ✅ orange accent — matches your site theme
+        border-color: #f97316;
+        color: #fff;
+      }
+    }
+  }
+
+  // ✅ Fix accordion description overlap
+  .service-f-single {
+    position: relative;
+
+    .p-single {
+      display: none;       // hidden by default
+    }
+
+    &.service-f-single-active {
+      .p-single {
+        display: block;    // show only when active
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .service-filter-wrapper {
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .service-filter-btn {
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+  }
+}

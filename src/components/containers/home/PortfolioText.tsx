@@ -4,14 +4,6 @@ import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/swiper-bundle.css";
-import one from "public/images/portfolio/one.png";
-import two from "public/images/portfolio/two.png";
-import three from "public/images/portfolio/three.png";
-import four from "public/images/portfolio/four.png";
-import five from "public/images/portfolio/five.png";
-import six from "public/images/portfolio/six.png";
-import seven from "public/images/portfolio/seven.png";
-import dot from "public/images/portfolio/dot.png";
 import toast from "react-hot-toast";
 
 const PortfolioSkeleton = () => (
@@ -32,9 +24,7 @@ const PortfolioSkeleton = () => (
     {Array.from({ length: 4 }).map((_, i) => (
       <div className="col-12 col-sm-6 col-xl-3" key={i}>
         <div className="portfolio__single">
-          {/* image placeholder */}
           <span className="pk-skel" style={{ width: "100%", height: 320 }} />
-          {/* title placeholder */}
           <div className="portfolio__single-content" style={{ pointerEvents: "none" }}>
             <span className="pk-skel" style={{ width: "60%", height: 14, marginTop: 10 }} />
           </div>
@@ -44,12 +34,28 @@ const PortfolioSkeleton = () => (
   </>
 );
 
+const DESKTOP_MAX = 8;
+const MOBILE_STEP = 3;
+
 const PortfolioText = () => {
   const [hover, setHover] = useState(1);
-  const [portfolio, setportfolio] = useState([]);
+  const [portfolio, setPortfolio] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchportfolio = async () => {
+  // Mobile-only: how many cards are currently visible
+  const [mobileVisible, setMobileVisible] = useState(MOBILE_STEP);
+
+  // Detect mobile (< 768px). Re-evaluated on resize.
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const fetchPortfolio = async () => {
     const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch("https://devrolin.com/api/projects/", {
@@ -57,7 +63,7 @@ const PortfolioText = () => {
       });
       const data = await res.json();
       if (res.ok) {
-        setportfolio(data.projects || []);
+        setPortfolio(data.projects || []);
       } else {
         toast.error(data.message || "Failed to load portfolio");
       }
@@ -69,11 +75,34 @@ const PortfolioText = () => {
   };
 
   useEffect(() => {
-    fetchportfolio();
+    fetchPortfolio();
   }, []);
+
+  // ─── Derived display lists ──────────────────────────────────────────────────
+
+  // Desktop: cap at 8
+  const desktopProjects = portfolio.slice(0, DESKTOP_MAX);
+  const hasMoreDesktop = portfolio.length > DESKTOP_MAX;
+
+  // Mobile: show up to mobileVisible
+  const mobileProjects = portfolio.slice(0, mobileVisible);
+  const canShowMore = mobileVisible < portfolio.length;
+  const canShowLess = mobileVisible > MOBILE_STEP;
+
+  // Which list to render depends on breakpoint
+  const visibleProjects = isMobile ? mobileProjects : desktopProjects;
+
+  // ─── Handlers ──────────────────────────────────────────────────────────────
+
+  const handleShowMore = () =>
+    setMobileVisible((prev) => Math.min(prev + MOBILE_STEP, portfolio.length));
+
+  const handleShowLess = () =>
+    setMobileVisible((prev) => Math.max(prev - MOBILE_STEP, MOBILE_STEP));
 
   return (
     <section className="section portfolio pb-0 fade-wrapper position-relative">
+      {/* ── Text slider ──────────────────────────────────────────────────── */}
       <div className="portfolio__text-slider-w">
         <Swiper
           slidesPerView="auto"
@@ -90,78 +119,33 @@ const PortfolioText = () => {
           }}
           className="portfolio__text-slider"
         >
-          <SwiperSlide>
-            <div className="portfolio__text-slider-single">
-              <h2 className="h1">
-                Project Highlights
-                <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-              </h2>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="portfolio__text-slider-single">
-              <h2 className="h1 str">
-                Project Highlights
-                <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-              </h2>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="portfolio__text-slider-single">
-              <h2 className="h1">
-                Project Highlights
-                <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-              </h2>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="portfolio__text-slider-single">
-              <h2 className="h1 str">
-                Project Highlights
-                <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-              </h2>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="portfolio__text-slider-single">
-              <h2 className="h1">
-                Project Highlights
-                <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-              </h2>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="portfolio__text-slider-single">
-              <h2 className="h1 str">
-                Project Highlights
-                <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-              </h2>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="portfolio__text-slider-single">
-              <h2 className="h1">
-                Project Highlights
-                <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
-              </h2>
-            </div>
-          </SwiperSlide>
+          {[...Array(7)].map((_, i) => (
+            <SwiperSlide key={i}>
+              <div className="portfolio__text-slider-single">
+                <h2 className={`h1${i % 2 !== 0 ? " str" : ""}`}>
+                  Project Highlights
+                  <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
+                </h2>
+              </div>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
 
+      {/* ── Cards grid ───────────────────────────────────────────────────── */}
       <div className="container-fluid">
         <div className="row gaper">
           {loading ? (
             <PortfolioSkeleton />
           ) : (
-            portfolio.map((portfo: any) => (
+            visibleProjects.map((portfo: any) => (
               <div className="col-12 col-sm-6 col-xl-3" key={portfo._id}>
                 <div
                   className={
                     "portfolio__single topy-tilt fade-top" +
                     (hover === 0 ? " portfolio__single-active" : " ")
                   }
-                  onMouseEnter={() => setHover(hover + 1)}
+                  onMouseEnter={() => setHover((h) => h + 1)}
                 >
                   <Link href={`/project-single/${portfo._id}`}>
                     <Image
@@ -186,8 +170,40 @@ const PortfolioText = () => {
             ))
           )}
         </div>
+
+        {/* ── Desktop: "View All Projects" button ──────────────────────── */}
+        {!loading && !isMobile && hasMoreDesktop && (
+          <div className="text-center mt-4 d-none d-sm-block">
+            <Link href="/our-projects" className="cmn-btn">
+              View All Projects
+            </Link>
+          </div>
+        )}
+
+        {/* ── Mobile: Show More / Show Less buttons ────────────────────── */}
+        {!loading && isMobile && (canShowMore || canShowLess) && (
+          <div
+            className="d-flex d-sm-none justify-content-center gap-3 mt-4"
+            style={{ gap: "12px" }}
+          >
+            {canShowLess && (
+              <button
+                className="cmn-btn cmn-btn--secondary"
+                onClick={handleShowLess}
+              >
+                Show Less
+              </button>
+            )}
+            {canShowMore && (
+              <button className="cmn-btn" onClick={handleShowMore}>
+                Show More
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
+      {/* ── Background lines ─────────────────────────────────────────────── */}
       <div className="lines d-none d-lg-flex">
         <div className="line"></div>
         <div className="line"></div>

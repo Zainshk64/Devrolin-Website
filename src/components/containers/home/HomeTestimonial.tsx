@@ -120,7 +120,7 @@ function FeedbackText({ text }: { text: string }) {
               display: "inline",
             }}
           >
-            {expanded ? "See less" : "See more"}
+            {expanded ? "Hide Proof" : "See The Proof"}
           </button>
         </>
       )}

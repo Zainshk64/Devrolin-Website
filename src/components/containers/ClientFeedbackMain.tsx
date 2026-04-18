@@ -75,7 +75,7 @@ const FeedbackText = ({ text }: { text: string }) => {
             whiteSpace: "nowrap",
           }}
         >
-          {expanded ? "See Less" : "See More"}
+          {expanded ? "Hide Proof" : "See The Proof"}
         </span>
       )}
     </p>
