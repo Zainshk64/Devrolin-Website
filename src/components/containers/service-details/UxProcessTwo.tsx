@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 
 const UxProcessTwo = () => {
-  const [imgTab, setImgTab] = useState(-1);
-  const [activeService, setActiveService] = useState("CRM and Sale System");
-
   // Service data structure
   const services = [
     "CRM and Sale System",
@@ -11,7 +8,18 @@ const UxProcessTwo = () => {
     "AI Agent Business Automation"
   ];
 
+  type ServiceType =
+  | "CRM and Sale System"
+  | "AI Integration and Agents"
+  | "AI Agent Business Automation";
+
+  
+  const [imgTab, setImgTab] = useState(-1);
+const [activeService, setActiveService] = useState<ServiceType>(
+  "CRM and Sale System"
+);
   // Process steps data for each service
+
   const processData = {
     "CRM and Sale System": [
       {
