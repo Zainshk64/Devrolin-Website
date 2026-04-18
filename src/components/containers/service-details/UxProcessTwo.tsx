@@ -13,7 +13,7 @@ const UxProcessTwo = () => {
   | "AI Integration and Agents"
   | "AI Agent Business Automation";
 
-  
+
   const [imgTab, setImgTab] = useState(-1);
 const [activeService, setActiveService] = useState<ServiceType>(
   "CRM and Sale System"
@@ -132,7 +132,6 @@ const [activeService, setActiveService] = useState<ServiceType>(
                   </button>
                 ))}
               </div> */}
-
             </div>
           </div>
         </div>
