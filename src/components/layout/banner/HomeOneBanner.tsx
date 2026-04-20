@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import banneronethumb from "public/images/banner/hero-section3.png";
+import banneronethumb from "public/images/banner/hero-section4.png";
 import star from "public/images/star.png";
 import videoframe from "public/images/video-frame-og.svg";
 import YoutubeEmbed from "@/components/youtube/YoutubeEmbed";
