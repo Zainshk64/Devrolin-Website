@@ -59,18 +59,16 @@ const HomeOffer = () => {
                 <i className="fa-solid fa-arrow-right"></i>
               </span>
               <h2 className="title title-anim">
-                Giving Your Business Some Great Ideas
+                Solutions That Scale Your Business
               </h2>
               <div className="paragraph">
                 <p>
-                  Bring to the table win-win survival strategies to ensure
-                  Game-Changing strategies leading brands toward a smarter,
-                  Intelligent Transformation.
+                  We design AI, SaaS, and CRM systems with deep integrations across your tools to automate operations, remove bottlenecks, and create predictable growth.
                 </p>
               </div>
               <div className="section__content-cta">
                 <Link href="our-services" className="btn btn--secondary">
-                  view all services
+                  view all systems
                 </Link>
               </div>
             </div>

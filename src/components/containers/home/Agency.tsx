@@ -289,9 +289,7 @@ const Agency = () => {
               </h2>
               <div className="paragraph">
                 <p>
-                  Bring to the table win-win survival strategies to ensure
-                  Game-Changing strategies leading brands toward a smarter,
-                  Intelligent Transformation.
+                 AI, SaaS, and CRM systems with cross-platform integrations that replace manual work, eliminate bottlenecks, and turn your operations into scalable revenue.
                 </p>
               </div>
 

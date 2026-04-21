@@ -123,7 +123,7 @@ const PortfolioText = () => {
             <SwiperSlide key={i}>
               <div className="portfolio__text-slider-single">
                 <h2 className={`h1${i % 2 !== 0 ? " str" : ""}`}>
-                  Project Highlights
+                  Systems built
                   <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
                 </h2>
               </div>

@@ -52,16 +52,14 @@ const HomeOneBanner = () => {
             <div className="col-12">
               <div className="banner__content">
                 <h1 className="text-uppercase text-start fw-9 mb-0 title-anim">
-                  We are a<span className="text-stroke"> premier</span>
+                  We build a<span className="text-stroke"> system</span>
                   <span className="interval">
-                    <i className="icon-arrow-top-right"></i> software company
+                    <i className="icon-arrow-top-right"></i> that make you more money
                   </span>
                 </h1>
                 <div className="banner__content-inner">
                   <p>
-                    We’re a Dubai-based leading software firm, driving
-                    innovation in AI, blockchain, and design while building
-                    strong partnerships for success.{" "}
+                  Dubai-based firm building AI, SaaS, and CRM systems that turn your business into a revenue machine without hiring more people.{" "}
                   </p>
                   <div className="cta section__content-cta">
                     <div className="single">
