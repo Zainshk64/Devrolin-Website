@@ -28,7 +28,7 @@ const HomeThreeServices = () => {
                       href="our-services"
                       className="btn btn--primary text-capitalize"
                     >
-                      view all service
+                      view all systems
                     </Link>
                   </div>
                 </div>

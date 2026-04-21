@@ -1,9 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 const VIDEO_SOURCES = [
-  "https://res.cloudinary.com/do9v9l6np/video/upload/v1775834961/Orelio_Review_DevRolin_geedql.mp4",
-  "https://res.cloudinary.com/do9v9l6np/video/upload/v1775834972/Mike_Prepare2Swim_tqputd.mp4",
-  "https://res.cloudinary.com/do9v9l6np/video/upload/v1775834962/JOE_Video_testimonials_odhxv9.mp4",
+  // "https://res.cloudinary.com/do9v9l6np/video/upload/v1775834961/Orelio_Review_DevRolin_geedql.mp4",
+  // "https://res.cloudinary.com/do9v9l6np/video/upload/v1775834972/Mike_Prepare2Swim_tqputd.mp4",
+  // "https://res.cloudinary.com/do9v9l6np/video/upload/v1775834962/JOE_Video_testimonials_odhxv9.mp4",
+
+  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804873/2_xd656g.mp4",
+  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804417/3_bg8rxq.mp4",
+  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804370/1_aofjqm.mp4",
 ];
 
 const VideoModal = () => {

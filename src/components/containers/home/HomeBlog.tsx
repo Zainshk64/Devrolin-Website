@@ -34,7 +34,7 @@ const HomeBlog = () => {
                 news & Blog
                 <i className="fa-solid fa-arrow-right"></i>
               </span>
-              <h2 className="title title-anim">what&apos;s new in blog</h2>
+              <h2 className="title title-anim">INSIGHTS & IDEAS</h2>
             </div>
           </div>
         </div>

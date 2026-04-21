@@ -52,9 +52,9 @@ const HomeOneBanner = () => {
             <div className="col-12">
               <div className="banner__content">
                 <h1 className="text-uppercase text-start fw-9 mb-0 title-anim">
-                  We build a<span className="text-stroke"> system</span>
+                  We build <span className="text-stroke"> systems</span>
                   <span className="interval">
-                    <i className="icon-arrow-top-right"></i> that make you more money
+                    <i className="icon-arrow-top-right"></i> that make money
                   </span>
                 </h1>
                 <div className="banner__content-inner">
