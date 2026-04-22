@@ -5,9 +5,14 @@ const VIDEO_SOURCES = [
   // "https://res.cloudinary.com/do9v9l6np/video/upload/v1775834972/Mike_Prepare2Swim_tqputd.mp4",
   // "https://res.cloudinary.com/do9v9l6np/video/upload/v1775834962/JOE_Video_testimonials_odhxv9.mp4",
 
-  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804873/2_xd656g.mp4",
-  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804417/3_bg8rxq.mp4",
-  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804370/1_aofjqm.mp4",
+  // "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804873/2_xd656g.mp4",
+  // "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804417/3_bg8rxq.mp4",
+  // "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804370/1_aofjqm.mp4",
+
+
+  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868272/1_1_gwiq5n.mp4",
+  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868278/3_1_bntfct.mp4",
+  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868284/2_1_qoujde.mp4",
 ];
 
 const VideoModal = () => {
