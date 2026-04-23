@@ -279,7 +279,7 @@ export default function AdminCreateProject({
 
           {/* Thumbnail */}
           <div className="mb-3 col-12">
-            <label className="form-label text-white">Thumbnail</label>
+            <label className="form-label text-white">Thumbnail (345 X 394) </label>
             <input
               type="file"
               ref={thumbnailRef}
@@ -299,7 +299,7 @@ export default function AdminCreateProject({
 
           {/* Main Image */}
           <div className="mb-3 col-12">
-            <label className="form-label text-white">Main Image</label>
+            <label className="form-label text-white">Main Image (690 X 379)</label>
             <input
               type="file"
               ref={mainImageRef}
@@ -319,7 +319,7 @@ export default function AdminCreateProject({
 
           {/* Snapshots */}
           <div className="mb-3 col-12">
-            <label className="form-label text-white">Snapshots (up to 3)</label>
+            <label className="form-label text-white">Snapshots (up to 3 - 424 X 296)</label>
             <input
               type="file"
               ref={snapshotsRef}

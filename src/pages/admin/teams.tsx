@@ -442,7 +442,7 @@ export default function Teams() {
 
             {/* Profile Image */}
             <div className="col-12">
-              <label className="form-label text-white">Profile Image</label>
+              <label className="form-label text-white">Profile Image (345 X 317)</label>
               <input
                 type="file"
                 className="form-control p-3"

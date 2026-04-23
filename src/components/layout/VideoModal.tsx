@@ -10,9 +10,9 @@ const VIDEO_SOURCES = [
   // "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804370/1_aofjqm.mp4",
 
 
-  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868272/1_1_gwiq5n.mp4",
   "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868278/3_1_bntfct.mp4",
   "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868284/2_1_qoujde.mp4",
+  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868272/1_1_gwiq5n.mp4",
 ];
 
 const VideoModal = () => {

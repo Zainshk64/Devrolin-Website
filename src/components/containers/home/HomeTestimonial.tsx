@@ -182,7 +182,7 @@ const HomeTestimonial = () => {
               <div className="testimonial__text-slider-single">
                 <h2 className="h1">
                   <Link href="client-feedback">
-                    client&apos;s results
+                    client&apos;s result
                     <i className="fa-sharp fa-solid fa-arrow-down-right"></i>
                   </Link>
                 </h2>

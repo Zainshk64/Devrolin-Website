@@ -94,7 +94,7 @@ const HomeOneBanner = () => {
             facebook
           </Link>
           <Link
-            href="https://www.instagram.com/dev.rolin/?hl=en"
+            href="https://www.instagram.com/devrolin.x?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
             target="_blank"
           >
             instagram
