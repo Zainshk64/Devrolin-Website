@@ -43,8 +43,7 @@ const CmnBanner = ({ title, navigation, parent, parentLink }: BannerProps) => {
             <div className="col-12 col-lg-7 col-xl-5">
               <div className="text-center text-lg-start">
                 <p className="primary-text">
-                We're a Dubai-based leading software firm, driving innovation in AI, blockchain, and design while building strong partnerships for success.
-                </p>
+Dubai-based firm building AI, SaaS, and CRM systems that turn your business into a revenue machine without hiring more people.                </p>
               </div>
             </div>
           </div>
