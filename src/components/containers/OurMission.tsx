@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import one from "public/images/mission/one.png";
-import two from "public/images/mission/two.png";
+import one from "/ou-story1.png";
+import two from "/our-story2";
 
 const OurMission = () => {
   return (
@@ -46,12 +46,12 @@ const OurMission = () => {
           </div>
           <div className="col-12 col-lg-6">
             <div className="mission-s__single fade-top">
-              <Image src='https://res.cloudinary.com/daljxhxzf/image/upload/v1760898277/ourstory2.png_cqppay.jpg' width={700} height={700} alt="Image" />
+              <Image src='/our-story1.png' width={700} height={700} alt="Image" />
             </div>
           </div>
           <div className="col-12 col-lg-6">
             <div className="mission-s__single fade-top">
-              <Image src='https://res.cloudinary.com/daljxhxzf/image/upload/v1760898210/ourstory1_zsavh3.jpg' 
+              <Image src='/our-story2.png' 
               width={700} height={700} alt="Image" />
             </div>
           </div>
