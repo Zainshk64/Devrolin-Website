@@ -17,8 +17,8 @@ const Home = () => {
       <HomeOffer />
       <PortfolioText />
       <HomeTestimonial />
-      <HomeBlog />
       <HomeSponsor />
+      <HomeBlog />
       <NextPage />
     </Layout>
   );

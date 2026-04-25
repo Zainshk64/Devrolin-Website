@@ -100,8 +100,8 @@ const HomeSponsor = () => {
       const mapped = apiLogos.map((s) => ({
         key: s._id,
         src: s.image.url,
-        width: 150,
-        height: 150,
+        width: 200,
+        height: 200,
         alt: s.image.alt || "Sponsor",
       }));
       return repeatForCarousel(mapped, MIN_SLIDES_FOR_LOOP);
