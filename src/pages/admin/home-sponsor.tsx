@@ -113,6 +113,7 @@ export default function HomeSponsorAdminPage() {
                 </div>
               )}
             </div>
+            
             <div className="col-md-3">
               <label className="form-label text-white">Alt text (optional)</label>
               <input
