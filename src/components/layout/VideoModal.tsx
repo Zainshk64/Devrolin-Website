@@ -88,8 +88,8 @@ pointerEvents: hovered || showControls ? "auto" : "none",
         {/* Close button */}
         <button
           type="button"
-          aria-label="Close video popup"
-          className="close-v"
+          // aria-label="Close video popup"
+          className="close"
           onClick={() => setVisible(false)}
         >
           <i className="fa-light fa-xmark-large"></i>
@@ -107,7 +107,7 @@ pointerEvents: hovered || showControls ? "auto" : "none",
             style={{
               position: "absolute",
               left: "-37%",
-              top: "26%",
+              top: "35%",
               transform: "translateY(-50%)",
               zIndex: 5,
               background: "#f97316",
@@ -115,7 +115,7 @@ pointerEvents: hovered || showControls ? "auto" : "none",
               fontSize: 18,
               fontWeight: 400,
               fontFamily: "inherit",
-              padding: "5px 16px",
+              padding: "3px 14px",
    borderTopLeftRadius: "50px",
     borderTopRightRadius: "50px",
     borderBottomLeftRadius: "50px",
@@ -151,7 +151,7 @@ pointerEvents: hovered || showControls ? "auto" : "none",
             <span
               style={{
                 position: "absolute",
-                top: 8,
+                top: 25,
                 left: 10,
                 background: "rgba(0,0,0,0.6)",
                 color: "#fff",

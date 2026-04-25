@@ -157,7 +157,7 @@ const WorkStepsProject = () => {
           className="video-frame video-btn d-none d-md-flex"
           onClick={() => setVideoActive(true)}
         >
-          <Image src='https://res.cloudinary.com/daljxhxzf/image/upload/v1760592625/teamGroup_rpouzu.jpg' height={500} width={500} alt="Image" />
+          <Image src='/devrolin-team.png' height={500} width={500} alt="Image" />
           <i className="fa-sharp fa-solid fa-play"></i>
         </button>
       </section>
