@@ -951,11 +951,8 @@ $font-b:      'DM Sans', sans-serif;
 
 
 
-
-
 // ─────────────────────────────────────────────
-//  UxProcessTwo — scoped SCSS
-//  All classes prefixed "uxp-" — no conflicts.
+//  UxProcessTwo — scoped SCSS  (uxp- prefix)
 // ─────────────────────────────────────────────
 
 .uxp-section {
@@ -985,10 +982,7 @@ $font-b:      'DM Sans', sans-serif;
   text-transform: uppercase;
   color: #e87c3e;
   margin-bottom: 16px;
-
-  i {
-    margin-left: 6px;
-  }
+  i { margin-left: 6px; }
 }
 
 .uxp-title {
@@ -999,72 +993,145 @@ $font-b:      'DM Sans', sans-serif;
   line-height: 1.15;
 }
 
-// ── Select Dropdown ──────────────────────────
+// ── Custom Dropdown ──────────────────────────
 .uxp-select-wrap {
   position: relative;
   display: flex;
   justify-content: center;
   margin-bottom: 52px;
+  z-index: 10;
 }
 
-.uxp-select {
-  // reset native
+// Trigger button
+.uxp-drop-trigger {
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  border: none;
-  outline: none;
-  font-family: inherit;
-  cursor: pointer;
-
-  // sizing
-  width: 100%;
-  max-width: 380px;
-  padding: 12px 48px 12px 20px; // right padding for arrow icon
-
-  // style — matches the old pill active look
-  background: rgba(255, 255, 255, 0.06);
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  // border: 1.5px solid rgba(255, 255, 255, 0.2);
   border-radius: 100px;
+  background: rgba(255, 255, 255, 0.06);
   color: #ffffff;
+  font-family: inherit;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.3px;
-  transition: border-color 0.25s ease, background 0.25s ease;
+  cursor: pointer;
+  padding: 12px 20px 12px 20px;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: border-color 0.25s ease, background 0.25s ease,
+              border-radius 0.2s ease;
 
-  // dropdown options (browser-native, dark bg)
-  option {
-    background: #1a1a1a;
-    color: #ffffff;
-    font-weight: 500;
-  }
-
-  &:hover,
-  &:focus {
+  &:hover {
     border-color: #e87c3e;
     background: rgba(232, 124, 62, 0.08);
+  }
+
+  // When open — square off bottom corners so it connects to the panel
+  &--open {
+    border-color: #e87c3e;
+    background: rgba(232, 124, 62, 0.08);
+    border-radius: 16px 16px 0 0;
   }
 
   @media (max-width: 480px) {
     max-width: 100%;
     font-size: 13px;
-    padding: 11px 44px 11px 18px;
   }
 }
 
-// Custom chevron icon — sits on top of select, pointer-events: none
-.uxp-select-arrow {
-  position: absolute;
-  right: calc(50% - 380px / 2 + 18px); // aligns with right edge of select
-  top: 50%;
-  transform: translateY(-50%);
+.uxp-drop-trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.uxp-drop-icon {
+  font-size: 15px;
   color: #e87c3e;
-  font-size: 13px;
-  pointer-events: none;
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.uxp-drop-chevron {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+
+  &--open {
+    transform: rotate(180deg);
+    color: #e87c3e;
+  }
+}
+
+// Options panel
+.uxp-drop-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  background: #141414;
+  // border: 1.5px solid #e87c3e;
+  border-top: none;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
 
   @media (max-width: 480px) {
-    right: 18px;
+    max-width: 100%;
   }
+}
+
+// Individual option
+.uxp-drop-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: #ffffff;
+  }
+
+  // Active / selected option
+  &--active {
+    background: rgba(232, 124, 62, 0.15);
+    color: #e87c3e;
+    font-weight: 700;
+
+    .uxp-drop-icon {
+      color: #e87c3e;
+    }
+  }
+}
+
+.uxp-drop-option-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.uxp-drop-check {
+  font-size: 12px;
+  color: #e87c3e;
+  flex-shrink: 0;
 }
 
 // ── Accordion ───────────────────────────────
@@ -1093,7 +1160,6 @@ $font-b:      'DM Sans', sans-serif;
   cursor: pointer;
   font-family: inherit;
   width: 100%;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1134,7 +1200,6 @@ $font-b:      'DM Sans', sans-serif;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.55);
   flex-shrink: 0;
-  transition: color 0.2s ease;
   line-height: 1;
   user-select: none;
 }
