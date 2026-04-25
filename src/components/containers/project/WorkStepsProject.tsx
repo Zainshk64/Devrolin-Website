@@ -1,44 +1,162 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import YoutubeEmbed from "@/components/youtube/YoutubeEmbed";
-import videoframe from "public/images/video-frame.png";
 
+// ─── Filter types ────────────────────────────────────────────────
+type FilterType =
+  | "CRM and Sale System"
+  | "AI Integration and Agents"
+  | "AI Agent Business Automation";
+
+const filters: FilterType[] = [
+  "CRM and Sale System",
+  "AI Integration and Agents",
+  "AI Agent Business Automation",
+];
+
+const filterIcons: Record<FilterType, string> = {
+  "CRM and Sale System":        "fa-chart-line",
+  "AI Integration and Agents":  "fa-robot",
+  "AI Agent Business Automation": "fa-gears",
+};
+
+// ─── Static step data per filter ────────────────────────────────
+type Step = {
+  percent: string;
+  label: string;
+  image: string;
+  extraClass?: string;
+};
+
+const stepsData: Record<FilterType, Step[]> = {
+  "CRM and Sale System": [
+    {
+      percent: "25",
+      label: "Discovery & CRM Audit",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+    },
+    {
+      percent: "50",
+      label: "Pipeline & Workflow Design",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      extraClass: "work-two",
+    },
+    {
+      percent: "75",
+      label: "CRM Build & Integration",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      extraClass: "work-three",
+    },
+    {
+      percent: "100",
+      label: "Launch & Sales Enablement",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      extraClass: "work-four",
+    },
+  ],
+  "AI Integration and Agents": [
+    {
+      percent: "25",
+      label: "AI Use-Case Research",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+    },
+    {
+      percent: "50",
+      label: "Agent Design & Prototyping",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      extraClass: "work-two",
+    },
+    {
+      percent: "75",
+      label: "Model Training & API Connect",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      extraClass: "work-three",
+    },
+    {
+      percent: "100",
+      label: "Deploy & Monitor Agents",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      extraClass: "work-four",
+    },
+  ],
+  "AI Agent Business Automation": [
+    {
+      percent: "25",
+      label: "Process Mapping & Audit",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+    },
+    {
+      percent: "50",
+      label: "Automation Flow Design",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      extraClass: "work-two",
+    },
+    {
+      percent: "75",
+      label: "Build & System Integration",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      extraClass: "work-three",
+    },
+    {
+      percent: "100",
+      label: "Go-Live & Scale Automation",
+      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      extraClass: "work-four",
+    },
+  ],
+};
+
+// ─── Component ───────────────────────────────────────────────────
 const WorkStepsProject = () => {
-  const [hover, setHover] = useState(1);
-  const [videoActive, setVideoActive] = useState(false);
+  const [hover, setHover]               = useState(1);
+  const [videoActive, setVideoActive]   = useState(false);
+  const [activeFilter, setActiveFilter] = useState<FilterType>("CRM and Sale System");
+  const [dropOpen, setDropOpen]         = useState(false);
+  const dropRef                         = useRef<HTMLDivElement>(null);
 
+  // Mouse-move parallax (unchanged)
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
-      if (typeof window !== "undefined") {
-        const deviceWidth = window.innerWidth;
-
-        if (deviceWidth > 576) {
-          const workImgItems = document.querySelectorAll<HTMLElement>(
-            ".work-steps__single"
-          );
-
-          workImgItems.forEach((item) => {
-            const contentBox = item.getBoundingClientRect();
-            const dx = event.clientX - contentBox.x;
-            if (item.children[2] instanceof HTMLElement) {
-              item.children[2].style.transform = `translateX(${dx}px)`;
-            }
-          });
-        }
+      if (typeof window !== "undefined" && window.innerWidth > 576) {
+        const workImgItems = document.querySelectorAll<HTMLElement>(".work-steps__single");
+        workImgItems.forEach((item) => {
+          const contentBox = item.getBoundingClientRect();
+          const dx = event.clientX - contentBox.x;
+          if (item.children[2] instanceof HTMLElement) {
+            item.children[2].style.transform = `translateX(${dx}px)`;
+          }
+        });
       }
     };
-
     window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (dropRef.current && !dropRef.current.contains(e.target as Node)) {
+        setDropOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const handleFilterChange = (filter: FilterType) => {
+    setActiveFilter(filter);
+    setHover(1);
+    setDropOpen(false);
+  };
+
+  const steps = stepsData[activeFilter];
 
   return (
     <>
       <section className="section work-steps work-alt fade-wrapper">
         <div className="container">
+
+          {/* ── Header (unchanged) ── */}
           <div className="row">
             <div className="col-12">
               <div className="section__header--secondary">
@@ -66,101 +184,88 @@ const WorkStepsProject = () => {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-12 col-sm-6 col-xl-3">
-              <div
-                className={
-                  "work-steps__single fade-top" +
-                  (hover === 0 ? " work-steps__single-active" : " ")
-                }
-                onMouseEnter={() => setHover(0)}
-              >
-                <span>
-                  25
-                  <br />%
-                </span>
-                <h5>Discover & Strategy.</h5>
-                <div
-                  className="work-thumb-hover d-none d-md-block"
-                  style={{
-                    backgroundImage: "url('https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg')",
-                  }}
-                ></div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-xl-3">
-              <div
-                className={
-                  "work-steps__single fade-top work-two" +
-                  (hover === 1 ? " work-steps__single-active" : " ")
-                }
-                onMouseEnter={() => setHover(1)}
-              >
-                <span>
-                  50
-                  <br />%
-                </span>
-                <h5>Wireframes & User-flows</h5>
-                <div
-                  className="work-thumb-hover d-none d-md-block"
-                  style={{
-                    backgroundImage: "url('https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg')",
-                  }}
-                ></div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-xl-3">
-              <div
-                className={
-                  "work-steps__single fade-top work-three" +
-                  (hover === 2 ? " work-steps__single-active" : " ")
-                }
-                onMouseEnter={() => setHover(2)}
-              >
-                <span>
-                  75
-                  <br />%
-                </span>
-                <h5>Hi-Fidelity design</h5>
-                <div
-                  className="work-thumb-hover d-none d-md-block"
-                  style={{
-                    backgroundImage: "url('https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg')",
-                  }}
-                ></div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-xl-3">
-              <div
-                className={
-                  "work-steps__single fade-top work-four" +
-                  (hover === 3 ? " work-steps__single-active" : " ")
-                }
-                onMouseEnter={() => setHover(3)}
-              >
-                <span>
-                  100
-                  <br />%
-                </span>
-                <h5>Development Phase</h5>
-                <div
-                  className="work-thumb-hover d-none d-md-block"
-                  style={{
-                    backgroundImage: "url('https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg')",
-                  }}
-                ></div>
-              </div>
-            </div>
+
+          {/* ── Custom Dropdown Filter (same as UxProcessTwo) ── */}
+          <div className="uxp-select-wrap" ref={dropRef}>
+            <button
+              type="button"
+              className={`uxp-drop-trigger${dropOpen ? " uxp-drop-trigger--open" : ""}`}
+              onClick={() => setDropOpen((o) => !o)}
+              aria-haspopup="listbox"
+              aria-expanded={dropOpen}
+            >
+              <span className="uxp-drop-trigger-left">
+                <i className={`fa-light ${filterIcons[activeFilter]} uxp-drop-icon`}></i>
+                <span>{activeFilter}</span>
+              </span>
+              <i className={`fa-light fa-chevron-down uxp-drop-chevron${dropOpen ? " uxp-drop-chevron--open" : ""}`}></i>
+            </button>
+
+            {dropOpen && (
+              <ul className="uxp-drop-menu" role="listbox">
+                {filters.map((filter) => {
+                  const isActive = filter === activeFilter;
+                  return (
+                    <li
+                      key={filter}
+                      role="option"
+                      aria-selected={isActive}
+                      className={`uxp-drop-option${isActive ? " uxp-drop-option--active" : ""}`}
+                      onClick={() => handleFilterChange(filter)}
+                    >
+                      <span className="uxp-drop-option-left">
+                        <i className={`fa-light ${filterIcons[filter]} uxp-drop-icon`}></i>
+                        <span>{filter}</span>
+                      </span>
+                      {isActive && <i className="fa-light fa-check uxp-drop-check"></i>}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
+
+          {/* ── Steps Grid (unchanged UI, dynamic data) ── */}
+          <div className="row" key={activeFilter}>
+            {steps.map((step, index) => (
+              <div key={index} className="col-12 col-sm-6 col-xl-3">
+                <div
+                  className={[
+                    "work-steps__single fade-top",
+                    step.extraClass ?? "",
+                    hover === index ? "work-steps__single-active" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  onMouseEnter={() => setHover(index)}
+                >
+                  <span>
+                    {step.percent}
+                    <br />%
+                  </span>
+                  <h5>{step.label}</h5>
+                  <div
+                    className="work-thumb-hover d-none d-md-block"
+                    style={{ backgroundImage: `url('${step.image}')` }}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
+
+        {/* ── Video frame button (unchanged) ── */}
         <button
           className="video-frame video-btn d-none d-md-flex"
           onClick={() => setVideoActive(true)}
         >
-          <Image src='/devrolin-team.png' height={500} width={500} alt="Image" />
+          <Image src="/devrolin-team.png" height={500} width={500} alt="Image" />
           <i className="fa-sharp fa-solid fa-play"></i>
         </button>
       </section>
+
+      {/* ── Video backdrop (unchanged) ── */}
       <div
         className={(videoActive ? " video-zoom-in" : " ") + " video-backdrop"}
         onClick={() => setVideoActive(false)}
