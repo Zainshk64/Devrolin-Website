@@ -1,7 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import one from "/ou-story1.png";
-import two from "/our-story2";
 
 const OurMission = () => {
   return (
