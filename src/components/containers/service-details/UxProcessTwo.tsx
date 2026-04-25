@@ -117,12 +117,13 @@ const UxProcessTwo = () => {
   const [openIndex, setOpenIndex] = useState<number>(-1);
 
   const handleTabChange = (service: ServiceType) => {
+    // Set both states together — guarantees accordion closes instantly
     setActiveService(service);
     setOpenIndex(-1);
   };
 
   const handleToggle = (index: number) => {
-    setOpenIndex(openIndex === index ? -1 : index);
+    setOpenIndex((prev) => (prev === index ? -1 : index));
   };
 
   return (
@@ -137,24 +138,36 @@ const UxProcessTwo = () => {
           <h2 className="uxp-title">Our Complete Service Process</h2>
         </div>
 
-        {/* ── Nav Tabs ── */}
-        <div className="uxp-tabs">
-          {services.map((service) => (
-            <button
-              key={service}
-              className={`uxp-tab-btn${activeService === service ? " uxp-tab-btn--active" : ""}`}
-              onClick={() => handleTabChange(service)}
-            >
-              {service}
-            </button>
-          ))}
+        {/* ── Select Dropdown ── */}
+        <div className="uxp-select-wrap">
+          <select
+            className="uxp-select"
+            value={activeService}
+            onChange={(e) => handleTabChange(e.target.value as ServiceType)}
+            aria-label="Select service"
+          >
+            {services.map((service) => (
+              <option key={service} value={service}>
+                {service}
+              </option>
+            ))}
+          </select>
+          <span className="uxp-select-arrow">
+            <i className="fa-light fa-chevron-down"></i>
+          </span>
         </div>
 
         {/* ── Accordion ── */}
-        <div className="uxp-accordion">
+        {/*
+          KEY on the wrapper forces React to fully unmount+remount
+          the accordion list whenever the service changes.
+          This guarantees openIndex=-1 takes effect immediately
+          with no stale render of the previously open item.
+        */}
+        <div className="uxp-accordion" key={activeService}>
           {processData[activeService].map((process, index) => (
             <div
-              key={`${activeService}-${index}`}
+              key={index}
               className={`uxp-accordion-item${openIndex === index ? " uxp-accordion-item--open" : ""}`}
             >
               <button

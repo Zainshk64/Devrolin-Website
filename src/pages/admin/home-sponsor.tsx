@@ -123,7 +123,7 @@ export default function HomeSponsorAdminPage() {
                 placeholder="e.g. React"
               />
             </div>
-            <div className="col-md-2">
+            {/* <div className="col-md-2">
               <label className="form-label text-white">Sort order</label>
               <input
                 type="number"
@@ -133,7 +133,7 @@ export default function HomeSponsorAdminPage() {
                   setSortOrder(Number(e.target.value) || 0)
                 }
               />
-            </div>
+            </div> */}
             <div className="col-md-1 d-flex align-items-end">
               <button className="btn w-100" type="submit">
                 Save

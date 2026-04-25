@@ -46,7 +46,7 @@ const TeamMembers = () => {
                       <i className="fa-solid fa-arrow-right"></i>
                     </span>
                     <h2 className="title title-anim">
-                      our DevRolin team members
+                      The People responsible for building your systems
                     </h2>
                   </div>
                 </div>

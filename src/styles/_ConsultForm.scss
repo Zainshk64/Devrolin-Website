@@ -949,17 +949,19 @@ $font-b:      'DM Sans', sans-serif;
   object-fit: contain;   /* use 'cover' if you want it cropped/filled */
 }
 
+
+
+
+
 // ─────────────────────────────────────────────
 //  UxProcessTwo — scoped SCSS
-//  All classes are prefixed with "uxp-" so they
-//  never clash with the existing site CSS.
+//  All classes prefixed "uxp-" — no conflicts.
 // ─────────────────────────────────────────────
 
 .uxp-section {
   position: relative;
   padding: 100px 0;
   width: 100%;
-  // inherits background from parent (dark image / overlay)
 }
 
 .uxp-container {
@@ -972,7 +974,7 @@ $font-b:      'DM Sans', sans-serif;
 // ── Header ──────────────────────────────────
 .uxp-header {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 
 .uxp-subtitle {
@@ -997,58 +999,71 @@ $font-b:      'DM Sans', sans-serif;
   line-height: 1.15;
 }
 
-// ── Nav Tabs ────────────────────────────────
-//  Sits in normal document flow directly below
-//  the header — no position:absolute, no z-index tricks.
-.uxp-tabs {
+// ── Select Dropdown ──────────────────────────
+.uxp-select-wrap {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 52px; // space between tabs and accordion
+  margin-bottom: 52px;
 }
 
-.uxp-tab-btn {
-  // reset
+.uxp-select {
+  // reset native
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   border: none;
-  background: none;
-  cursor: pointer;
+  outline: none;
   font-family: inherit;
+  cursor: pointer;
 
-  // pill shape
-  padding: 10px 26px;
+  // sizing
+  width: 100%;
+  max-width: 380px;
+  padding: 12px 48px 12px 20px; // right padding for arrow icon
+
+  // style — matches the old pill active look
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
   border-radius: 100px;
+  color: #ffffff;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.3px;
-  line-height: 1;
-  white-space: nowrap;
+  transition: border-color 0.25s ease, background 0.25s ease;
 
-  // default state
-  color: rgba(255, 255, 255, 0.65);
-  border: 1.5px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.05);
-  transition: all 0.25s ease;
-
-  &:hover {
+  // dropdown options (browser-native, dark bg)
+  option {
+    background: #1a1a1a;
     color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.45);
-    background: rgba(255, 255, 255, 0.1);
+    font-weight: 500;
   }
 
-  // active / selected
-  &--active {
-    color: #ffffff !important;
-    background: #e87c3e !important;
-    border-color: #e87c3e !important;
-    font-weight: 700;
-    box-shadow: 0 4px 20px rgba(232, 124, 62, 0.35);
+  &:hover,
+  &:focus {
+    border-color: #e87c3e;
+    background: rgba(232, 124, 62, 0.08);
   }
 
   @media (max-width: 480px) {
+    max-width: 100%;
     font-size: 13px;
-    padding: 9px 18px;
+    padding: 11px 44px 11px 18px;
+  }
+}
+
+// Custom chevron icon — sits on top of select, pointer-events: none
+.uxp-select-arrow {
+  position: absolute;
+  right: calc(50% - 380px / 2 + 18px); // aligns with right edge of select
+  top: 50%;
+  transform: translateY(-50%);
+  color: #e87c3e;
+  font-size: 13px;
+  pointer-events: none;
+
+  @media (max-width: 480px) {
+    right: 18px;
   }
 }
 
@@ -1072,7 +1087,6 @@ $font-b:      'DM Sans', sans-serif;
 }
 
 .uxp-accordion-trigger {
-  // reset
   appearance: none;
   border: none;
   background: transparent;
@@ -1080,7 +1094,6 @@ $font-b:      'DM Sans', sans-serif;
   font-family: inherit;
   width: 100%;
 
-  // layout
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1127,7 +1140,7 @@ $font-b:      'DM Sans', sans-serif;
 }
 
 .uxp-accordion-body {
-  padding: 0 0 24px 25px; // left-align with title (dot width + gap)
+  padding: 0 0 24px 25px;
 
   p {
     margin: 0;

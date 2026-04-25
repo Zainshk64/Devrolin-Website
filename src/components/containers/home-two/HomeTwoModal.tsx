@@ -3,7 +3,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import modalbg from "public/images/modal-bg.png";
-import frame from "public/images/video-frame-two.png";
+import frame from "/circle-filled.png";
 import YoutubeEmbed from "@/components/youtube/YoutubeEmbed";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -42,8 +42,8 @@ const HomeTwoModal = () => {
           className="video-frame video-btn"
           onClick={() => setVideoActive(true)}
         >
-          <Image src={frame} alt="Image" />
-          <i className="fa-sharp fa-solid fa-play"></i>
+          <Image src='/circle-filled.png' width={200} height={200} alt="Image" />
+          {/* <i className="fa-sharp fa-solid fa-play"></i> */}
         </button>
       </div>
       <div
