@@ -116,6 +116,7 @@ const HomeSponsor = () => {
   return (
     <div className="sponsor section pb-0">
       <div className="container-fluid">
+        <div className="row justify-content-center"> <div className="col-12 col-lg-8"> <div className="section__header text-center">  <h2 className="title title-anim"> Companies That Trust Our Systems</h2> </div> </div> </div>
         <div className="row justify-content-center">
           <div className="col-12">
             <div className="sponsor__slider-w">
