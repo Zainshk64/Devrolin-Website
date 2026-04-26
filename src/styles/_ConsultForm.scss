@@ -1225,195 +1225,275 @@ $font-b:      'DM Sans', sans-serif;
 
 
 
-// ─────────────────────────────────────────────────────
-//  OurAchievement — scoped SCSS  (ach- prefix)
-//  Dark premium metric cards with count-up + scroll reveal
-// ─────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────
+//  OurAchievement — Premium metric cards  (acv- prefix)
+// ─────────────────────────────────────────────────────────
 
-.ach-section {
+// ── Section ─────────────────────────────────────────────
+.acv-section {
   position: relative;
-  padding: 100px 0;
+  padding: 100px 0 120px;
   overflow: hidden;
+}
 
-  // Subtle background noise texture feel
+// Big soft radial glow behind the cards
+.acv-spotlight {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(232, 124, 62, 0.07) 0%,
+    transparent 68%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+// ── Grid ────────────────────────────────────────────────
+.acv-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 60px;
+
+  @media (max-width: 1100px) { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 520px)  { grid-template-columns: 1fr; gap: 14px; }
+
+  // Cards start hidden — reveal staggered when in view
+  .acv-card {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+  }
+
+  &--visible .acv-card {
+    animation: acvReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+}
+
+// ── Card ────────────────────────────────────────────────
+.acv-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 32px 28px 28px;
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.045) 0%,
+    rgba(255, 255, 255, 0.015) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.3s ease,
+              box-shadow 0.4s ease;
+
+  // Corner shine — top-left pseudo
   &::before {
     content: "";
     position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      ellipse 60% 50% at 50% 50%,
-      rgba(232, 124, 62, 0.04) 0%,
-      transparent 70%
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      transparent 100%
     );
-    pointer-events: none;
-  }
-}
-
-// ── Grid ────────────────────────────────────────────
-.ach-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  margin-top: 56px;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
+    border-radius: 20px 0 0 0;
   }
 
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  // Corner shine — top-right
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 40%;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      transparent 100%
+    );
   }
-
-  // Cards reveal staggered on scroll
-  .ach-card {
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0s, transform 0s;
-  }
-
-  &--visible .ach-card {
-    animation: achCardIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-}
-
-// ── Card ────────────────────────────────────────────
-.ach-card {
-  position: relative;
-  border-radius: 16px;
-  background: #0f0f0f;
-  overflow: hidden;
-  cursor: default;
-  isolation: isolate;
-
-  // Default subtle border
-  border: 1px solid rgba(255, 255, 255, 0.07);
 
   &:hover {
-    .ach-card__glow {
+    transform: translateY(-6px) scale(1.01);
+    border-color: rgba(232, 124, 62, 0.3);
+    box-shadow:
+      0 24px 48px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(232, 124, 62, 0.12) inset;
+
+    .acv-card__bar {
+      transform: scaleX(1);
       opacity: 1;
     }
-    .ach-card__border {
-      opacity: 1;
+
+    .acv-card__icon-wrap {
+      background: rgba(232, 124, 62, 0.2);
+      color: #e87c3e;
     }
-    transform: translateY(-4px);
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  // Highlighted card (first one)
-  &--highlight {
+  // ── Highlighted card ──
+  &--hl {
     background: linear-gradient(
-      135deg,
-      rgba(232, 124, 62, 0.12) 0%,
-      rgba(15, 15, 15, 1) 60%
+      145deg,
+      rgba(232, 124, 62, 0.18) 0%,
+      rgba(232, 124, 62, 0.04) 55%,
+      rgba(15, 15, 15, 0.6) 100%
     );
-    border-color: rgba(232, 124, 62, 0.3);
+    border-color: rgba(232, 124, 62, 0.28);
+    box-shadow: 0 8px 32px rgba(232, 124, 62, 0.12);
 
-    .ach-card__number {
+    &::before {
+      background: linear-gradient(
+        90deg,
+        rgba(232, 124, 62, 0.5) 0%,
+        transparent 100%
+      );
+    }
+
+    .acv-card__digit {
+      color: #e87c3e;
+      text-shadow: 0 0 40px rgba(232, 124, 62, 0.4);
+    }
+
+    .acv-card__suffix {
+      color: rgba(232, 124, 62, 0.7);
+    }
+
+    .acv-card__icon-wrap {
+      background: rgba(232, 124, 62, 0.18);
       color: #e87c3e;
     }
 
-    .ach-card__border {
+    .acv-card__bar {
       opacity: 0.6;
     }
   }
 }
 
-// Ambient glow on hover
-.ach-card__glow {
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: radial-gradient(
-    circle at 50% 0%,
-    rgba(232, 124, 62, 0.15) 0%,
-    transparent 65%
-  );
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-  z-index: 0;
+// ── Top row ─────────────────────────────────────────────
+.acv-card__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
-// Animated orange border on hover
-.ach-card__border {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  border: 1.5px solid rgba(232, 124, 62, 0.5);
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.ach-card__inner {
-  position: relative;
-  z-index: 2;
-  padding: 40px 32px 36px;
-
-  @media (max-width: 480px) {
-    padding: 32px 24px 28px;
-  }
-}
-
-// ── Number ──────────────────────────────────────────
-.ach-card__number {
-  font-size: clamp(48px, 6vw, 72px);
-  font-weight: 800;
-  color: #ffffff;
-  line-height: 1;
-  letter-spacing: -2px;
-  margin-bottom: 14px;
-  font-variant-numeric: tabular-nums;
-
-  // Smooth number transition during count-up
-  transition: color 0.3s ease;
-}
-
-.ach-card__suffix {
-  font-size: 0.55em;
-  font-weight: 700;
-  letter-spacing: 0;
-  color: #e87c3e;
-  margin-left: 2px;
-}
-
-.ach-card__static {
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 800;
-  letter-spacing: -1px;
-  color: #ffffff;
-  display: block;
-  line-height: 1.1;
-}
-
-// ── Label ───────────────────────────────────────────
-.ach-card__label {
+.acv-card__icon-wrap {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 15px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.acv-card__line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 100%
+  );
+}
+
+// ── Number block ────────────────────────────────────────
+.acv-card__num {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  margin-bottom: 12px;
+  line-height: 1;
+  flex-wrap: wrap;
+}
+
+.acv-card__digit {
+  font-size: clamp(52px, 5.5vw, 72px);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -3px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.acv-card__suffix {
+  font-size: clamp(26px, 2.8vw, 36px);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: -1px;
+  align-self: flex-end;
+  padding-bottom: 4px;
+}
+
+// Static text card (End-to-End)
+.acv-card__static-line {
+  display: block;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -1px;
+  line-height: 1.15;
+}
+
+// ── Label & sub ─────────────────────────────────────────
+.acv-card__label {
+  font-size: 14px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0 0 6px;
-  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 5px;
+  letter-spacing: 0.1px;
 }
 
-// ── Sub ─────────────────────────────────────────────
-.ach-card__sub {
-  font-size: 13px;
+.acv-card__sub {
+  font-size: 12px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.4);
-  margin: 0;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0 0 20px;
   letter-spacing: 0.2px;
 }
 
-// ── Scroll reveal keyframe ───────────────────────────
-@keyframes achCardIn {
-  from {
-    opacity: 0;
-    transform: translateY(32px);
-  }
+// ── Bottom accent bar ────────────────────────────────────
+.acv-card__bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    #e87c3e 0%,
+    rgba(232, 124, 62, 0.2) 100%
+  );
+  border-radius: 0 0 20px 20px;
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.3s ease;
+}
+
+// ── Keyframe ─────────────────────────────────────────────
+@keyframes acvReveal {
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
