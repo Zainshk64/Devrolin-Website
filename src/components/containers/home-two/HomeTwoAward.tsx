@@ -19,35 +19,38 @@ const HomeTwoAward = () => {
           <div className="col-12 col-lg-6 col-xxl-5 offset-xxl-1">
             <div className="award__content section__content">
               <span className="sub-title">
-                WE PROUD THAT
+                OUR JOURNEY
                 <i className="fa-solid fa-arrow-right"></i>
               </span>
               <h2 className="title title-anim">
-                Discover Our <span>Awards</span>
+                How We Turn Ideas Into <span>Revenue</span> Sytems
               </h2>
               <div className="paragraph">
                 <p>
-                  Bring to the table win-win survival strategies to ensure
-                  proactive domination. At the end of the day, going forward, a
-                  new normal that has evolved from generation on the runway
-                  heading towards a streamlined
+                 We started with a simple focus building systems that solve real business problems.
+Today, we design AI, SaaS, and CRM systems that automate operations, integrate workflows, and drive scalable growth for teams worldwide.
+
+
                 </p>
               </div>
               <div className="award__content-meta">
                 <div className="single">
-                  <h4>2020</h4>
-                  <h4>Awwwards</h4>
-                  <p>Website of the day</p>
+                  <h4>2021</h4>
+                  <h4>Foundation</h4>
+                  <p>Started building custom web platforms and automation systems for early-stage clients.
+</p>
                 </div>
                 <div className="single">
-                  <h4>2022</h4>
-                  <h4>Awwwards</h4>
-                  <p>National design contest</p>
+                  <h4>2023</h4>
+                  <h4>System Expansion</h4>
+                  <p>
+Expanded into AI automation, CRM systems, and deep integrations across business tools.</p>
                 </div>
                 <div className="single">
                   <h4>2025</h4>
-                  <h4>Awwwards</h4>
-                  <p>Apps of the day</p>
+                  <h4>Scaling Globally</h4>
+                  <p>Delivering AI-driven systems used by teams across multiple industries and countries.
+</p>
                 </div>
               </div>
               <div className="section__content-cta">

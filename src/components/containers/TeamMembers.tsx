@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/swiper-bundle.css";
-import one from "public/images/teams/one.png";
-import two from "public/images/teams/two.png";
-import three from "public/images/teams/three.png";
-import four from "public/images/teams/four.png";
-import five from "public/images/teams/five.png";
-import six from "public/images/teams/six.png";
-import seven from "public/images/teams/seven.png";
 import { toast } from "react-hot-toast";
 
 const TeamMembers = () => {
@@ -23,15 +15,13 @@ const TeamMembers = () => {
       );
       const data = await res.json();
       setMembers(data.members || []);
-      console.log(data.members);
-    } catch (err) {
+    } catch {
       toast.error("Error fetching members");
     }
   };
 
-  useEffect(() => {
-    fetchMembers();
-  }, []);
+  useEffect(() => { fetchMembers(); }, []);
+
   return (
     <section className="section team-slider-s">
       <div className="container">
@@ -52,10 +42,7 @@ const TeamMembers = () => {
                 </div>
                 <div className="col-12 col-lg-4">
                   <div className="text-center text-lg-end">
-                    <Link
-                      href="our-teams"
-                      className="btn btn--primary text-capitalize"
-                    >
+                    <Link href="our-teams" className="btn btn--primary text-capitalize">
                       view all teams
                     </Link>
                   </div>
@@ -65,6 +52,7 @@ const TeamMembers = () => {
           </div>
         </div>
       </div>
+
       <div className="team-r position-relative">
         <div className="team-s__slider-w">
           <Swiper
@@ -75,918 +63,106 @@ const TeamMembers = () => {
             loop={true}
             centeredSlides={false}
             modules={[Autoplay, Navigation]}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            navigation={{
-              nextEl: ".next-team-s",
-              prevEl: ".prev-team-s",
-            }}
+            autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+            navigation={{ nextEl: ".next-team-s", prevEl: ".prev-team-s" }}
             className="team-s__slider"
             breakpoints={{
-              768: {
-                slidesPerView: 3,
-                centeredSlides: true,
-              },
-              576: {
-                slidesPerView: 2,
-              },
+              768: { slidesPerView: 3, centeredSlides: true },
+              576: { slidesPerView: 2 },
             }}
           >
             {members.length > 0 ? (
               members.map((item) => (
-                <SwiperSlide>
+                <SwiperSlide key={item._id}>
                   <div className="team-s__slider-single">
                     <div className="team-wrap">
+
+                      {/* ── Thumbnail with hover overlay ── */}
                       <div className="thumb">
                         <Link href={`/team-single/${item._id}`}>
-                          {/* <Image src={item.image?.url} className="w-50" width={500} height={500} alt="Image" /> */}
-                          <img
-                            src={item.image?.url}
-                            className=""
-                            width={400}
-                            alt=""
-                          />
+                          <img src={item.image?.url} width={400} alt={item.name} />
                         </Link>
                         <div
                           className="thumb__content"
-                          style={{
-                            backgroundImage: "url('/images/teams/bg.png')",
-                          }}
+                          style={{ backgroundImage: "url('/images/teams/bg.png')" }}
                         >
                           <div className="info">
-                            <p>
-                              “Lorem ipsum dolor sit amet consectetur adipiscing
-                              elit
-                            </p>
+                            <p>{item.whatHeDoes}</p>
                           </div>
                           <h4>
-                            <Link href={`/team-single/${item._id}`}>
-                              {item.name}
-                            </Link>
+                            <Link href={`/team-single/${item._id}`}>{item.name}</Link>
                           </h4>
-                          <p>{item.job}</p>
+                          <p>{item.jobTitle}</p>
                           <div className="social-alt">
-                            <Link
-                              href="https://www.facebook.com/"
-                              target="_blank"
-                              aria-label="share us on facebook"
-                            >
-                              <i className="fa-brands fa-facebook-f"></i>
-                            </Link>
-                            <Link
-                              href="https://www.twitter.com/"
-                              target="_blank"
-                              aria-label="share us on twitter"
-                            >
-                              <i className="fa-brands fa-twitter"></i>
-                            </Link>
-                            <Link
-                              href="https://www.pinterest.com/"
-                              target="_blank"
-                              aria-label="share us on pinterest"
-                            >
-                              <i className="fa-brands fa-linkedin-in"></i>
-                            </Link>
+                            {item.linkedin && (
+                              <Link href={item.linkedin} target="_blank" aria-label="LinkedIn">
+                                <i className="fa-brands fa-linkedin-in"></i>
+                              </Link>
+                            )}
                           </div>
                         </div>
                       </div>
+
+                      {/* ── Card content ── */}
                       <div className="content">
                         <div className="intro">
                           <h5>
-                            <Link href="team-single">{item.name}</Link>
+                            <Link href={`/team-single/${item._id}`}>{item.name}</Link>
                           </h5>
                           <p>{item.jobTitle}</p>
                         </div>
                         <hr />
                         <div className="inner">
                           <p>{item.description}</p>
-                          <div className="skill-wrap">
-                            {item.skills.map((skills: any, i: number) => (
-                              <div key={i} className="skill-bar-single">
-                                <div className="skill-bar-title">
-                                  <p>{skills.name}</p>
-                                </div>
-                                <div
-                                  // data-percent={`${skills.proficiency}%`}
-                                  className="skill-bar-wrapper"
-                                  data-percent="90%"
-                                >
-                                  <div className="skill-bar" >
-                                    <div className="skill-bar-percent" style={{ width: `${skills.proficiency}%` }}>
-                                      <span className="percent-value">{skills.proficiency}%</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
 
-                          <p>{item.aboutMe}</p>
+                          {/* Impact points as tag pills */}
+                          {item.impact?.length > 0 && (
+                            <div className="impact-tags mt-3">
+                              {item.impact.map((point: string, i: number) => (
+                                <span key={i} className="impact-tag">
+                                  {point}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Systems worked on */}
+                          {item.systemsWorkedOn?.length > 0 && (
+                            <div className="systems-wrap mt-3">
+                              <p className="systems-label">Systems:</p>
+                              <p className="systems-list">
+                                {item.systemsWorkedOn.join(" · ")}
+                              </p>
+                            </div>
+                          )}
                         </div>
-                        <div className="social mt-4">
-                          {item.socials.map((social: any, i: number) => (
+
+                        {/* LinkedIn social */}
+                        {item.linkedin && (
+                          <div className="social mt-4">
                             <Link
-                              key={i}
-                              href={social.url}
+                              href={item.linkedin}
                               target="_blank"
-                              title={social.social}
                               rel="noreferrer"
                               className="text-white socialin"
+                              title="LinkedIn"
                             >
-                              <p className="text-capitalize ">
-                                {social.social.charAt(0)}
-                              </p>
+                              <i className="fa-brands fa-linkedin-in"></i>
                             </Link>
-                          ))}
-                          {/* <Link
-                            href="https://www.facebook.com/"
-                            target="_blank"
-                            aria-label="share us on facebook"
-                          >
-                            <i className="fa-brands fa-facebook-f"></i>
-                          </Link>
-                          <Link
-                            href="https://www.twitter.com/"
-                            target="_blank"
-                            aria-label="share us on twitter"
-                          >
-                            <i className="fa-brands fa-twitter"></i>
-                          </Link>
-
-                          <Link
-                            href="https://www.instagram.com/"
-                            target="_blank"
-                            aria-label="share us on instagram"
-                          >
-                            <i className="fa-brands fa-instagram"></i>
-                          </Link> */}
-                        </div>
+                          </div>
+                        )}
                       </div>
+
                     </div>
                   </div>
                 </SwiperSlide>
-              
               ))
             ) : (
-              <p className="text-white text-center mt-4">
-                No testimonials found.
-              </p>
+              <p className="text-white text-center mt-4">No team members found.</p>
             )}
-            {/* <SwiperSlide>
-              <div className="team-s__slider-single">
-                <div className="team-wrap">
-                  <div className="thumb">
-                    <Link href="team-single">
-                      <Image src={two} alt="Image" />
-                    </Link>
-                    <div
-                      className="thumb__content"
-                      style={{ backgroundImage: "url('/images/teams/bg.png')" }}
-                    >
-                      <div className="info">
-                        <p>
-                          “Lorem ipsum dolor sit amet consectetur adipiscing
-                          elit
-                        </p>
-                      </div>
-                      <h4>
-                        <Link href="team-single">Sana p. Lesh</Link>
-                      </h4>
-                      <p>Senior engineer</p>
-                      <div className="social-alt">
-                        <Link
-                          href="https://www.facebook.com/"
-                          target="_blank"
-                          aria-label="share us on facebook"
-                        >
-                          <i className="fa-brands fa-facebook-f"></i>
-                        </Link>
-                        <Link
-                          href="https://www.twitter.com/"
-                          target="_blank"
-                          aria-label="share us on twitter"
-                        >
-                          <i className="fa-brands fa-twitter"></i>
-                        </Link>
-                        <Link
-                          href="https://www.pinterest.com/"
-                          target="_blank"
-                          aria-label="share us on pinterest"
-                        >
-                          <i className="fa-brands fa-linkedin-in"></i>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="content">
-                    <div className="intro">
-                      <h5>
-                        <Link href="team-single">Hershel J. Jackson</Link>
-                      </h5>
-                      <p>Sr. Product Designer</p>
-                    </div>
-                    <hr />
-                    <div className="inner">
-                      <p>
-                        Aenean sed fringilla purus, sed convallis sem. Morbi
-                        fringilla nulla tempus, cursus mauris in, placerat
-                        libero. Morbi tincidunt venenatis
-                      </p>
-                      <div className="skill-wrap">
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Wireframe</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="75%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Visual Design</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="90%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <p>
-                        Morbi non urna fringilla, luctus arcu vel, malesuada
-                        est. Vestibulum at lorem feugiat
-                      </p>
-                    </div>
-                    <div className="social">
-                      <Link
-                        href="https://www.facebook.com/"
-                        target="_blank"
-                        aria-label="share us on facebook"
-                      >
-                        <i className="fa-brands fa-facebook-f"></i>
-                      </Link>
-                      <Link
-                        href="https://www.twitter.com/"
-                        target="_blank"
-                        aria-label="share us on twitter"
-                      >
-                        <i className="fa-brands fa-twitter"></i>
-                      </Link>
-                      <Link
-                        href="https://www.pinterest.com/"
-                        target="_blank"
-                        aria-label="share us on pinterest"
-                      >
-                        <i className="fa-brands fa-linkedin-in"></i>
-                      </Link>
-                      <Link
-                        href="https://www.instagram.com/"
-                        target="_blank"
-                        aria-label="share us on instagram"
-                      >
-                        <i className="fa-brands fa-instagram"></i>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide> */}
-            {/* <SwiperSlide>
-              <div className="team-s__slider-single">
-                <div className="team-wrap">
-                  <div className="thumb">
-                    <Link href="team-single">
-                      <Image src={three} alt="Image" />
-                    </Link>
-                    <div
-                      className="thumb__content"
-                      style={{ backgroundImage: "url('/images/teams/bg.png')" }}
-                    >
-                      <div className="info">
-                        <p>
-                          “Lorem ipsum dolor sit amet consectetur adipiscing
-                          elit
-                        </p>
-                      </div>
-                      <h4>
-                        <Link href="team-single">Sana p. Lesh</Link>
-                      </h4>
-                      <p>Senior engineer</p>
-                      <div className="social-alt">
-                        <Link
-                          href="https://www.facebook.com/"
-                          target="_blank"
-                          aria-label="share us on facebook"
-                        >
-                          <i className="fa-brands fa-facebook-f"></i>
-                        </Link>
-                        <Link
-                          href="https://www.twitter.com/"
-                          target="_blank"
-                          aria-label="share us on twitter"
-                        >
-                          <i className="fa-brands fa-twitter"></i>
-                        </Link>
-                        <Link
-                          href="https://www.pinterest.com/"
-                          target="_blank"
-                          aria-label="share us on pinterest"
-                        >
-                          <i className="fa-brands fa-linkedin-in"></i>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="content">
-                    <div className="intro">
-                      <h5>
-                        <Link href="team-single">Hershel J. Jackson</Link>
-                      </h5>
-                      <p>Sr. Product Designer</p>
-                    </div>
-                    <hr />
-                    <div className="inner">
-                      <p>
-                        Aenean sed fringilla purus, sed convallis sem. Morbi
-                        fringilla nulla tempus, cursus mauris in, placerat
-                        libero. Morbi tincidunt venenatis
-                      </p>
-                      <div className="skill-wrap">
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Wireframe</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="75%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Visual Design</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="90%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <p>
-                        Morbi non urna fringilla, luctus arcu vel, malesuada
-                        est. Vestibulum at lorem feugiat
-                      </p>
-                    </div>
-                    <div className="social">
-                      <Link
-                        href="https://www.facebook.com/"
-                        target="_blank"
-                        aria-label="share us on facebook"
-                      >
-                        <i className="fa-brands fa-facebook-f"></i>
-                      </Link>
-                      <Link
-                        href="https://www.twitter.com/"
-                        target="_blank"
-                        aria-label="share us on twitter"
-                      >
-                        <i className="fa-brands fa-twitter"></i>
-                      </Link>
-                      <Link
-                        href="https://www.pinterest.com/"
-                        target="_blank"
-                        aria-label="share us on pinterest"
-                      >
-                        <i className="fa-brands fa-linkedin-in"></i>
-                      </Link>
-                      <Link
-                        href="https://www.instagram.com/"
-                        target="_blank"
-                        aria-label="share us on instagram"
-                      >
-                        <i className="fa-brands fa-instagram"></i>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="team-s__slider-single">
-                <div className="team-wrap">
-                  <div className="thumb">
-                    <Link href="team-single">
-                      <Image src={four} alt="Image" />
-                    </Link>
-                    <div
-                      className="thumb__content"
-                      style={{ backgroundImage: "url('/images/teams/bg.png')" }}
-                    >
-                      <div className="info">
-                        <p>
-                          “Lorem ipsum dolor sit amet consectetur adipiscing
-                          elit
-                        </p>
-                      </div>
-                      <h4>
-                        <Link href="team-single">Sana p. Lesh</Link>
-                      </h4>
-                      <p>Senior engineer</p>
-                      <div className="social-alt">
-                        <Link
-                          href="https://www.facebook.com/"
-                          target="_blank"
-                          aria-label="share us on facebook"
-                        >
-                          <i className="fa-brands fa-facebook-f"></i>
-                        </Link>
-                        <Link
-                          href="https://www.twitter.com/"
-                          target="_blank"
-                          aria-label="share us on twitter"
-                        >
-                          <i className="fa-brands fa-twitter"></i>
-                        </Link>
-                        <Link
-                          href="https://www.pinterest.com/"
-                          target="_blank"
-                          aria-label="share us on pinterest"
-                        >
-                          <i className="fa-brands fa-linkedin-in"></i>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="content">
-                    <div className="intro">
-                      <h5>
-                        <Link href="team-single">Hershel J. Jackson</Link>
-                      </h5>
-                      <p>Sr. Product Designer</p>
-                    </div>
-                    <hr />
-                    <div className="inner">
-                      <p>
-                        Aenean sed fringilla purus, sed convallis sem. Morbi
-                        fringilla nulla tempus, cursus mauris in, placerat
-                        libero. Morbi tincidunt venenatis
-                      </p>
-                      <div className="skill-wrap">
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Wireframe</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="75%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Visual Design</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="90%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <p>
-                        Morbi non urna fringilla, luctus arcu vel, malesuada
-                        est. Vestibulum at lorem feugiat
-                      </p>
-                    </div>
-                    <div className="social">
-                      <Link
-                        href="https://www.facebook.com/"
-                        target="_blank"
-                        aria-label="share us on facebook"
-                      >
-                        <i className="fa-brands fa-facebook-f"></i>
-                      </Link>
-                      <Link
-                        href="https://www.twitter.com/"
-                        target="_blank"
-                        aria-label="share us on twitter"
-                      >
-                        <i className="fa-brands fa-twitter"></i>
-                      </Link>
-                      <Link
-                        href="https://www.pinterest.com/"
-                        target="_blank"
-                        aria-label="share us on pinterest"
-                      >
-                        <i className="fa-brands fa-linkedin-in"></i>
-                      </Link>
-                      <Link
-                        href="https://www.instagram.com/"
-                        target="_blank"
-                        aria-label="share us on instagram"
-                      >
-                        <i className="fa-brands fa-instagram"></i>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="team-s__slider-single">
-                <div className="team-wrap">
-                  <div className="thumb">
-                    <Link href="team-single">
-                      <Image src={five} alt="Image" />
-                    </Link>
-                    <div
-                      className="thumb__content"
-                      style={{ backgroundImage: "url('/images/teams/bg.png')" }}
-                    >
-                      <div className="info">
-                        <p>
-                          “Lorem ipsum dolor sit amet consectetur adipiscing
-                          elit
-                        </p>
-                      </div>
-                      <h4>
-                        <Link href="team-single">Sana p. Lesh</Link>
-                      </h4>
-                      <p>Senior engineer</p>
-                      <div className="social-alt">
-                        <Link
-                          href="https://www.facebook.com/"
-                          target="_blank"
-                          aria-label="share us on facebook"
-                        >
-                          <i className="fa-brands fa-facebook-f"></i>
-                        </Link>
-                        <Link
-                          href="https://www.twitter.com/"
-                          target="_blank"
-                          aria-label="share us on twitter"
-                        >
-                          <i className="fa-brands fa-twitter"></i>
-                        </Link>
-                        <Link
-                          href="https://www.pinterest.com/"
-                          target="_blank"
-                          aria-label="share us on pinterest"
-                        >
-                          <i className="fa-brands fa-linkedin-in"></i>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="content">
-                    <div className="intro">
-                      <h5>
-                        <Link href="team-single">Hershel J. Jackson</Link>
-                      </h5>
-                      <p>Sr. Product Designer</p>
-                    </div>
-                    <hr />
-                    <div className="inner">
-                      <p>
-                        Aenean sed fringilla purus, sed convallis sem. Morbi
-                        fringilla nulla tempus, cursus mauris in, placerat
-                        libero. Morbi tincidunt venenatis
-                      </p>
-                      <div className="skill-wrap">
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Wireframe</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="75%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Visual Design</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="90%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <p>
-                        Morbi non urna fringilla, luctus arcu vel, malesuada
-                        est. Vestibulum at lorem feugiat
-                      </p>
-                    </div>
-                    <div className="social">
-                      <Link
-                        href="https://www.facebook.com/"
-                        target="_blank"
-                        aria-label="share us on facebook"
-                      >
-                        <i className="fa-brands fa-facebook-f"></i>
-                      </Link>
-                      <Link
-                        href="https://www.twitter.com/"
-                        target="_blank"
-                        aria-label="share us on twitter"
-                      >
-                        <i className="fa-brands fa-twitter"></i>
-                      </Link>
-                      <Link
-                        href="https://www.pinterest.com/"
-                        target="_blank"
-                        aria-label="share us on pinterest"
-                      >
-                        <i className="fa-brands fa-linkedin-in"></i>
-                      </Link>
-                      <Link
-                        href="https://www.instagram.com/"
-                        target="_blank"
-                        aria-label="share us on instagram"
-                      >
-                        <i className="fa-brands fa-instagram"></i>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="team-s__slider-single">
-                <div className="team-wrap">
-                  <div className="thumb">
-                    <Link href="team-single">
-                      <Image src={six} alt="Image" />
-                    </Link>
-                    <div
-                      className="thumb__content"
-                      style={{ backgroundImage: "url('/images/teams/bg.png')" }}
-                    >
-                      <div className="info">
-                        <p>
-                          “Lorem ipsum dolor sit amet consectetur adipiscing
-                          elit
-                        </p>
-                      </div>
-                      <h4>
-                        <Link href="team-single">Sana p. Lesh</Link>
-                      </h4>
-                      <p>Senior engineer</p>
-                      <div className="social-alt">
-                        <Link
-                          href="https://www.facebook.com/"
-                          target="_blank"
-                          aria-label="share us on facebook"
-                        >
-                          <i className="fa-brands fa-facebook-f"></i>
-                        </Link>
-                        <Link
-                          href="https://www.twitter.com/"
-                          target="_blank"
-                          aria-label="share us on twitter"
-                        >
-                          <i className="fa-brands fa-twitter"></i>
-                        </Link>
-                        <Link
-                          href="https://www.pinterest.com/"
-                          target="_blank"
-                          aria-label="share us on pinterest"
-                        >
-                          <i className="fa-brands fa-linkedin-in"></i>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="content">
-                    <div className="intro">
-                      <h5>
-                        <Link href="team-single">Hershel J. Jackson</Link>
-                      </h5>
-                      <p>Sr. Product Designer</p>
-                    </div>
-                    <hr />
-                    <div className="inner">
-                      <p>
-                        Aenean sed fringilla purus, sed convallis sem. Morbi
-                        fringilla nulla tempus, cursus mauris in, placerat
-                        libero. Morbi tincidunt venenatis
-                      </p>
-                      <div className="skill-wrap">
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Wireframe</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="75%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Visual Design</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="90%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <p>
-                        Morbi non urna fringilla, luctus arcu vel, malesuada
-                        est. Vestibulum at lorem feugiat
-                      </p>
-                    </div>
-                    <div className="social">
-                      <Link
-                        href="https://www.facebook.com/"
-                        target="_blank"
-                        aria-label="share us on facebook"
-                      >
-                        <i className="fa-brands fa-facebook-f"></i>
-                      </Link>
-                      <Link
-                        href="https://www.twitter.com/"
-                        target="_blank"
-                        aria-label="share us on twitter"
-                      >
-                        <i className="fa-brands fa-twitter"></i>
-                      </Link>
-                      <Link
-                        href="https://www.pinterest.com/"
-                        target="_blank"
-                        aria-label="share us on pinterest"
-                      >
-                        <i className="fa-brands fa-linkedin-in"></i>
-                      </Link>
-                      <Link
-                        href="https://www.instagram.com/"
-                        target="_blank"
-                        aria-label="share us on instagram"
-                      >
-                        <i className="fa-brands fa-instagram"></i>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="team-s__slider-single">
-                <div className="team-wrap">
-                  <div className="thumb">
-                    <Link href="team-single">
-                      <Image src={seven} alt="Image" />
-                    </Link>
-                    <div
-                      className="thumb__content"
-                      style={{ backgroundImage: "url('/images/teams/bg.png')" }}
-                    >
-                      <div className="info">
-                        <p>
-                          “Lorem ipsum dolor sit amet consectetur adipiscing
-                          elit
-                        </p>
-                      </div>
-                      <h4>
-                        <Link href="team-single">Sana p. Lesh</Link>
-                      </h4>
-                      <p>Senior engineer</p>
-                      <div className="social-alt">
-                        <Link
-                          href="https://www.facebook.com/"
-                          target="_blank"
-                          aria-label="share us on facebook"
-                        >
-                          <i className="fa-brands fa-facebook-f"></i>
-                        </Link>
-                        <Link
-                          href="https://www.twitter.com/"
-                          target="_blank"
-                          aria-label="share us on twitter"
-                        >
-                          <i className="fa-brands fa-twitter"></i>
-                        </Link>
-                        <Link
-                          href="https://www.pinterest.com/"
-                          target="_blank"
-                          aria-label="share us on pinterest"
-                        >
-                          <i className="fa-brands fa-linkedin-in"></i>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="content">
-                    <div className="intro">
-                      <h5>
-                        <Link href="team-single">Hershel J. Jackson</Link>
-                      </h5>
-                      <p>Sr. Product Designer</p>
-                    </div>
-                    <hr />
-                    <div className="inner">
-                      <p>
-                        Aenean sed fringilla purus, sed convallis sem. Morbi
-                        fringilla nulla tempus, cursus mauris in, placerat
-                        libero. Morbi tincidunt venenatis
-                      </p>
-                      <div className="skill-wrap">
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Wireframe</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="75%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="skill-bar-single">
-                          <div className="skill-bar-title">
-                            <p>Visual Design</p>
-                          </div>
-                          <div className="skill-bar-wrapper" data-percent="90%">
-                            <div className="skill-bar">
-                              <div className="skill-bar-percent">
-                                <span className="percent-value"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <p>
-                        Morbi non urna fringilla, luctus arcu vel, malesuada
-                        est. Vestibulum at lorem feugiat
-                      </p>
-                    </div>
-                    <div className="social">
-                      <Link
-                        href="https://www.facebook.com/"
-                        target="_blank"
-                        aria-label="share us on facebook"
-                      >
-                        <i className="fa-brands fa-facebook-f"></i>
-                      </Link>
-                      <Link
-                        href="https://www.twitter.com/"
-                        target="_blank"
-                        aria-label="share us on twitter"
-                      >
-                        <i className="fa-brands fa-twitter"></i>
-                      </Link>
-                      <Link
-                        href="https://www.pinterest.com/"
-                        target="_blank"
-                        aria-label="share us on pinterest"
-                      >
-                        <i className="fa-brands fa-linkedin-in"></i>
-                      </Link>
-                      <Link
-                        href="https://www.instagram.com/"
-                        target="_blank"
-                        aria-label="share us on instagram"
-                      >
-                        <i className="fa-brands fa-instagram"></i>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide> */}
           </Swiper>
         </div>
+
         <div className="slide-group">
           <button aria-label="previous item" className="slide-btn prev-team-s">
             <i className="fa-light fa-angle-left"></i>

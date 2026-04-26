@@ -77,8 +77,7 @@ const Footer = () => {
               </div>
               <div className="footer__single-content">
                 <p>
-                Welcome to our software company. We deliver smart, reliable software to drive your business forward.
-                </p>
+Dubai-based firm building AI, SaaS, and CRM systems that turn your business into a revenue machine without hiring more people.                </p>
                 <div className="footer__single-form">
                   <form action="#" method="post">
                     <div className="input-email">

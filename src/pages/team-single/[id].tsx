@@ -36,6 +36,7 @@ export default function TeamMemberPage() {
         parent="Our Teams"
         parentLink="/our-teams"
       />
+      
       <TeamDetailsMain member={member} />
       <CtaTwo />
     </Layout>

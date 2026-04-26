@@ -89,8 +89,11 @@ const TIMEZONES = [
   "UTC+09:00 (JST)",
   "UTC+10:00 (AEST)",
 ];
-
-const STEPS = ["Company", "Project", "Source", "Schedule"];
+// Company	About You
+// Project	Your Project
+// Source	Goals & Requirements
+// Schedule	Next Step
+const STEPS = ["About You", "Your Project", "Requirements", "Next Step"];
 
 // ─── Calendar Helper ──────────────────────────────────────────────────────────
 const getUpcomingDays = (startOffset = 0, count = 7) => {
@@ -346,10 +349,10 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
         <div className="cf-header">
           <div className="cf-header__top">
             <div className="cf-header__text">
-              <span className="cf-header__eyebrow">Start Your Project</span>
-              <h2 className="cf-header__title">Let's Work Together</h2>
+              <span className="cf-header__eyebrow">Start Your System</span>
+              <h2 className="cf-header__title">Let's Design Your System</h2>
               <p className="cf-header__sub">
-                Discuss your project, get a quote, or just pick our brains.{" "}
+                Share your idea or problem. We’ll map the right solution and show you how to build it the right way.{" "}
                 <br />
                 Looking for a job?{" "}
                 <a href="/careers" onClick={onClose}>
@@ -388,7 +391,7 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
           {/* STEP 0 — Company */}
           {step === 0 && (
             <div className="cf-step">
-              <p className="cf-step__title">Tell us about your company</p>
+              <p className="cf-step__title">Quick Info About Business</p>
               <div className="cf-row">
                 <div className="cf-group">
                   <label className="cf-label">

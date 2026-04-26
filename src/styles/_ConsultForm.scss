@@ -1215,3 +1215,205 @@ $font-b:      'DM Sans', sans-serif;
     max-width: 780px;
   }
 }
+
+
+
+
+
+
+
+
+
+
+// ─────────────────────────────────────────────────────
+//  OurAchievement — scoped SCSS  (ach- prefix)
+//  Dark premium metric cards with count-up + scroll reveal
+// ─────────────────────────────────────────────────────
+
+.ach-section {
+  position: relative;
+  padding: 100px 0;
+  overflow: hidden;
+
+  // Subtle background noise texture feel
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 60% 50% at 50% 50%,
+      rgba(232, 124, 62, 0.04) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+}
+
+// ── Grid ────────────────────────────────────────────
+.ach-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 56px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  // Cards reveal staggered on scroll
+  .ach-card {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0s, transform 0s;
+  }
+
+  &--visible .ach-card {
+    animation: achCardIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+}
+
+// ── Card ────────────────────────────────────────────
+.ach-card {
+  position: relative;
+  border-radius: 16px;
+  background: #0f0f0f;
+  overflow: hidden;
+  cursor: default;
+  isolation: isolate;
+
+  // Default subtle border
+  border: 1px solid rgba(255, 255, 255, 0.07);
+
+  &:hover {
+    .ach-card__glow {
+      opacity: 1;
+    }
+    .ach-card__border {
+      opacity: 1;
+    }
+    transform: translateY(-4px);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  // Highlighted card (first one)
+  &--highlight {
+    background: linear-gradient(
+      135deg,
+      rgba(232, 124, 62, 0.12) 0%,
+      rgba(15, 15, 15, 1) 60%
+    );
+    border-color: rgba(232, 124, 62, 0.3);
+
+    .ach-card__number {
+      color: #e87c3e;
+    }
+
+    .ach-card__border {
+      opacity: 0.6;
+    }
+  }
+}
+
+// Ambient glow on hover
+.ach-card__glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(232, 124, 62, 0.15) 0%,
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+// Animated orange border on hover
+.ach-card__border {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1.5px solid rgba(232, 124, 62, 0.5);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ach-card__inner {
+  position: relative;
+  z-index: 2;
+  padding: 40px 32px 36px;
+
+  @media (max-width: 480px) {
+    padding: 32px 24px 28px;
+  }
+}
+
+// ── Number ──────────────────────────────────────────
+.ach-card__number {
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: -2px;
+  margin-bottom: 14px;
+  font-variant-numeric: tabular-nums;
+
+  // Smooth number transition during count-up
+  transition: color 0.3s ease;
+}
+
+.ach-card__suffix {
+  font-size: 0.55em;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: #e87c3e;
+  margin-left: 2px;
+}
+
+.ach-card__static {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #ffffff;
+  display: block;
+  line-height: 1.1;
+}
+
+// ── Label ───────────────────────────────────────────
+.ach-card__label {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 6px;
+  letter-spacing: 0.2px;
+}
+
+// ── Sub ─────────────────────────────────────────────
+.ach-card__sub {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+// ── Scroll reveal keyframe ───────────────────────────
+@keyframes achCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -5,19 +5,22 @@ import YoutubeEmbed from "@/components/youtube/YoutubeEmbed";
 // ─── Filter types ────────────────────────────────────────────────
 type FilterType =
   | "CRM and Sale System"
-  | "AI Integration and Agents"
-  | "AI Agent Business Automation";
+  | "AI Automation & Integeration"
+  | "SaaS & MVP Development"
+  | "Web & Custom Platforms";
 
 const filters: FilterType[] = [
   "CRM and Sale System",
-  "AI Integration and Agents",
-  "AI Agent Business Automation",
+  "AI Automation & Integeration",
+  "SaaS & MVP Development",
+  "Web & Custom Platforms",
 ];
 
 const filterIcons: Record<FilterType, string> = {
   "CRM and Sale System":        "fa-chart-line",
-  "AI Integration and Agents":  "fa-robot",
-  "AI Agent Business Automation": "fa-gears",
+  "AI Automation & Integeration":  "fa-robot",
+  "SaaS & MVP Development": "fa-gears",
+  "Web & Custom Platforms": "fa-code",
 };
 
 // ─── Static step data per filter ────────────────────────────────
@@ -32,75 +35,100 @@ const stepsData: Record<FilterType, Step[]> = {
   "CRM and Sale System": [
     {
       percent: "25",
-      label: "Discovery & CRM Audit",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      label: "Funnel & Lead Flow Analysis",
+      image: "/CRM & Revenue Systems.png",
     },
     {
       percent: "50",
-      label: "Pipeline & Workflow Design",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      label: " CRM Setup & Pipeline Design",
+      image: "/CRM & Revenue Systems.png",
       extraClass: "work-two",
     },
     {
       percent: "75",
-      label: "CRM Build & Integration",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      label: " Automation & Integrations",
+      image: "/CRM & Revenue Systems.png",
       extraClass: "work-three",
     },
     {
       percent: "100",
-      label: "Launch & Sales Enablement",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      label: "Conversion Optimization & Reporting",
+      image: "/CRM & Revenue Systems.png",
       extraClass: "work-four",
     },
   ],
-  "AI Integration and Agents": [
+  "AI Automation & Integeration": [
     {
       percent: "25",
       label: "AI Use-Case Research",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      image: "/AI Automation & Integration.png",
     },
     {
       percent: "50",
-      label: "Agent Design & Prototyping",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      label: "Workflow & Integration Design",
+      image: "/AI Automation & Integration.png",
       extraClass: "work-two",
     },
     {
       percent: "75",
-      label: "Model Training & API Connect",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      label: "AI Agent Development & API Connect",
+      image: "/AI Automation & Integration.png",
       extraClass: "work-three",
     },
     {
       percent: "100",
-      label: "Deploy & Monitor Agents",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      label: "Deploy, Monitor & Optimize Systems",
+      image: "/AI Automation & Integration.png",
       extraClass: "work-four",
     },
   ],
-  "AI Agent Business Automation": [
+  "SaaS & MVP Development": [
     {
       percent: "25",
-      label: "Process Mapping & Audit",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      label: "Product Strategy & Feature Planning",
+      image: "/Saas & MVP Development.png",
     },
     {
       percent: "50",
-      label: "Automation Flow Design",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      label: "UX Design & System Architecture",
+      image: "/Saas & MVP Development.png",
       extraClass: "work-two",
     },
     {
       percent: "75",
-      label: "Build & System Integration",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      label: "Core Development & Integrations",
+      image: "/Saas & MVP Development.png",
       extraClass: "work-three",
     },
     {
       percent: "100",
-      label: "Go-Live & Scale Automation",
-      image: "https://res.cloudinary.com/daljxhxzf/image/upload/v1760936950/workprocess_er0pqd.jpg",
+      label: "Launch, Testing & Scaling",
+      image: "/Saas & MVP Development.png",
+      extraClass: "work-four",
+    },
+  ],
+  "Web & Custom Platforms": [
+    {
+      percent: "25",
+      label: "Business & Conversion Research",
+      image: "/Web & Custom Platforms.png",
+    },
+    {
+      percent: "50",
+      label: "UI/UX Design & Structure",
+      image: "/Web & Custom Platforms.png",
+      extraClass: "work-two",
+    },
+    {
+      percent: "75",
+      label: "Development & API Integration",
+      image: "/Web & Custom Platforms.png",
+      extraClass: "work-three",
+    },
+    {
+      percent: "100",
+      label: "Optimization, Launch & Support",
+      image: "/Web & Custom Platforms.png",
       extraClass: "work-four",
     },
   ],

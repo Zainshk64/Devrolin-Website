@@ -153,10 +153,7 @@ const FooterFive = () => {
                   <i className="fa-brands fa-facebook-f"></i>
                   <span>Facebook</span>
                 </Link>
-                <Link href="https://www.twitter.com/" target="_blank">
-                  <i className="fa-brands fa-twitter"></i>
-                  <span>Twitter</span>
-                </Link>
+                
                 <Link href="https://www.pinterest.com/" target="_blank">
                   <i className="fa-brands fa-linkedin-in"></i>
                   <span>Linkedin</span>
@@ -165,10 +162,7 @@ const FooterFive = () => {
                   <i className="fa-brands fa-instagram"></i>
                   <span>Instagram</span>
                 </Link>
-                <Link href="https://www.dribble.com/" target="_blank">
-                  <i className="fa-light fa-basketball"></i>
-                  <span>Dribble</span>
-                </Link>
+               
               </div>
               <div className="footer__single-meta section__content-cta">
               <div className="footer__single-meta">

@@ -270,34 +270,34 @@ const Offcanvas = ({ openNav, setOpenNav }: HeaderProps) => {
             </div>
           </div>
           <div className="offcanvas-menu__social social nav-fade">
-            <Link
-              href="https://www.facebook.com/"
-              target="_blank"
-              aria-label="share us on facebook"
-            >
-              <i className="fa-brands fa-facebook-f"></i>
-            </Link>
-            <Link
+            {/* <Link
               href="https://www.twitter.com/"
               target="_blank"
               aria-label="share us on twitter"
             >
               <i className="fa-brands fa-twitter"></i>
-            </Link>
+            </Link> */}
             <Link
-              href="https://www.pinterest.com/"
+              href="https://www.linkedin.com/company/devrolin/about/"
               target="_blank"
               aria-label="share us on pinterest"
             >
               <i className="fa-brands fa-linkedin-in"></i>
             </Link>
             <Link
-              href="https://www.instagram.com/"
+              href="https://www.instagram.com/devrolin.x?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
               target="_blank"
               aria-label="share us on instagram"
             >
               <i className="fa-brands fa-instagram"></i>
             </Link>
+              <Link
+                href="https://www.facebook.com/"
+                target="_blank"
+                aria-label="share us on facebook"
+              >
+                <i className="fa-brands fa-facebook-f"></i>
+              </Link>
           </div>
         </nav>
       </div>

@@ -62,15 +62,18 @@ const ContactMain = () => {
               <div className="thumb">
                 <Image src={phone} alt="Image" />
               </div>
-              <div className="content">
-                <h4>Whatsapp</h4>
-                <p>
-                  <Link href="tel:197-90-56-780">Mobile : +971-52347966</Link>
-                </p>
-                <p>
-                  <Link href="tel:197-90-56-780">Fax : +44-208-1234567</Link>
-                </p>
-              </div>
+             <div className="content">
+  <h4>Chat With Us</h4>
+  <p>
+    <Link
+      href="https://wa.me/97152347966"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      WhatsApp: +971-52347966
+    </Link>
+  </p>
+</div>
             </div>
           </div>
           <div className="col-12 col-sm-6 col-xl-3">
@@ -79,15 +82,11 @@ const ContactMain = () => {
                 <Image src={mail} alt="Image" />
               </div>
               <div className="content">
-                <h4>Mail Address</h4>
+                <h4>Email Us</h4>
                 <p>
                   <Link href="mailto:info@devrolin.com">info@devrolin.com</Link>
                 </p>
-                <p>
-                  <Link href="mailto:info.company@gmail.com">
-                    Info.company@yahoo.com
-                  </Link>
-                </p>
+                
               </div>
             </div>
           </div>
@@ -97,13 +96,13 @@ const ContactMain = () => {
                 <Image src={location} alt="Image" />
               </div>
               <div className="content">
-                <h4>Our Location</h4>
+                <h4>Based In Dubai</h4>
                 <p>
                   <Link
                     href="https://www.google.com/maps/@/data=!3m1!4b1!4m3!11m2!2s8S-NwjLkSriany36uZpzxw!4sPHrDUkM-TFI?g_ep=CAISEjI1LjA4LjAuNzI3OTM5NzI3MBgAII-pDCpsLDk0MjU1NDQ1LDk0MjQyNTYyLDk0MjIyNDgyNSw5NDIyNzI0Nyw5NDIyNzI0OCw0NzA3MTcwNCw0NzA2OTUwOCw5NDIxODY0MSw5NDIwMzAxOSw0NzA4NDMwNCw5NDIwODQ1OCw5NDIwODQ0N0IyUEt3PT0%3D"
                     target="_blank"
                   >
-                    Marasi Dr - Business Bay - Dubai - United Arab Emirates
+                    Marasi Dr - Business Bay, Dubai, UAE
                   </Link>
                 </p>
               </div>
@@ -116,8 +115,7 @@ const ContactMain = () => {
               </div>
               <div className="content">
                 <h4>Office Hour</h4>
-                <p>Sun - Thu 09 am - 06pm</p>
-                <p>Fri - Sat 4 pm - 10pm</p>
+                <p>Availability</p>
               </div>
             </div>
           </div>
@@ -170,10 +168,9 @@ const ContactMain = () => {
                     {/* Contact Form */}
                     {activeForm === "contact" && (
                       <div className="form-container">
-                        <h3 className="form-title">Get In Touch</h3>
+                        <h3 className="form-title">Start Your Project With Clear Direction</h3>
                         <p className="form-subtitle">
-                          We'd love to hear from you. Send us a message!
-                        </p>
+We’d love to hear from you. Send us a message!	We’ll review your idea, identify opportunities, and guide you toward the right system before you commit.                        </p>
                         <div>
 
                         <ConsultFormModal onClose={() => setActiveForm("contact")} />

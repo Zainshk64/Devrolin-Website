@@ -1,54 +1,64 @@
 import React, { useEffect, useRef, useState } from "react";
 
 type ServiceType =
-  | "CRM and Sale System"
-  | "AI Integration and Agents"
-  | "AI Agent Business Automation";
+  | "AI Automation & Integration Systems"
+  | "CRM & Revenue Systems"
+  | "SaaS & MVP Development"
+  | "Web & Custom Platforms";
 
 const services: ServiceType[] = [
-  "CRM and Sale System",
-  "AI Integration and Agents",
-  "AI Agent Business Automation",
+  "AI Automation & Integration Systems",
+  "CRM & Revenue Systems",
+  "SaaS & MVP Development",
+  "Web & Custom Platforms",
 ];
 
 const processData: Record<ServiceType, { title: string; description: string }[]> = {
-  "CRM and Sale System": [
-    { title: "Planning & Research", description: "We analyze your sales funnel, customer journey, and CRM requirements. Understanding your lead management and pipeline needs to design a tailored CRM solution." },
-    { title: "Design & Prototyping", description: "Creating intuitive dashboards, sales workflows, and customer interaction interfaces. Focus on user-friendly CRM design with seamless navigation." },
-    { title: "Development & Integration", description: "Building custom CRM platforms with sales automation, lead tracking, email integration, and third-party tools like payment gateways and analytics." },
-    { title: "Testing & Optimization", description: "Rigorous testing of CRM workflows, automation rules, data integrity, and performance under heavy user loads to ensure reliability." },
-    { title: "Launch & Marketing", description: "Deploying your CRM system with proper data migration, team training, and marketing campaigns to drive adoption and maximize ROI." },
-    { title: "Support & Scaling", description: "Ongoing maintenance, feature updates, scaling infrastructure as your customer base grows, and continuous optimization of sales processes." },
+  "AI Automation & Integration Systems": [
+    { title: "Workflow & Bottleneck Audit",       description: "We map your current processes, identify manual work, delays, and integration gaps across your tools." },
+    { title: "Automation Architecture Design",     description: "We design AI-driven workflows, integrations, and system logic tailored to your operations." },
+    { title: "AI Agent & Integration Setup",       description: "We build AI agents and connect your tools, APIs, and internal systems into one unified flow." },
+    { title: "Testing & Optimization",             description: "We test real scenarios, refine logic, and ensure accuracy, speed, and stability." },
+    { title: "Deployment & Team Adoption",         description: "We deploy systems and ensure your team can use them effectively without friction." },
+    { title: "Scaling & Continuous Improvement",   description: "We optimize performance and expand automation as your business grows." },
   ],
-  "AI Integration and Agents": [
-    { title: "Planning & Research", description: "Identifying AI use cases for your business — from chatbots to predictive analytics. We analyze data sources and integration points for AI implementation." },
-    { title: "Design & Prototyping", description: "Designing AI agent workflows, conversation flows, and user interfaces. Creating prototypes for chatbots, voice assistants, and intelligent automation." },
-    { title: "Development & Integration", description: "Building AI models using NLP, machine learning, and LLMs. Integrating AI agents with your existing systems, APIs, and databases for seamless operation." },
-    { title: "Testing & Optimization", description: "Training AI models with real data, A/B testing responses, fine-tuning accuracy, and ensuring ethical AI practices with bias detection." },
-    { title: "Launch & Marketing", description: "Deploying AI agents to production environments, monitoring initial interactions, and marketing AI capabilities to enhance customer engagement." },
-    { title: "Support & Scaling", description: "Continuous model retraining, performance monitoring, scaling AI infrastructure, and expanding AI capabilities based on user feedback." },
+  "CRM & Revenue Systems": [
+    { title: "Funnel & Pipeline Analysis",         description: "We analyze your lead flow, sales process, and identify where conversions are lost." },
+    { title: "CRM Strategy & Structure",           description: "We design pipelines, stages, and automation aligned with your sales process." },
+    { title: "CRM Setup & Integration",            description: "We build and connect CRM with your tools (email, ads, forms, APIs)." },
+    { title: "Automation & Follow-ups",            description: "We automate lead capture, nurturing, and follow-ups (Email, SMS, workflows)." },
+    { title: "Testing & Conversion Optimization",  description: "We test flows and optimize for faster response and higher close rates." },
+    { title: "Reporting & Revenue Tracking",       description: "We implement dashboards to track performance, leads, and revenue growth." },
   ],
-  "AI Agent Business Automation": [
-    { title: "Planning & Research", description: "Mapping business processes suitable for automation — from customer support to data processing. Identifying repetitive tasks AI agents can handle efficiently." },
-    { title: "Design & Prototyping", description: "Designing automation workflows, AI decision trees, and process orchestration. Creating prototypes for automated customer service, scheduling, and operations." },
-    { title: "Development & Integration", description: "Developing AI-powered automation systems that integrate with CRM, ERP, communication tools, and databases to streamline business operations." },
-    { title: "Testing & Optimization", description: "Testing automation accuracy, fallback mechanisms, error handling, and process efficiency. Optimizing AI agent responses and workflow transitions." },
-    { title: "Launch & Marketing", description: "Rolling out business automation gradually, training teams on AI collaboration, and showcasing productivity gains through case studies and demos." },
-    { title: "Support & Scaling", description: "Monitoring automation performance, expanding to new business processes, updating AI models, and ensuring seamless operation across departments." },
+  "SaaS & MVP Development": [
+    { title: "Product Strategy & Validation",      description: "We define your idea, features, and validate what needs to be built first." },
+    { title: "UX & System Design",                 description: "We design user flows, architecture, and scalable system structure." },
+    { title: "MVP Development",                    description: "We build your product fast with core features and clean backend." },
+    { title: "Integrations & Core Features",       description: "We integrate payments, APIs, AI, and essential product functionalities." },
+    { title: "Testing & Launch Preparation",       description: "We test performance, fix issues, and prepare for real users." },
+    { title: "Launch & Scaling",                   description: "We deploy and help you scale with improvements and new features." },
+  ],
+  "Web & Custom Platforms": [
+    { title: "Business & Conversion Analysis",     description: "We understand your goals, audience, and conversion strategy." },
+    { title: "UI/UX & Structure Design",           description: "We design layouts focused on clarity, engagement, and conversion." },
+    { title: "Development & Integration",          description: "We build fast, secure websites and integrate APIs and systems." },
+    { title: "Performance & SEO Optimization",     description: "We optimize speed, structure, and technical SEO." },
+    { title: "Testing & Go-Live",                  description: "We test across devices and launch smoothly." },
+    { title: "Maintenance & Growth Support",       description: "We ensure performance, updates, and scalability over time." },
   ],
 };
 
 const dotColors = ["#e87c3e", "#c8d450", "#8a8a8a", "#4ecdc4", "#4a90d9", "#f0c040"];
 
-// Small icons per service for a richer dropdown feel
 const serviceIcons: Record<ServiceType, string> = {
-  "CRM and Sale System": "fa-chart-line",
-  "AI Integration and Agents": "fa-robot",
-  "AI Agent Business Automation": "fa-gears",
+  "AI Automation & Integration Systems": "fa-gears",
+  "CRM & Revenue Systems":               "fa-chart-line",
+  "SaaS & MVP Development":              "fa-rocket",
+  "Web & Custom Platforms":              "fa-globe",
 };
 
 const UxProcessTwo = () => {
-  const [activeService, setActiveService] = useState<ServiceType>("CRM and Sale System");
+  const [activeService, setActiveService] = useState<ServiceType>("AI Automation & Integration Systems");
   const [openIndex, setOpenIndex]         = useState<number>(-1);
   const [dropOpen, setDropOpen]           = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
@@ -88,7 +98,6 @@ const UxProcessTwo = () => {
 
         {/* ── Custom Dropdown ── */}
         <div className="uxp-select-wrap" ref={dropRef}>
-          {/* Trigger button */}
           <button
             type="button"
             className={`uxp-drop-trigger${dropOpen ? " uxp-drop-trigger--open" : ""}`}
@@ -103,7 +112,6 @@ const UxProcessTwo = () => {
             <i className={`fa-light fa-chevron-down uxp-drop-chevron${dropOpen ? " uxp-drop-chevron--open" : ""}`}></i>
           </button>
 
-          {/* Options panel */}
           {dropOpen && (
             <ul className="uxp-drop-menu" role="listbox">
               {services.map((service) => {
@@ -120,9 +128,7 @@ const UxProcessTwo = () => {
                       <i className={`fa-light ${serviceIcons[service]} uxp-drop-icon`}></i>
                       <span>{service}</span>
                     </span>
-                    {isActive && (
-                      <i className="fa-light fa-check uxp-drop-check"></i>
-                    )}
+                    {isActive && <i className="fa-light fa-check uxp-drop-check"></i>}
                   </li>
                 );
               })}

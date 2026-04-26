@@ -1,106 +1,46 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import one from "public/images/teams/one.png";
 
-gsap.registerPlugin(ScrollTrigger);
 const TeamDetailsMain = ({ member }: { member: any }) => {
-  useEffect(() => {
-    const percentElements = document.querySelectorAll("[data-percent]");
-
-    percentElements.forEach((el) => {
-      const skillBarPercent = el.querySelector(
-        ".skill-bar-percent"
-      ) as HTMLElement | null;
-      const percentValue = el.parentNode?.querySelector(
-        ".percent-value"
-      ) as HTMLElement | null;
-
-      if (skillBarPercent && percentValue) {
-        const percent = el.getAttribute("data-percent") || "0%";
-        skillBarPercent.style.width = percent;
-        percentValue.textContent = percent;
-      }
-    });
-
-    const axProgressBar = document.querySelectorAll(".skill-bar-single");
-    axProgressBar.forEach((element) => {
-      const skillBarPercent = element.querySelector(
-        ".skill-bar-percent"
-      ) as HTMLElement | null;
-      const percentValue = element.querySelector(
-        ".percent-value"
-      ) as HTMLElement | null;
-
-      if (skillBarPercent && percentValue) {
-        const target = percentValue.textContent || "0%";
-
-        const axBarTimeline = gsap.timeline({
-          defaults: {
-            duration: 2,
-          },
-          scrollTrigger: {
-            trigger: element,
-          },
-        });
-
-        axBarTimeline.fromTo(
-          skillBarPercent,
-          {
-            width: 0,
-          },
-          {
-            width: target,
-          }
-        );
-
-        axBarTimeline.from(
-          percentValue,
-          {
-            textContent: "0%",
-            snap: {
-              textContent: 5,
-            },
-          },
-          "<"
-        );
-      }
-    });
-  }, []);
-
   return (
     <section className="section pb-0 team-det fade-wrapper">
       <div className="container">
+
+        {/* ── Top row: image + main info ── */}
         <div className="row gaper">
-          <div className="col-12  col-lg-5 col-xxl-4">
+
+          {/* Left: Photo + LinkedIn */}
+          <div className="col-12 col-lg-5 col-xxl-4">
             <div className="team-det__thumb fade-top">
               <Image
                 src={member.image?.url}
-                width={300}
-                height={200}
-                alt="Image"
+                width={345}
+                height={317}
+                alt={member.name}
+                style={{ width: "100%", height: "auto", borderRadius: "12px" }}
               />
-              <div className="social-alt">
-                {member?.socials?.map((social: any, i: number) => (
-                  <div className="">
-                    <Link
-                      href={social.url}
-                      target="_blank"
-                      aria-label="share us on facebook"
-                      className=""
-                    >
-                      {/* <i className="fa-brands fa-facebook-f"></i> */}
-                      <p className="text-capitalize">{social.social}</p>
-                    </Link>
-                  </div>
-                ))}
-              </div>
+              {member.linkedin && (
+                <div className="social-alt mt-3">
+                  <Link
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="LinkedIn"
+                  >
+                    <i className="fa-brands fa-linkedin-in"></i>
+                    <span style={{ marginLeft: 8, fontSize: 14 }}>LinkedIn</span>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
+
+          {/* Right: Name, role, what he does, description, hire me */}
           <div className="col-12 col-lg-7 col-xxl-8">
             <div className="team-det__content fade-top">
+
+              {/* Intro row */}
               <div className="intro">
                 <div className="intro-left">
                   <h4>{member.name}</h4>
@@ -113,88 +53,86 @@ const TeamDetailsMain = ({ member }: { member: any }) => {
                   </Link>
                 </div>
               </div>
-              <div className="content">
-                <h5>About Me</h5>
-                <p>{member.aboutMe}</p>
+
+              {/* What He Does */}
+              <div className="content mt-4">
+                <h5>What He Does</h5>
+                <p>{member.whatHeDoes}</p>
               </div>
-              <div className="skill-wrap">
-                {member?.skills?.map((social: any, i: number) => (
-                  <>
-                    <div className="skill-bar-single">
-                      <div className="skill-bar-title">
-                        <p>{social.name}</p>
-                      </div>
-                      <div
-                        className="skill-bar-wrapper"
-                        data-percent={`${social.proficiency}%`}
-                      >
-                        <div className="skill-bar">
-                          <div className="skill-bar-percent">
-                            <span className="percent-value"></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                ))}
-                {/* <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p>Visual Design</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="90%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p>Wireframe</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="60%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="skill-bar-single">
-                  <div className="skill-bar-title">
-                    <p>Visual Design</p>
-                  </div>
-                  <div className="skill-bar-wrapper" data-percent="90%">
-                    <div className="skill-bar">
-                      <div className="skill-bar-percent">
-                        <span className="percent-value"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
+
+              {/* Description */}
+              <div className="content mt-3">
+                <h5>About</h5>
+                <p>{member.description}</p>
               </div>
+
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-12">
-            <div className="team-det__info fade-top">
-              <h4>Education background</h4>
-              {member?.education?.map((edu: any, i: number) => (
-                <>
-                  <div className="group">
-                    <h5>
-                      {edu.degree}
-                      <span> {edu.year}</span>
-                    </h5>
-                    <p>{edu.description}</p>
-                  </div>
-                </>
-              ))}
+
+        {/* ── Impact Points ── */}
+        {member.impact?.length > 0 && (
+          <div className="row mt-5">
+            <div className="col-12">
+              <div className="team-det__info fade-top">
+                <h4>Key Impact</h4>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {member.impact.map((point: string, i: number) => (
+                    <li
+                      key={i}
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "10px",
+                        marginBottom: "12px",
+                        color: "rgba(255,255,255,0.8)",
+                        fontSize: "15px",
+                        lineHeight: "1.6",
+                      }}
+                    >
+                      <i
+                        className="fa-light fa-circle-check"
+                        style={{ color: "#e87c3e", marginTop: "3px", flexShrink: 0 }}
+                      ></i>
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {/* ── Systems Worked On ── */}
+        {member.systemsWorkedOn?.length > 0 && (
+          <div className="row mt-4 mb-5">
+            <div className="col-12">
+              <div className="team-det__info fade-top">
+                <h4>Systems Worked On</h4>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "16px" }}>
+                  {member.systemsWorkedOn.map((sys: string, i: number) => (
+                    <span
+                      key={i}
+                      style={{
+                        padding: "7px 18px",
+                        borderRadius: "100px",
+                        border: "1.5px solid rgba(232,124,62,0.4)",
+                        background: "rgba(232,124,62,0.08)",
+                        color: "rgba(255,255,255,0.85)",
+                        fontSize: "13px",
+                        fontWeight: 500,
+                        letterSpacing: "0.3px",
+                      }}
+                    >
+                      {sys}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
     </section>
   );
