@@ -96,7 +96,7 @@ const TeamMain = () => {
                   <p>Senior engineer</p>
                   <div className="social-alt">
                     <Link
-                      href="https://www.facebook.com/"
+                      href="https://www.facebook.com/profile.php?id=61561865430556"
                       target="_blank"
                       aria-label="share us on facebook"
                     >
@@ -142,7 +142,7 @@ const TeamMain = () => {
                   <p>Senior engineer</p>
                   <div className="social-alt">
                     <Link
-                      href="https://www.facebook.com/"
+                      href="https://www.facebook.com/profile.php?id=61561865430556"
                       target="_blank"
                       aria-label="share us on facebook"
                     >
@@ -188,7 +188,7 @@ const TeamMain = () => {
                   <p>Senior engineer</p>
                   <div className="social-alt">
                     <Link
-                      href="https://www.facebook.com/"
+                      href="https://www.facebook.com/profile.php?id=61561865430556"
                       target="_blank"
                       aria-label="share us on facebook"
                     >
@@ -234,7 +234,7 @@ const TeamMain = () => {
                   <p>Senior engineer</p>
                   <div className="social-alt">
                     <Link
-                      href="https://www.facebook.com/"
+                      href="https://www.facebook.com/profile.php?id=61561865430556"
                       target="_blank"
                       aria-label="share us on facebook"
                     >
@@ -280,7 +280,7 @@ const TeamMain = () => {
                   <p>Senior engineer</p>
                   <div className="social-alt">
                     <Link
-                      href="https://www.facebook.com/"
+                      href="https://www.facebook.com/profile.php?id=61561865430556"
                       target="_blank"
                       aria-label="share us on facebook"
                     >

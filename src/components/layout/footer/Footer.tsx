@@ -153,7 +153,7 @@ Dubai-based firm building AI, SaaS, and CRM systems that turn your business into
                     <Link href="https://www.instagram.com/devrolin.x?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
                       <i className="fa-brands fa-instagram"></i>
                     </Link>
-                      <Link href="https://www.facebook.com/" target="_blank">
+                      <Link href="https://www.facebook.com/profile.php?id=61561865430556" target="_blank">
                         <i className="fa-brands fa-facebook-f"></i>
                       </Link>
                   </div>

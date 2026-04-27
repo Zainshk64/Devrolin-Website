@@ -90,7 +90,7 @@ const HomeOneBanner = () => {
           <Link href="tel:+971522347966">Whatsapp : +971-522347966</Link>
         </div>
         <div className="banner-right-text banner-social-text d-none d-md-flex">
-          <Link href="https://www.facebook.com/" target="_blank">
+          <Link href="https://www.facebook.com/profile.php?id=61561865430556" target="_blank">
             facebook
           </Link>
           <Link

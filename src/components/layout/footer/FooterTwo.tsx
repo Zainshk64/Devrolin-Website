@@ -148,7 +148,7 @@ const FooterTwo = () => {
           <div className="col-12 col-lg-7 col-xl-7 offset-xl-1 col-xxl-5 offset-xxl-3">
             <div className="footer-two__right">
               <div className="social justify-content-start justify-content-lg-start">
-                <Link href="https://www.facebook.com/" target="_blank">
+                <Link href="https://www.facebook.com/profile.php?id=61561865430556" target="_blank">
                   <i className="fa-brands fa-facebook-f"></i>
                   <span>Facebook</span>
                 </Link>

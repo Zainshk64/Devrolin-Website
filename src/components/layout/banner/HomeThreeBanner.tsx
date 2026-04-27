@@ -138,7 +138,7 @@ const HomeThreeBanner = () => {
           </Swiper>
         </div>
         <div className="social justify-content-center justify-content-lg-end">
-          <Link href="https://www.facebook.com/" target="_blank">
+          <Link href="https://www.facebook.com/profile.php?id=61561865430556" target="_blank">
             <i className="fa-brands fa-facebook-f"></i>
           </Link>
           <Link href="https://www.twitter.com/" target="_blank">
