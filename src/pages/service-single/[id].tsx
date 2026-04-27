@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "@/components/layout/Layout";
 import ServiceDetailsMain from "@/components/containers/service-details/ServiceDetailsMain";
 import ServiceDetailsBanner from "@/components/layout/banner/ServiceDetailsBanner";
-import UxProcess from "@/components/containers/service-details/UxProcess";
+import UxProcessTwo from "@/components/containers/service-details/UxProcessTwo";
 import CtaTwo from "@/components/containers/service-details/CtaTwo";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
@@ -31,7 +31,7 @@ const ServiceDetails = () => {
     <Layout header={2} footer={5} video={false}>
       <ServiceDetailsBanner mainService={mainService} />
       <ServiceDetailsMain mainService={mainService} />
-      <UxProcess />
+      <UxProcessTwo />
       <CtaTwo />
     </Layout>
   );
