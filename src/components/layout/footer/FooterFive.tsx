@@ -121,8 +121,7 @@ const FooterFive = () => {
               </div>
               <div className="paragraph">
                 <p>
-                Welcome to our software company. We deliver smart, reliable software to drive your business forward.
-                </p>
+Dubai-based firm building AI, SaaS, and CRM systems that turn your business into a revenue machine without hiring more people.                </p>
               </div>
               <div className="section__content-cta">
                 <h2>
@@ -149,19 +148,19 @@ const FooterFive = () => {
           <div className="col-12 col-lg-7 col-xl-7 offset-xl-1 col-xxl-5 offset-xxl-3">
             <div className="footer-two__right">
               <div className="social justify-content-start justify-content-lg-start">
-                <Link href="https://www.facebook.com/" target="_blank">
+                <Link href="https://www.linkedin.com/company/devrolin/about/" target="_blank">
+                  <i className="fa-brands fa-linkedin-in"></i>
+                  <span>Linkedin</span>
+                </Link>
+                <Link href="https://www.instagram.com/devrolin.x?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+                  <i className="fa-brands fa-instagram"></i>
+                  <span>Instagram</span>
+                </Link>
+                <Link href="https://www.facebook.com/profile.php?id=61561865430556" target="_blank">
                   <i className="fa-brands fa-facebook-f"></i>
                   <span>Facebook</span>
                 </Link>
                 
-                <Link href="https://www.pinterest.com/" target="_blank">
-                  <i className="fa-brands fa-linkedin-in"></i>
-                  <span>Linkedin</span>
-                </Link>
-                <Link href="https://www.instagram.com/" target="_blank">
-                  <i className="fa-brands fa-instagram"></i>
-                  <span>Instagram</span>
-                </Link>
                
               </div>
               <div className="footer__single-meta section__content-cta">

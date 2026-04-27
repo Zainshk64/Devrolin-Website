@@ -130,7 +130,22 @@ const HomeOneBanner = () => {
             className="video-container"
             onClick={(e: any) => e.stopPropagation()}
           >
-            {videoActive && <YoutubeEmbed embedId="fSv6UgCkuTU" />}
+            {/* {videoActive && <YoutubeEmbed embedId="fSv6UgCkuTU" />} */}
+            {/* // AFTER: */}
+<div className="coming-soon-inner">
+  <div className="coming-soon-lines">
+    <span></span><span></span><span></span>
+  </div>
+  <p className="coming-soon-eyebrow">Something Extraordinary</p>
+  <h2 className="coming-soon-title">
+    <span>Coming</span>
+    <span>Soon</span>
+  </h2>
+  <p className="coming-soon-sub">We&apos;re crafting something remarkable. Stay tuned.</p>
+  <div className="coming-soon-dots">
+    <span></span><span></span><span></span>
+  </div>
+</div>
             <button
               aria-label="close video popup"
               className="close-video-popup"

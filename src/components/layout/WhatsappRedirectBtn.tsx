@@ -124,7 +124,7 @@ const WhatsappRedirectBtn = () => {
               ></path>
             </svg>
           </span>
-          <span className="tooltip">Live Chat Available</span>
+          <span className="tooltip">Get Instant Project Guidance</span>
         </button>
       </div>
     </>

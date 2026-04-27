@@ -47,8 +47,8 @@ const TeamDetailsMain = ({ member }: { member: any }) => {
                   <p>{member.jobTitle}</p>
                 </div>
                 <div className="intro-right">
-                  <Link href="/contact-us" className="btn btn--primary">
-                    Hire Me
+                  <Link href="/our-services" className="btn btn--primary">
+                    SEE SYSTEMS BUILT
                     <i className="fa-sharp fa-solid fa-paper-plane"></i>
                   </Link>
                 </div>

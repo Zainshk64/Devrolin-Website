@@ -18,7 +18,7 @@ const metrics = [
     highlight: false,
   },
   {
-    number: 100,
+    number: 500,
     suffix: "K+",
     label: "Users Impacted",
     sub: "Across platforms built",

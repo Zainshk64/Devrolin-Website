@@ -112,30 +112,30 @@ const TeamMembers = () => {
                           <p>{item.jobTitle}</p>
                         </div>
                         <hr />
-                        <div className="inner">
-                          <p>{item.description}</p>
+                       <div className="inner">
+  <p className="desc">{item.description}</p>
 
-                          {/* Impact points as tag pills */}
-                          {item.impact?.length > 0 && (
-                            <div className="impact-tags mt-3">
-                              {item.impact.map((point: string, i: number) => (
-                                <span key={i} className="impact-tag">
-                                  {point}
-                                </span>
-                              ))}
-                            </div>
-                          )}
+  {/* Impact points as bullet list */}
+  {/* {item.impact?.length > 0 && (
+    <ul className="impact-list">
+      {item.impact.map((point: string, i: number) => (
+        <li key={i}>{point}</li>
+      ))}
+    </ul>
+  )} */}
 
-                          {/* Systems worked on */}
-                          {item.systemsWorkedOn?.length > 0 && (
-                            <div className="systems-wrap mt-3">
-                              <p className="systems-label">Systems:</p>
-                              <p className="systems-list">
-                                {item.systemsWorkedOn.join(" · ")}
-                              </p>
-                            </div>
-                          )}
-                        </div>
+  {/* Systems */}
+  {item.systemsWorkedOn?.length > 0 && (
+    <div className="systems-wrap">
+      <p className="systems-label">Systems:</p>
+      <ul className="impact-list">
+  {item.systemsWorkedOn.map((sys: string, i: number) => (
+    <li key={i}>{sys}</li>
+  ))}
+</ul>
+    </div>
+  )}
+</div>
 
                         {/* LinkedIn social */}
                         {item.linkedin && (

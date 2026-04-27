@@ -74,58 +74,34 @@ const SLIDE_IMAGES = [
 
 function AgencyImageSlider() {
   const [index, setIndex] = useState(0);
-  const [animating, setAnimating] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [paused, setPaused] = useState(false);
+
   const total = SLIDE_IMAGES.length;
 
-  const goTo = (next: number) => {
-    if (animating) return;
-    setAnimating(true);
-    setTimeout(() => {
-      setIndex((next + total) % total);
-      setAnimating(false);
-    }, 300);
+// REMOVE the goTo function entirely (you're not using prev/next buttons)
+
+// KEEP only this useEffect for auto-slide:
+useEffect(() => {
+  if (paused) return;
+  timerRef.current = setInterval(() => {
+    setIndex((prev) => (prev + 1) % total);
+  }, 3500);
+  return () => {
+    if (timerRef.current) clearInterval(timerRef.current);
   };
-
-  // Auto-slide every 3.5s
-  useEffect(() => {
-    timerRef.current = setInterval(() => {
-      goTo(index + 1);
-    }, 3500);
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [index, animating]);
-
-  const btnBase: React.CSSProperties = {
-    position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-    zIndex: 10,
-    width: 38,
-    height: 38,
-    borderRadius: "50%",
-    background: "rgba(0,0,0,0.65)",
-    border: "1.5px solid rgba(249,115,22,0.5)",
-    color: "#f97316",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 15,
-    transition: "background 0.2s, border-color 0.2s",
-  };
-
+}, [paused, total]);
   return (
     <div
       className="agency__thumb"
       style={{ position: "relative", overflow: "hidden", borderRadius: 12 }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onClick={() => setPaused((p) => !p)}
     >
-      {/* Slide image */}
+      {/* Slide image — no fade, just instant swap */}
       <div
         style={{
-          opacity: animating ? 0 : 1,
-          transition: "opacity 0.3s ease",
           width: "75%",
         }}
       >
@@ -134,65 +110,18 @@ function AgencyImageSlider() {
           alt={`Slide ${index + 1}`}
           width={500}
           height={500}
-          style={{ width: "100%", height: "90%", display: "block", borderRadius: 12 }}
+          style={{
+            width: "100%",
+            height: "90%",
+            display: "block",
+            borderRadius: 12,
+          }}
           priority
         />
       </div>
-
-      {/* Prev arrow */}
-      {/* <button
-        type="button"
-        aria-label="Previous image"
-        style={{ ...btnBase, left: 10 }}
-        onClick={() => goTo(index - 1)}
-      >
-        <i className="fa-light fa-angle-left"></i>
-      </button>
-
-      <button
-        type="button"
-        aria-label="Next image"
-        style={{ ...btnBase, right: 10 }}
-        onClick={() => goTo(index + 1)}
-      >
-        <i className="fa-light fa-angle-right"></i>
-      </button> */}
-
-      {/* Dot indicators */}
-      {/* <div
-        style={{
-          position: "absolute",
-          bottom: 12,
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          gap: 6,
-          zIndex: 10,
-        }}
-      >
-        {SLIDE_IMAGES.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            aria-label={`Go to slide ${i + 1}`}
-            onClick={() => goTo(i)}
-            style={{
-              width: i === index ? 20 : 8,
-              height: 8,
-              borderRadius: 4,
-              background: i === index ? "#f97316" : "rgba(255,255,255,0.35)",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
-              transition: "all 0.3s ease",
-            }}
-          />
-        ))}
-      </div> */}
     </div>
   );
 }
-
 // ─── Main Component ──────────────────────────────────────────────────────────
 
 const Agency = () => {
