@@ -43,17 +43,24 @@ const FaqMain = () => {
         <div className="row gaper">
           
           {/* Image */}
-          <div className="col-12 col-lg-6">
-            <div className="faq__thumb fade-left">
-              <Image
-                src="/faq-image.png"
-                width={400}
-                height={400}
-                alt="FAQ Image"
-              />
-            </div>
-          </div>
-
+         {/* Image */}
+<div className="col-12 col-lg-6">
+  <div className="faq__thumb fade-left">
+    <Image
+      src="/faq-image.png"
+      width={400}
+      height={400}
+      alt="FAQ Image"
+      style={{
+        width: "100%",
+        height: "auto",
+        maxHeight: "520px",
+        objectFit: "contain",
+        objectPosition: "top",
+      }}
+    />
+  </div>
+</div>
           {/* Accordion */}
           <div className="col-12 col-lg-6">
             <div className="accordion" id="accordion">

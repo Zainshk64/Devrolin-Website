@@ -1745,3 +1745,40 @@ $font-b:      'DM Sans', sans-serif;
     }
   }
 }
+
+
+
+
+
+
+.faq__thumb {
+  position: sticky;
+  top: 100px;           // sticks while accordion scrolls alongside
+
+  img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 520px;
+    object-fit: contain;
+    object-position: top;
+    display: block;
+  }
+
+  // on tablets / mid screens where image was breaking
+  @media (max-width: 991px) {
+    position: static;
+    text-align: center;
+    margin-bottom: 40px;
+
+    img {
+      max-height: 340px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 576px) {
+    img {
+      max-height: 240px;
+    }
+  }
+}
