@@ -27,7 +27,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     const token = localStorage.getItem("adminToken");
 
     try {
-      const res = await fetch("https://devrolin.com/api/admin/logout", {
+      const res = await fetch("https://devrolin-backend-production.up.railway.app/api/admin/logout", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

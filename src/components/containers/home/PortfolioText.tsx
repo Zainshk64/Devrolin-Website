@@ -58,7 +58,7 @@ const PortfolioText = () => {
   const fetchPortfolio = async () => {
     const token = localStorage.getItem("adminToken");
     try {
-      const res = await fetch("https://devrolin.com/api/projects/", {
+      const res = await fetch("https://devrolin-backend-production.up.railway.app/api/projects/", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();

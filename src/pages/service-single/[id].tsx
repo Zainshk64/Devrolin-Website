@@ -13,7 +13,7 @@ const ServiceDetails = () => {
         
           const fetchServices = async () => {
             try {
-              const res = await fetch(`https://devrolin.com/api/services/${id}`);
+              const res = await fetch(`https://devrolin-backend-production.up.railway.app/api/services/${id}`);
               const data = await res.json();
             setServices(data);
             } catch (err) {

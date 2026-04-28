@@ -148,7 +148,7 @@ const HomeTestimonial = () => {
 
   const fetchTestimonials = async () => {
     try {
-      const res = await fetch("https://devrolin.com/api/testimonials/");
+      const res = await fetch("https://devrolin-backend-production.up.railway.app/api/testimonials/");
       const data = await res.json();
       setTestimonials(Array.isArray(data) ? data : []);
     } catch {

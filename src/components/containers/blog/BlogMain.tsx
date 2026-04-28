@@ -19,7 +19,7 @@ const BlogMain = () => {
   const fetchBlogs = async () => {
     try {
       const recent = await fetch(
-        "https://devrolin.com/api/blogs/recent"
+        "https://devrolin-backend-production.up.railway.app/api/blogs/recent"
       ).then((res) => res.json());
       setRecentBlogs(recent);
     } catch (err) {
