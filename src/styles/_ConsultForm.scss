@@ -1782,3 +1782,14 @@ $font-b:      'DM Sans', sans-serif;
     }
   }
 }
+
+
+
+
+.section__header--secondary {
+  .col-12.col-lg-7 > div {
+    @media (min-width: 992px) {
+      padding-top: 52px;
+    }
+  }
+}
