@@ -17,7 +17,7 @@ const ServiceDetails = () => {
               const data = await res.json();
             setServices(data);
             } catch (err) {
-              toast.error("Failed to fetch Blogd details");
+              toast.error("Failed to fetch services details");
             }
           };
         

@@ -12,7 +12,7 @@ const ServiceDetailsMain = ({ mainService }: { mainService: any }) => {
             <div className="service-details__slider">
               <div className="service-details__slider-single">
                 <div className="poster fade-top">
-                  <Image src={mainService.mainImage.url} width={200}  height={200} alt="Image" />
+                  <Image src={mainService.mainImage.url} width={600}  height={600} alt="Image" />
                 </div>
                 <div className="details-group section__cta text-start">
                   <h3 className="title-anim">Why do we use it?</h3>
@@ -30,7 +30,7 @@ const ServiceDetailsMain = ({ mainService }: { mainService: any }) => {
                     </div>
                     <div className="col-12 col-lg-5">
                       <div className="poster-small">
-                        <Image src={mainService?.smallImages?.url} width={200} height={200} alt="Image" />
+<Image src={mainService.smallImages[0]?.url} width={600} height={600} alt={mainService.smallImages[0]?.alt || "Image"} />
                       </div>
                     </div>
                   </div>

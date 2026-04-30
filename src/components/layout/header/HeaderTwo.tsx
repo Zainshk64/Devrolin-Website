@@ -168,9 +168,9 @@ const HeaderTwo = ({ openNav, handleNav, setOpenNav }: HeaderProps) => {
                           <li>
                             <Link href="our-story">Our Story</Link>
                           </li>
-                          <li>
+                          {/* <li>
                             <Link href="portfolio">Portfolio</Link>
-                          </li>
+                          </li> */}
                           <li className="navbar__item navbar__item--has-children">
                                 <Link href="/our-teams" className="" >Our Teams</Link>
 
