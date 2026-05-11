@@ -2,26 +2,71 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 
+// ── Types ──────────────────────────────────────────────────────────────────────
+type CategoryType =
+  | "All"
+  | "AI Automation & Integration Systems"
+  | "CRM & Revenue Systems"
+  | "SaaS & MVP Development"
+  | "Web & Custom Platforms";
+
+// ── Constants ──────────────────────────────────────────────────────────────────
+const CATEGORIES: CategoryType[] = [
+  "All",
+  "AI Automation & Integration Systems",
+  "CRM & Revenue Systems",
+  "SaaS & MVP Development",
+  "Web & Custom Platforms",
+];
+
+const CATEGORY_ICONS: Record<CategoryType, string> = {
+  "All":                               "fa-layer-group",
+  "AI Automation & Integration Systems": "fa-robot",
+  "CRM & Revenue Systems":             "fa-chart-line",
+  "SaaS & MVP Development":            "fa-gears",
+  "Web & Custom Platforms":            "fa-code",
+};
+
+// ── Component ──────────────────────────────────────────────────────────────────
 const ProjectMain = ({ projects }: { projects: any[] }) => {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const trackRef        = useRef<HTMLDivElement>(null);
+  const dropRef         = useRef<HTMLDivElement>(null);
+  const [isPaused,      setIsPaused]      = useState(false);
+  const [activeFilter,  setActiveFilter]  = useState<CategoryType>("All");
+  const [dropOpen,      setDropOpen]      = useState(false);
 
-  // Duplicate items for seamless infinite loop
-  const items = [...projects, ...projects];
+  // ── Filter logic ─────────────────────────────────────────────────────────────
+  const filtered =
+    activeFilter === "All"
+      ? projects
+      : projects.filter((p: any) => p.category === activeFilter);
 
-  const CARD_WIDTH = 420; // px — must match CSS --card-w
+  // Duplicate for seamless infinite loop (need ≥2 items)
+  const items = filtered.length > 0 ? [...filtered, ...filtered] : [];
 
-  const scrollTo = (index: number) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const clamped = Math.max(0, Math.min(index, projects.length - 1));
-    setCurrentIndex(clamped);
-    track.style.transition = "transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)";
-    track.style.transform = `translateX(-${clamped * CARD_WIDTH}px)`;
-    // After manual nav, re-enable auto scroll after 3s
-    setIsPaused(true);
-    setTimeout(() => setIsPaused(false), 3000);
+  // ── Close dropdown on outside click ─────────────────────────────────────────
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (dropRef.current && !dropRef.current.contains(e.target as Node)) {
+        setDropOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // ── Reset track scroll when filter changes ───────────────────────────────────
+  useEffect(() => {
+    if (trackRef.current) {
+      trackRef.current.style.transition = "none";
+      trackRef.current.style.transform  = "translateX(0)";
+    }
+  }, [activeFilter]);
+
+  const handleFilterChange = (cat: CategoryType) => {
+    setActiveFilter(cat);
+    setDropOpen(false);
+    setIsPaused(false);
   };
 
   return (
@@ -288,55 +333,154 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           .ps-track { padding: 0 24px; }
           :root { --card-w: 300px; }
         }
+
+         /* ── Mobile ── */
+        @media (max-width: 768px) {
+          :root {
+            --card-w: 260px;
+          }
+ 
+          .ps-section {
+            padding: 48px 0 64px;
+          }
+ 
+          /* Hide edge fades on mobile so next card is visible */
+          .ps-section::before,
+          .ps-section::after {
+            display: none;
+          }
+ 
+          .ps-filter-bar {
+            padding: 0 20px;
+            margin-bottom: 32px;
+          }
+ 
+       
+ 
+          .ps-track {
+            padding: 0 20px;
+            gap: 16px;
+          }
+ 
+          .ps-card {
+            border-radius: 12px;
+          }
+ 
+          // .ps-card__thumb {
+          //   height: 380px;
+          // }
+ 
+          .ps-card__content {
+            padding: 14px 16px 18px;
+          }
+ 
+          .ps-card__title {
+            font-size: 1rem;
+          }
+ 
+          .ps-card__arrow {
+            font-size: 12px;
+            margin-top: 10px;
+          }
+        }
       `}</style>
 
       <section className="ps-section">
-       
 
-        <div className="ps-viewport">
-          {/* 
-            CSS variable --item-count drives the animation distance.
-            We set it inline so the keyframe math is correct.
-          */}
-          <div
-            className={`ps-track${isPaused ? " paused" : ""}`}
-            ref={trackRef}
-            style={
-              {
-                "--item-count": projects.length,
-              } as React.CSSProperties
-            }
-          >
-            {/* Render items twice for seamless infinite loop */}
-            {items.map((project: any, i: number) => (
-              <div key={`${project._id}-${i}`} className="ps-card">
-                <div className="ps-card__thumb">
-                  <img
-                    src={project.thumbnail?.url}
-                    alt={project.thumbnail?.alt || project.title}
-                  />
-                </div>
-                <div className="ps-card__content">
-                  <Link
-                    href={`/project-single/${project._id}`}
-                    className="ps-card__title"
-                  >
-                    {project.title}
-                  </Link>
-                  <Link
-                    href={`/project-single/${project._id}`}
-                    className="ps-card__arrow"
-                  >
-                    View Project →
-                  </Link>
-                </div>
-              </div>
-            ))}
+        {/* ── Filter Dropdown ── */}
+        <div className="ps-filter-bar">
+          <div className="uxp-select-wrap" ref={dropRef}>
+            <button
+              type="button"
+              className={`uxp-drop-trigger${dropOpen ? " uxp-drop-trigger--open" : ""}`}
+              onClick={() => setDropOpen((o) => !o)}
+              aria-haspopup="listbox"
+              aria-expanded={dropOpen}
+            >
+              <span className="uxp-drop-trigger-left">
+                <i className={`fa-light ${CATEGORY_ICONS[activeFilter]} uxp-drop-icon`}></i>
+                <span>{activeFilter}</span>
+              </span>
+              <i
+                className={`fa-light fa-chevron-down uxp-drop-chevron${
+                  dropOpen ? " uxp-drop-chevron--open" : ""
+                }`}
+              ></i>
+            </button>
+
+            {dropOpen && (
+              <ul className="uxp-drop-menu" role="listbox">
+                {CATEGORIES.map((cat) => {
+                  const isActive = cat === activeFilter;
+                  return (
+                    <li
+                      key={cat}
+                      role="option"
+                      aria-selected={isActive}
+                      className={`uxp-drop-option${isActive ? " uxp-drop-option--active" : ""}`}
+                      onClick={() => handleFilterChange(cat)}
+                    >
+                      <span className="uxp-drop-option-left">
+                        <i className={`fa-light ${CATEGORY_ICONS[cat]} uxp-drop-icon`}></i>
+                        <span>{cat}</span>
+                      </span>
+                      {isActive && <i className="fa-light fa-check uxp-drop-check"></i>}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
         </div>
 
-        {/* Dot indicators */}
-        
+        {/* ── Slider ── */}
+        {filtered.length === 0 ? (
+          <div className="ps-empty">
+            <strong>( ˘︹˘ )</strong>
+            No projects found in this category yet.
+          </div>
+        ) : (
+          <div className="ps-viewport">
+            <div
+              className={`ps-track${isPaused ? " paused" : ""}`}
+              ref={trackRef}
+              style={
+                {
+                  "--item-count": filtered.length,
+                } as React.CSSProperties
+              }
+            >
+              {items.map((project: any, i: number) => (
+                <div key={`${project._id}-${i}`} className="ps-card">
+                  <div className="ps-card__thumb">
+                    <img
+                      src={project.thumbnail?.url}
+                      alt={project.thumbnail?.alt || project.title}
+                    />
+                    {project.category && (
+                      <span className="ps-card__badge">{project.category}</span>
+                    )}
+                  </div>
+                  <div className="ps-card__content">
+                    <Link
+                      href={`/project-single/${project._id}`}
+                      className="ps-card__title"
+                    >
+                      {project.title}
+                    </Link>
+                    <Link
+                      href={`/project-single/${project._id}`}
+                      className="ps-card__arrow"
+                    >
+                      View Project →
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
       </section>
     </>
   );

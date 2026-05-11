@@ -1,7 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import thumbone from "public/images/service/thumb-one.png";
-import thumbtwo from "public/images/service/thumb-two.webp";
 
 const ServiceDetailsMain = ({ mainService }: { mainService: any }) => {
   return (
@@ -11,30 +9,62 @@ const ServiceDetailsMain = ({ mainService }: { mainService: any }) => {
           <div className="col-12 col-xl-10">
             <div className="service-details__slider">
               <div className="service-details__slider-single">
+                
+                {/* Main Image */}
                 <div className="poster fade-top">
-                  <Image src={mainService.mainImage.url} width={600}  height={600} alt="Image" />
+                  <Image
+                    src={mainService.mainImage?.url || "/placeholder.jpg"}
+                    width={600}
+                    height={600}
+                    alt={mainService.mainImage?.alt || "Service"}
+                  />
                 </div>
+
+                {/* Short Intro */}
                 <div className="details-group section__cta text-start">
-                  <h3 className="title-anim">Why do we use it?</h3>
-                  <p>
-               {mainService.whyUsed}
-                  </p>              
+                  <h3 className="title-anim">Short Intro</h3>
+                  <p>{mainService.shortIntro}</p>
                 </div>
+
+                {/* Why Businesses Need This + Small Image */}
                 <div className="section__content-cta">
                   <div className="row gaper">
                     <div className="col-12 col-lg-7">
                       <div className="details-group">
-                        <h3 className="title-anim">Our approach</h3>
-                        <p>{mainService.approach}</p>
+                        <h3 className="title-anim">Why Businesses Need This</h3>
+                        <p>{mainService.whyBusinessesNeedThis}</p>
                       </div>
                     </div>
                     <div className="col-12 col-lg-5">
-                      <div className="poster-small">
-<Image src={mainService.smallImages[0]?.url} width={600} height={600} alt={mainService.smallImages[0]?.alt || "Image"} />
-                      </div>
+                      {mainService.smallImages?.[0]?.url && (
+                        <div className="poster-small">
+                          <Image
+                            src={mainService.smallImages[0].url}
+                            width={600}
+                            height={600}
+                            alt={mainService.smallImages[0]?.alt || "Image"}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
+
+                {/* What We Build */}
+                {mainService.whatWeBuild?.length > 0 && (
+                  <div className="details-group mt-5">
+                    <h3 className="title-anim">What We Build</h3>
+                    <ul className="list-unstyled">
+                      {mainService.whatWeBuild.map((item: string, index: number) => (
+                        <li key={index} className="mb-2">
+                          <i className="fa-solid fa-check-circle text-primary me-2"></i>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
               </div>
             </div>
           </div>

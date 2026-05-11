@@ -138,7 +138,7 @@ const stepsData: Record<FilterType, Step[]> = {
 const WorkStepsProject = () => {
   const [hover, setHover]               = useState(1);
   const [videoActive, setVideoActive]   = useState(false);
-  const [activeFilter, setActiveFilter] = useState<FilterType>("CRM and Sale System");
+  const [activeFilter, setActiveFilter] = useState<FilterType>("AI Automation & Integeration");
   const [dropOpen, setDropOpen]         = useState(false);
   const dropRef                         = useRef<HTMLDivElement>(null);
 

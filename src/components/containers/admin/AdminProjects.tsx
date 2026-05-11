@@ -5,6 +5,7 @@ interface Project {
   _id: string;
   title: string;
   owner: string;
+  category: string;
   sector: string;
   description: string;
   result: string;

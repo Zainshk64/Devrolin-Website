@@ -12,6 +12,7 @@ interface FormDataState {
   title: string;
   owner: string;
   sector: string;
+  category: string;
   description: string;
   result: string;
   startDate: string;
@@ -24,7 +25,6 @@ interface Props {
   clearEditing?: () => void;
 }
 
-
 export default function AdminCreateProject({
   onProjectAdded,
   editingProject,
@@ -34,6 +34,7 @@ export default function AdminCreateProject({
     title: "",
     owner: "",
     sector: "",
+    category: "",
     description: "",
     result: "",
     startDate: "",
@@ -54,7 +55,7 @@ export default function AdminCreateProject({
 
   // --------- Handlers ----------
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -63,7 +64,7 @@ export default function AdminCreateProject({
   const handleTestimonialChange = (
     index: number,
     field: keyof Testimonial,
-    value: string
+    value: string,
   ) => {
     const updated = [...formData.testimonial];
     updated[index][field] = value;
@@ -107,6 +108,7 @@ export default function AdminCreateProject({
         title: editingProject.title,
         owner: editingProject.owner,
         sector: editingProject.sector,
+        category: editingProject.category, // ← ADD THIS
         description: editingProject.description,
         result: editingProject.result,
         startDate: editingProject.startDate?.split("T")[0] || "",
@@ -124,6 +126,7 @@ export default function AdminCreateProject({
       title: "",
       owner: "",
       sector: "",
+      category: "",
       description: "",
       result: "",
       startDate: "",
@@ -172,7 +175,7 @@ export default function AdminCreateProject({
             method: "PUT",
             headers: { Authorization: `Bearer ${token}` },
             body: fd,
-          }
+          },
         );
       } else {
         // ✅ POST create
@@ -182,7 +185,7 @@ export default function AdminCreateProject({
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
             body: fd,
-          }
+          },
         );
       }
 
@@ -210,24 +213,62 @@ export default function AdminCreateProject({
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="row">
           {/* Text Inputs */}
-          {["title", "owner", "sector", "description", "result"].map(
-            (field) => (
-              <div className="mb-3 col-md-6" key={field}>
-                <label className="form-label text-capitalize text-white">
-                  {field}
-                </label>
-                <input
-                  type="text"
-                  className="form-control p-3"
-                  name={field}
-                  value={(formData as any)[field]}
-                  onChange={handleInputChange}
-                  required={field === "title"}
-                />
-              </div>
-            )
-          )}
+          {["title", "owner", "sector"].map((field) => (
+            <div className="mb-3 col-md-6" key={field}>
+              <label className="form-label text-capitalize text-white">
+                {field}
+              </label>
+              <input
+                type="text"
+                className="form-control p-3"
+                name={field}
+                value={(formData as any)[field]}
+                onChange={handleInputChange}
+                required={field === "title"}
+              />
+            </div>
+          ))}
 
+          {/* ✅ ADD CATEGORY DROPDOWN HERE */}
+          <div className="mb-3 col-md-6">
+            <label className="form-label text-white">Category</label>
+            <select
+              className="form-control p-3"
+              name="category"
+              value={formData.category}
+              onChange={handleInputChange}
+              required
+            >
+              <option className="text-white" value="">Select Category</option>
+              <option className="text-white" value="AI Automation & Integration Systems">
+                AI Automation & Integration Systems
+              </option>
+              <option className="text-white" value="CRM & Revenue Systems">
+                CRM & Revenue Systems
+              </option>
+              <option className="text-white" value="SaaS & MVP Development">
+                SaaS & MVP Development
+              </option>
+              <option className="text-white" value="Web & Custom Platforms">
+                Web & Custom Platforms
+              </option>
+            </select>
+          </div>
+
+          {["description", "result"].map((field) => (
+            <div className="mb-3 col-md-6" key={field}>
+              <label className="form-label text-capitalize text-white">
+                {field}
+              </label>
+              <input
+                type="text"
+                className="form-control p-3"
+                name={field}
+                value={(formData as any)[field]}
+                onChange={handleInputChange}
+              />
+            </div>
+          ))}
           {/* Dates */}
           <div className="mb-3 col-md-6">
             <label className="form-label text-white">Start Date</label>
@@ -279,7 +320,9 @@ export default function AdminCreateProject({
 
           {/* Thumbnail */}
           <div className="mb-3 col-12">
-            <label className="form-label text-white">Thumbnail (345 X 394) </label>
+            <label className="form-label text-white">
+              Thumbnail (345 X 394){" "}
+            </label>
             <input
               type="file"
               ref={thumbnailRef}
@@ -299,7 +342,9 @@ export default function AdminCreateProject({
 
           {/* Main Image */}
           <div className="mb-3 col-12">
-            <label className="form-label text-white">Main Image (690 X 379)</label>
+            <label className="form-label text-white">
+              Main Image (690 X 379)
+            </label>
             <input
               type="file"
               ref={mainImageRef}
@@ -319,7 +364,9 @@ export default function AdminCreateProject({
 
           {/* Snapshots */}
           <div className="mb-3 col-12">
-            <label className="form-label text-white">Snapshots (up to 3 - 424 X 296)</label>
+            <label className="form-label text-white">
+              Snapshots (up to 3 - 424 X 296)
+            </label>
             <input
               type="file"
               ref={snapshotsRef}
@@ -348,8 +395,8 @@ export default function AdminCreateProject({
               ? "Updating..."
               : "Creating..."
             : editingProject
-            ? "Update Project"
-            : "Create Project"}{" "}
+              ? "Update Project"
+              : "Create Project"}{" "}
         </button>
 
         {editingProject && (

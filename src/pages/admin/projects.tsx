@@ -12,6 +12,7 @@ interface Project {
   title: string;
   owner: string;
   sector: string;
+  category: string;
   description: string;
   result: string;
   startDate: string;
