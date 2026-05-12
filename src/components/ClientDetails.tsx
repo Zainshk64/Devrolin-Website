@@ -13,6 +13,7 @@ const fmt = (n: number, currency = "USD") =>
     maximumFractionDigits: 0,
   }).format(n);
 
+  
 // ─── Loading Skeleton ─────────────────────────────────────────────────────────
 const LoadingSkeleton = () => (
   <div className="client-page">
