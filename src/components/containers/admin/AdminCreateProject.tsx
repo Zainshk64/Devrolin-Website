@@ -53,14 +53,18 @@ export default function AdminCreateProject({
   const token =
     typeof window !== "undefined" ? localStorage.getItem("adminToken") : null;
 
-  // --------- Handlers ----------
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+const handleInputChange = (
+  e: React.ChangeEvent<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  >
+) => {
+  const { name, value } = e.target;
 
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
   const handleTestimonialChange = (
     index: number,
     field: keyof Testimonial,
