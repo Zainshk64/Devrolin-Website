@@ -97,7 +97,7 @@ const ProjectDetailsMain = ({ project }: { project: any }) => {
                 <p>{project.sector}</p>
               </div>
               <div className="thumb">
-                <Image src={iconone} alt="Image" />
+                <Image src={iconone} alt="Image"  />
               </div>
             </div>
           </div>
@@ -105,7 +105,7 @@ const ProjectDetailsMain = ({ project }: { project: any }) => {
             <div className="project-d-o__single fade-top">
               <div className="content">
                 <h5>Owner</h5>
-                <p>{project.owner}</p>
+                <p>{project.owner?.slice(0,30)}..</p>
               </div>
               <div className="thumb">
                 <Image src={icontwo} alt="Image" />

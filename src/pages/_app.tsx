@@ -30,7 +30,7 @@ const ModernLoader = () => {
           <div className="progress-bar-fill"></div>
         </div>
 
-        <p className="loading-text">Your Future , Our technology</p>
+        <p className="loading-text">Your Future, Our Technology</p>
       </div>
 
       <style jsx>{`

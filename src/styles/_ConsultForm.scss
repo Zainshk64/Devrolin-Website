@@ -957,7 +957,7 @@ $font-b:      'DM Sans', sans-serif;
 
 .uxp-section {
   position: relative;
-  padding: 100px 0;
+  padding: 40px 0;
   width: 100%;
 }
 
@@ -1783,8 +1783,52 @@ $font-b:      'DM Sans', sans-serif;
   }
 }
 
+.custom-build-list {
+  margin-top: 24px;
 
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
 
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+    font-size: 16px;
+    line-height: 1.7;
+    color: #d7d7d7;
+
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateX(4px);
+
+      .glow-dot {
+        transform: scale(1.15);
+        box-shadow:
+          0 0 8px rgba(225, 98, 7, 0.7),
+          0 0 18px rgba(225, 98, 7, 0.45);
+      }
+    }
+
+    .glow-dot {
+      width: 8px;
+      height: 8px;
+      margin-top: 10px;
+
+      border-radius: 50%;
+      background: #E16207;
+
+      flex-shrink: 0;
+
+      box-shadow:
+        0 0 6px rgba(225, 98, 7, 0.55),
+        0 0 12px rgba(225, 98, 7, 0.25);
+
+      transition: all 0.3s ease;
+    }
+  }
+}
 
 .section__header--secondary {
   .col-12.col-lg-7 > div {

@@ -173,7 +173,7 @@ Dubai-based firm building AI, SaaS, and CRM systems that turn your business into
                    <Image src={dubaiFlag} width={45} height={20} alt="Dubai Flag" />
                  Marasi Dr - Business Bay - Dubai - UAE
                 </Link>
-                <Link href="tel:406-555-0120"  style={{display:"flex", alignItems:"center", gap:'10px'}}>
+                <Link href="https://wa.me/devrolin"  style={{display:"flex", alignItems:"center", gap:'10px'}}>
                 <Image src={whatsapp} width={45} height={20} alt="Dubai Flag" />
                  +971-52347966
                 </Link>

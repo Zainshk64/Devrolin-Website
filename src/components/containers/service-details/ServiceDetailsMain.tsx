@@ -22,7 +22,7 @@ const ServiceDetailsMain = ({ mainService }: { mainService: any }) => {
 
                 {/* Short Intro */}
                 <div className="details-group section__cta text-start">
-                  <h3 className="title-anim">Short Intro</h3>
+                  <h3 className="title-anim">AI System Built For Scale</h3>
                   <p>{mainService.shortIntro}</p>
                 </div>
 
@@ -31,7 +31,7 @@ const ServiceDetailsMain = ({ mainService }: { mainService: any }) => {
                   <div className="row gaper">
                     <div className="col-12 col-lg-7">
                       <div className="details-group">
-                        <h3 className="title-anim">Why Businesses Need This</h3>
+                        <h3 className="title-anim">Why Fast Growing Companies Automate</h3>
                         <p>{mainService.whyBusinessesNeedThis}</p>
                       </div>
                     </div>
@@ -51,19 +51,20 @@ const ServiceDetailsMain = ({ mainService }: { mainService: any }) => {
                 </div>
 
                 {/* What We Build */}
-                {mainService.whatWeBuild?.length > 0 && (
-                  <div className="details-group mt-5">
-                    <h3 className="title-anim">What We Build</h3>
-                    <ul className="list-unstyled">
-                      {mainService.whatWeBuild.map((item: string, index: number) => (
-                        <li key={index} className="mb-2">
-                          <i className="fa-solid fa-check-circle text-primary me-2"></i>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+      {mainService.whatWeBuild?.length > 0 && (
+  <div className="details-group mt-5">
+    <h3 className="title-anim">What We Build</h3>
+
+    <ul className="custom-build-list list-unstyled">
+      {mainService.whatWeBuild.map((item: string, index: number) => (
+        <li key={index}>
+          <span className="glow-dot"></span>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
 
               </div>
             </div>

@@ -9,7 +9,7 @@ const ServiceDetailsBanner = ({ mainService }: { mainService: any }) => {
     >
       <div className="container">
         <div className="row gaper align-items-center">
-          <div className="col-12 col-lg-5 col-xl-7">
+          <div className="col- col-lg-5 col-xl-7">
             <div className="text-center text-lg-start">
               <h2 className="title title-anim">{mainService.title}</h2>
               <nav aria-label="breadcrumb">
@@ -20,7 +20,7 @@ const ServiceDetailsBanner = ({ mainService }: { mainService: any }) => {
                       Home
                     </Link>
                   </li>
-                  <li className="breadcrumb-item active" aria-current="page">
+                  <li className="breadcrumb-item texttitle  active" aria-current="page">
                     {mainService.title}
                   </li>
                 </ol>
