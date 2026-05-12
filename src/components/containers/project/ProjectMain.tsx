@@ -383,6 +383,23 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
             margin-top: 10px;
           }
         }
+
+        /* ── Empty state ── */
+        .ps-empty {
+          text-align: center;
+          padding: 60px 24px;
+          color: #555;
+          font-size: 15px;
+          font-family: Georgia, serif;
+        }
+ 
+        .ps-empty strong {
+          display: block;
+          font-size: 2rem;
+          margin-bottom: 12px;
+          color: #333;
+        }
+ 
       `}</style>
 
       <section className="ps-section">

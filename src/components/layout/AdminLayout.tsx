@@ -14,6 +14,7 @@ const tabs = [
   { name: "Projects", href: "/admin/projects" },
   { name: "Team Members", href: "/admin/teams" },
   { name: "Testimonials", href: "/admin/testimonial" },
+    { name: "Play Button Video", href: "/admin/play-video" }, // ← Add this line
   { name: "Agency skills", href: "/admin/agency-skills" },
   { name: "Home sponsor", href: "/admin/home-sponsor" },
   { name: "Clients", href: "/admin/client" },

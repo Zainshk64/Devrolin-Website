@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -5,12 +7,20 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import banneronethumb from "public/images/banner/hero-section4.png";
 import star from "public/images/star.png";
-import videoframe from "public/images/video-frame-og.svg";
-import YoutubeEmbed from "@/components/youtube/YoutubeEmbed";
 
 gsap.registerPlugin(ScrollTrigger);
+
+interface VideoData {
+  videoUrl: string;
+  title?: string;
+  _id?: string;
+}
+
 const HomeOneBanner = () => {
   const [videoActive, setVideoActive] = useState(false);
+  const [videoData, setVideoData] = useState<VideoData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasVideo, setHasVideo] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -44,6 +54,32 @@ const HomeOneBanner = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    const fetchVideo = async () => {
+      try {
+        const res = await fetch(
+          "https://devrolin-backend-production.up.railway.app/api/admin/play-video"
+        );
+        const data = await res.json();
+
+        if (data.exists && data.video?.videoUrl) {
+          setVideoData(data.video);
+          setHasVideo(true);
+        } else {
+          setHasVideo(false);
+        }
+      } catch (err) {
+        console.error("Failed to load video:", err);
+        setHasVideo(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchVideo();
+  }, []);
+
   return (
     <>
       <section className="banner">
@@ -59,7 +95,9 @@ const HomeOneBanner = () => {
                 </h1>
                 <div className="banner__content-inner">
                   <p>
-                  Dubai-based firm building AI, SaaS, and CRM systems that turn your business into a revenue machine without hiring more people.{" "}
+                    Dubai-based firm building AI, SaaS, and CRM systems that
+                    turn your business into a revenue machine without hiring
+                    more people.
                   </p>
                   <div className="cta section__content-cta">
                     <div className="single">
@@ -76,21 +114,25 @@ const HomeOneBanner = () => {
             </div>
           </div>
         </div>
+
         <Image
           src={banneronethumb}
-          // src='https://res.cloudinary.com/daljxhxzf/image/upload/v1760506903/banner_kpqapn.png'
-          // width={400}
-          // height={400}
           alt="Image"
           className="banner-one-thumb d-none d-sm-block g-ban-one"
         />
+
         <Image src={star} alt="Image" className="star" />
+
         <div className="banner-left-text banner-social-text d-none d-md-flex">
           <Link href="mailto:info@devrolin.com">mail : info@devrolin.com</Link>
           <Link href="tel:+971522347966">Whatsapp : +971-522347966</Link>
         </div>
+
         <div className="banner-right-text banner-social-text d-none d-md-flex">
-          <Link href="https://www.facebook.com/profile.php?id=61561865430556" target="_blank">
+          <Link
+            href="https://www.facebook.com/profile.php?id=61561865430556"
+            target="_blank"
+          >
             facebook
           </Link>
           <Link
@@ -106,13 +148,20 @@ const HomeOneBanner = () => {
             Linkedin
           </Link>
         </div>
+
         <button
           className="video-frame video-btn"
           onClick={() => setVideoActive(true)}
         >
-          <Image src='/circle.png' alt="Image" width={500} height={200} priority />
-          {/* <i className="fa-sharp fa-solid fa-play"></i> */}
+          <Image
+            src="/circle.png"
+            alt="Image"
+            width={500}
+            height={200}
+            priority
+          />
         </button>
+
         <div className="lines d-none d-lg-flex">
           <div className="line"></div>
           <div className="line"></div>
@@ -121,31 +170,85 @@ const HomeOneBanner = () => {
           <div className="line"></div>
         </div>
       </section>
+
+      {/* Video Modal */}
       <div
-        className={(videoActive ? " video-zoom-in" : " ") + " video-backdrop"}
+        className={
+          (videoActive ? " video-zoom-in" : " ") + " video-backdrop"
+        }
         onClick={() => setVideoActive(false)}
       >
         <div className="video-inner">
           <div
             className="video-container"
-            onClick={(e: any) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
           >
-            {/* {videoActive && <YoutubeEmbed embedId="fSv6UgCkuTU" />} */}
-            {/* // AFTER: */}
-<div className="coming-soon-inner">
-  <div className="coming-soon-lines">
-    <span></span><span></span><span></span>
-  </div>
-  <p className="coming-soon-eyebrow">Something Extraordinary</p>
-  <h2 className="coming-soon-title">
-    <span>Coming</span>
-    <span>Soon</span>
-  </h2>
-  <p className="coming-soon-sub">We&apos;re crafting something remarkable. Stay tuned.</p>
-  <div className="coming-soon-dots">
-    <span></span><span></span><span></span>
-  </div>
-</div>
+            {/* ✅ Show Video if exists */}
+            {videoActive && hasVideo && videoData?.videoUrl && (
+              <video
+                src={videoData.videoUrl}
+                autoPlay
+                controls
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  maxHeight: "80vh",
+                  objectFit: "contain",
+                }}
+                onLoadedData={() => {
+                  const loader = document.querySelector(".video-loader");
+                  if (loader) loader.remove();
+                }}
+              />
+            )}
+
+            {/* ✅ Show Loader while video is loading */}
+            {videoActive && isLoading && (
+              <div
+                className="video-loader"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  minHeight: 300,
+                }}
+              >
+                <div
+                  className="spinner-border text-light"
+                  role="status"
+                >
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            )}
+
+            {/* ✅ Show Coming Soon ONLY if NO video exists */}
+            {!hasVideo && (
+              <div className="coming-soon-inner">
+                <div className="coming-soon-lines">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <p className="coming-soon-eyebrow">
+                  Something Extraordinary
+                </p>
+                <h2 className="coming-soon-title">
+                  <span>Coming</span>
+                  <span>Soon</span>
+                </h2>
+                <p className="coming-soon-sub">
+                  We&apos;re crafting something remarkable. Stay tuned.
+                </p>
+                <div className="coming-soon-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+            )}
+
+            {/* Close Button */}
             <button
               aria-label="close video popup"
               className="close-video-popup"
