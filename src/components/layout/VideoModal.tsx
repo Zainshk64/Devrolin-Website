@@ -1,180 +1,215 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const VIDEO_SOURCES = [
-  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868284/2_1_qoujde.mp4",
-  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868278/3_1_bntfct.mp4",
-  "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868272/1_1_gwiq5n.mp4",
-];
+const FIRST_DELAY_MS = 15_000;      // 15 seconds — very first time ever
+const COOLDOWN_MS    = 5 * 60_000;  // 5 minutes — between subsequent shows
+const STORAGE_KEY    = "wa_tooltip_last_shown";
 
-const VideoModal = () => {
-  const [visible, setVisible] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [hovered, setHovered] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  // Detect mobile once, stable across renders
-  const isMobile = useRef(
-    typeof window !== "undefined" && window.innerWidth < 768
-  ).current;
-
-  const total = VIDEO_SOURCES.length;
-
-  const goTo = useCallback(
-    (index: number) => {
-      setCurrentIndex((index + total) % total);
-    },
-    [total]
-  );
-
-  const handleEnded = useCallback(() => {
-    setCurrentIndex((i) => (i + 1) % total);
-  }, [total]);
+const WhatsappRedirectBtn = () => {
+  const [isVisible,    setIsVisible]    = useState(false);
+  const [tooltipState, setTooltipState] = useState<"hidden" | "in" | "shown" | "out">("hidden");
 
   useEffect(() => {
-    const el = videoRef.current;
-    if (!el) return;
-    el.load();
-    const p = el.play();
-    if (p !== undefined) p.catch(() => {});
-  }, [currentIndex]);
+    const handleScroll = () => setIsVisible(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  if (!visible) return null;
+  useEffect(() => {
+    // Calculate how long to wait before showing the tooltip on this page mount
+    const getDelay = (): number => {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
 
-  const src = VIDEO_SOURCES[currentIndex];
+      // Never shown in this session → show after 15s
+      if (!raw) return FIRST_DELAY_MS;
 
-  // On mobile: always show buttons. On desktop: show on hover only.
-  const navBtnStyle = (side: "left" | "right"): React.CSSProperties => ({
-    position: "absolute",
-    [side]: 8,
-    top: "50%",
-    transform: "translateY(-50%)",
-    zIndex: 4,
-    background: "rgba(0,0,0,0.55)",
-    border: "1.5px solid rgba(255,255,255,0.3)",
-    color: "#fff",
-    width: 34,
-    height: 34,
-    borderRadius: "50%",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 15,
-    opacity: isMobile ? 1 : hovered ? 1 : 0,
-    pointerEvents: isMobile ? "auto" : hovered ? "auto" : "none",
-    transition: "opacity 0.2s ease",
-  });
+      const lastShown = parseInt(raw, 10);
+      const elapsed   = Date.now() - lastShown;
+      const remaining = COOLDOWN_MS - elapsed;
+
+      // Cooldown already passed (e.g. user was on another page for >5min) → show immediately
+      return remaining > 0 ? remaining : 0;
+    };
+
+    const runTooltip = () => {
+      // Stamp the time so next page navigation counts from now
+      sessionStorage.setItem(STORAGE_KEY, String(Date.now()));
+
+      setTooltipState("in");
+
+      const holdTimer = setTimeout(() => {
+        setTooltipState("shown");
+
+        const outTimer = setTimeout(() => {
+          setTooltipState("out");
+
+          const hideTimer = setTimeout(() => {
+            setTooltipState("hidden");
+          }, 500);
+
+          return () => clearTimeout(hideTimer);
+        }, 4000);
+
+        return () => clearTimeout(outTimer);
+      }, 500);
+
+      return () => clearTimeout(holdTimer);
+    };
+
+    const delay     = getDelay();
+    const showTimer = setTimeout(runTooltip, delay);
+    return () => clearTimeout(showTimer);
+  }, []); // runs once per page mount — correct behaviour for Next.js page transitions
+
+  const handleProgressClick = () => {
+    window.location.href = "https://wa.me/+971522347966";
+  };
 
   return (
-    <div className="vid-m vid-a">
-      <div className="vid-c">
+    <>
+      <style>
+        {`
+          .whatsapp-container {
+            position: fixed;
+            bottom: 30px;
+            right: 90px;
+            width: 50px;
+            height: 50px;
+            background-color: #25D366;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
+            opacity: 0;
+            transform: scale(0.8);
+          }
 
-        {/* Close button */}
-        <button
-          type="button"
-          className="close"
-          onClick={() => setVisible(false)}
-        >
-          <i className="fa-light fa-xmark-large"></i>
-        </button>
+          .whatsapp-container.visible {
+            opacity: 1;
+            transform: scale(1);
+          }
 
-        {/* Video + overlaid nav */}
-        <div
-          style={{ position: "relative", width: "100%" }}
-          onMouseEnter={() => setHovered(true)}
-          onFocus={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          <span
-            style={{
-              position: "absolute",
-              left: "-37%",
-              top: "35%",
-              transform: "translateY(-50%)",
-              zIndex: 5,
-              background: "#f97316",
-              color: "#fff",
-              fontSize: 18,
-              fontWeight: 400,
-              fontFamily: "inherit",
-              padding: "3px 14px",
-              borderTopLeftRadius: "50px",
-              borderTopRightRadius: "50px",
-              borderBottomLeftRadius: "50px",
-              borderBottomRightRadius: "0px",
-              pointerEvents: "none",
-              whiteSpace: "nowrap",
-              letterSpacing: "0.3px",
-              boxShadow: "2px 2px 8px rgba(249,115,22,0.4)",
-            }}
-          >
-            Hello!
+          .whatsapp-icon {
+            width: 35px;
+            height: 35px;
+          }
+
+          .Btn {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background-color: transparent;
+            position: relative;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+          }
+
+          .Btn:hover .tooltip {
+            opacity: 1;
+            transform: translateX(0);
+            max-width: 220px;
+            padding: 5px 10px;
+          }
+
+          .svgContainer {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            border-radius: 50%;
+            transition: all 0.3s;
+          }
+
+          /* ── Tooltip base ── */
+          .tooltip {
+            position: absolute;
+            right: 70px;
+            background-color: #25D366;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            pointer-events: none;
+
+            opacity: 0;
+            max-width: 0;
+            overflow: hidden;
+            padding-left: 0;
+            padding-right: 0;
+            transform: translateX(12px);
+            transition:
+              opacity 0.45s ease,
+              transform 0.45s ease,
+              max-width 0.45s ease,
+              padding 0.45s ease;
+          }
+
+          /* slide IN */
+          .tooltip--in,
+          .tooltip--shown {
+            opacity: 1;
+            max-width: 220px;
+            padding: 5px 10px;
+            transform: translateX(0);
+          }
+
+          /* slide OUT */
+          .tooltip--out {
+            opacity: 0;
+            max-width: 0;
+            padding-left: 0;
+            padding-right: 0;
+            transform: translateX(12px);
+          }
+
+          @media (max-width: 768px) {
+            .whatsapp-container {
+              width: 50px;
+              height: 50px;
+              bottom: 20px;
+              right: 80px;
+            }
+
+            .Btn {
+              width: 50px;
+              height: 50px;
+            }
+
+            .tooltip {
+              right: 60px;
+            }
+          }
+        `}
+      </style>
+
+      <div
+        className={`whatsapp-container ${isVisible ? "visible" : ""}`}
+        onClick={handleProgressClick}
+        title="Contact us on WhatsApp"
+      >
+        <button className="Btn">
+          <span className="svgContainer">
+            <svg viewBox="0 0 16 16" height="2.5em" className="svgIcon" fill="white">
+              <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
+            </svg>
           </span>
 
-          <video
-            ref={videoRef}
-            key={src}
-            controls
-            playsInline
-            preload="auto"
-            muted
-            loop={total === 1}
-            onEnded={handleEnded}
-            style={{ width: "100%", display: "block", borderRadius: "8px" }}
-          >
-            <source src={src} />
-          </video>
-
-          {/* 1 / 3 counter */}
-          {total > 1 && (
-            <span
-              style={{
-                position: "absolute",
-                top: 25,
-                left: 10,
-                background: "rgba(0,0,0,0.6)",
-                color: "#fff",
-                fontSize: 11,
-                fontWeight: 500,
-                padding: "2px 8px",
-                borderRadius: 20,
-                pointerEvents: "none",
-                zIndex: 4,
-                letterSpacing: "0.3px",
-              }}
-            >
-              {currentIndex + 1} / {total}
-            </span>
-          )}
-
-          {/* Prev button */}
-          {total > 1 && (
-            <button
-              type="button"
-              aria-label="Previous video"
-              onClick={() => goTo(currentIndex - 1)}
-              style={navBtnStyle("left")}
-            >
-              <i className="fa-light fa-angle-left"></i>
-            </button>
-          )}
-
-          {/* Next button */}
-          {total > 1 && (
-            <button
-              type="button"
-              aria-label="Next video"
-              onClick={() => goTo(currentIndex + 1)}
-              style={navBtnStyle("right")}
-            >
-              <i className="fa-light fa-angle-right"></i>
-            </button>
-          )}
-
-        </div>
+          <span className={`tooltip${tooltipState !== "hidden" ? ` tooltip--${tooltipState}` : ""}`}>
+            Get Instant Project Guidance
+          </span>
+        </button>
       </div>
-    </div>
+    </>
   );
 };
 
-export default VideoModal;
+export default WhatsappRedirectBtn;
