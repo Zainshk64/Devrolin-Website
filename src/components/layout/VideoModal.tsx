@@ -1,15 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 const VIDEO_SOURCES = [
-  // "https://res.cloudinary.com/do9v9l6np/video/upload/v1775834961/Orelio_Review_DevRolin_geedql.mp4",
-  // "https://res.cloudinary.com/do9v9l6np/video/upload/v1775834972/Mike_Prepare2Swim_tqputd.mp4",
-  // "https://res.cloudinary.com/do9v9l6np/video/upload/v1775834962/JOE_Video_testimonials_odhxv9.mp4",
-
-  // "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804873/2_xd656g.mp4",
-  // "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804417/3_bg8rxq.mp4",
-  // "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776804370/1_aofjqm.mp4",
-
-
   "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868284/2_1_qoujde.mp4",
   "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868278/3_1_bntfct.mp4",
   "https://res.cloudinary.com/drdpqf3ns/video/upload/v1776868272/1_1_gwiq5n.mp4",
@@ -20,8 +11,11 @@ const VideoModal = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-const [showControls, setShowControls] = useState(false);
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  // Detect mobile once, stable across renders
+  const isMobile = useRef(
+    typeof window !== "undefined" && window.innerWidth < 768
+  ).current;
 
   const total = VIDEO_SOURCES.length;
 
@@ -48,6 +42,7 @@ const [showControls, setShowControls] = useState(false);
 
   const src = VIDEO_SOURCES[currentIndex];
 
+  // On mobile: always show buttons. On desktop: show on hover only.
   const navBtnStyle = (side: "left" | "right"): React.CSSProperties => ({
     position: "absolute",
     [side]: 8,
@@ -65,21 +60,10 @@ const [showControls, setShowControls] = useState(false);
     alignItems: "center",
     justifyContent: "center",
     fontSize: 15,
-opacity: hovered || showControls ? 1 : 0,
-pointerEvents: hovered || showControls ? "auto" : "none",
+    opacity: isMobile ? 1 : hovered ? 1 : 0,
+    pointerEvents: isMobile ? "auto" : hovered ? "auto" : "none",
     transition: "opacity 0.2s ease",
   });
-
-  const handleVideoClick = () => {
-  if (isMobile) {
-    setShowControls(true);
-
-    // auto hide after 3 sec
-    setTimeout(() => {
-      setShowControls(false);
-    }, 3000);
-  }
-};
 
   return (
     <div className="vid-m vid-a">
@@ -88,7 +72,6 @@ pointerEvents: hovered || showControls ? "auto" : "none",
         {/* Close button */}
         <button
           type="button"
-          // aria-label="Close video popup"
           className="close"
           onClick={() => setVisible(false)}
         >
@@ -100,7 +83,6 @@ pointerEvents: hovered || showControls ? "auto" : "none",
           style={{ position: "relative", width: "100%" }}
           onMouseEnter={() => setHovered(true)}
           onFocus={() => setHovered(true)}
-        
           onMouseLeave={() => setHovered(false)}
         >
           <span
@@ -116,14 +98,13 @@ pointerEvents: hovered || showControls ? "auto" : "none",
               fontWeight: 400,
               fontFamily: "inherit",
               padding: "3px 14px",
-   borderTopLeftRadius: "50px",
-    borderTopRightRadius: "50px",
-    borderBottomLeftRadius: "50px",
-    borderBottomRightRadius: "0px",
-                  pointerEvents: "none",
+              borderTopLeftRadius: "50px",
+              borderTopRightRadius: "50px",
+              borderBottomLeftRadius: "50px",
+              borderBottomRightRadius: "0px",
+              pointerEvents: "none",
               whiteSpace: "nowrap",
               letterSpacing: "0.3px",
-              // chat-bubble tail pointing right toward video
               boxShadow: "2px 2px 8px rgba(249,115,22,0.4)",
             }}
           >
@@ -139,8 +120,6 @@ pointerEvents: hovered || showControls ? "auto" : "none",
             muted
             loop={total === 1}
             onEnded={handleEnded}
-              onClick={handleVideoClick}
-
             style={{ width: "100%", display: "block", borderRadius: "8px" }}
           >
             <source src={src} />
