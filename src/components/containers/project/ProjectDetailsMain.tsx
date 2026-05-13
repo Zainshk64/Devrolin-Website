@@ -18,7 +18,7 @@ const ProjectDetailsMain = ({ project }: { project: any }) => {
     <section className="section project-d">
       <div className="container">
         <div className="row gaper">
-          <div className="col-12 col-lg-6">
+          <div className="col-12 col-lg-12">
             <div className="project-d-group">
               <h3 className="light-title-lg">{project.title}</h3>
               <p>{project.description || " There are many variations of passages of Lorem Ipsum available,but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable."}</p>
