@@ -46,23 +46,33 @@ const BUDGET_OPTIONS = [
 ];
 
 const SERVICE_OPTIONS = [
-  "Web Development",
-  "Mobile App",
-  "AI / ML Solutions",
-  "Blockchain",
-  "UI/UX Design",
-  "SaaS Product",
-  "API Integration",
-  "Consulting",
+
+"AI Automation Systems",
+"AI Integrations & APIs",
+"CRM & Revenue Systems",
+"SaaS / MVP Development",
+"Web & Custom Platforms",
+"AI Agents & Workflows",
+"Internal Operations Systems",
+"Not Sure Yet"
 ];
 
 const SOURCE_OPTIONS = [
-  "Google Search",
-  "LinkedIn",
-  "Referral",
-  "Social Media",
-  "Blog / Article",
-  "Other",
+  // "Google Search",
+  // "LinkedIn",
+  // "Referral",
+  // "Social Media",
+  // "Blog / Article",
+  // "Other",
+  "Too Much Manual Work",
+"Team Repeating Same Tasks",
+"Leads Not Properly Managed",
+"Systems Not Connected",
+"Slow Operations",
+"No Automation Infrastructure",
+"Scaling Problems",
+"Need Better Reporting",
+"Need Faster Execution",
 ];
 
 const TIME_SLOTS = [
@@ -590,7 +600,7 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
           {/* STEP 2 — Source */}
           {step === 2 && (
             <div className="cf-step">
-              <p className="cf-step__title">Where did you hear about us?</p>
+              <p className="cf-step__title">What Is Slowing Your Business Down?</p>
               <div className="cf-source-grid">
                 {SOURCE_OPTIONS.map((s) => (
                   <label

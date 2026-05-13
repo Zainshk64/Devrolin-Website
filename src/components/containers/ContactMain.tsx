@@ -62,18 +62,18 @@ const ContactMain = () => {
               <div className="thumb">
                 <Image src={phone} alt="Image" />
               </div>
-             <div className="content">
-  <h4>Chat With Us</h4>
-  <p>
-    <Link
-      href="https://wa.me/97152347966"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      WhatsApp: +971-52347966
-    </Link>
-  </p>
-</div>
+              <div className="content">
+                <h4>Chat With Us</h4>
+                <p>
+                  <Link
+                    href="https://wa.me/97152347966"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    WhatsApp: +971-52347966
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
           <div className="col-12 col-sm-6 col-xl-3">
@@ -86,7 +86,6 @@ const ContactMain = () => {
                 <p>
                   <Link href="mailto:info@devrolin.com">info@devrolin.com</Link>
                 </p>
-                
               </div>
             </div>
           </div>
@@ -168,13 +167,17 @@ const ContactMain = () => {
                     {/* Contact Form */}
                     {activeForm === "contact" && (
                       <div className="form-container">
-                        <h3 className="form-title">Start Your Project With Clear Direction</h3>
+                        <h3 className="form-title">
+                          Let’s Engineer Your Growth Infrastructure
+                        </h3>
                         <p className="form-subtitle">
-We’d love to hear from you. Send us a message!	We’ll review your idea, identify opportunities, and guide you toward the right system before you commit.                        </p>
+                          We review your operations, identify bottlenecks, and design scalable AI, CRM, SaaS, automation, and custom platform systems built to reduce manual work and improve operational speed.”{" "}
+                        </p>
                         <div>
-
-                        <ConsultFormModal onClose={() => setActiveForm("contact")} />
-                          </div>
+                          <ConsultFormModal
+                            onClose={() => setActiveForm("contact")}
+                          />
+                        </div>
                       </div>
                     )}
 
@@ -186,7 +189,10 @@ We’d love to hear from you. Send us a message!	We’ll review your idea, ident
                           Ready to make an impact? Apply now!
                         </p>
 
-                        <form onSubmit={handleSubmit} className="hiring-application-form">
+                        <form
+                          onSubmit={handleSubmit}
+                          className="hiring-application-form"
+                        >
                           <input
                             type="hidden"
                             name="form_type"
@@ -235,7 +241,9 @@ We’d love to hear from you. Send us a message!	We’ll review your idea, ident
                               name="position"
                               required
                               value={selectedPosition}
-                              onChange={(e) => setSelectedPosition(e.target.value)}
+                              onChange={(e) =>
+                                setSelectedPosition(e.target.value)
+                              }
                             >
                               <option value="">Select a position</option>
                               {positions.map((pos) => (
@@ -273,7 +281,9 @@ We’d love to hear from you. Send us a message!	We’ll review your idea, ident
                           </div>
 
                           <div className="form-group">
-                            <label htmlFor="resume">Upload Resume (PDF) *</label>
+                            <label htmlFor="resume">
+                              Upload Resume (PDF) *
+                            </label>
                             <input
                               type="file"
                               id="resume"
