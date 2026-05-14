@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "public/images/Company-Logo-Normal-1/1.svg";
+   import { useProjectModal } from "@/components/ProjectModalContext";
 
 interface HeaderProps {
   openNav: boolean;
@@ -9,6 +10,8 @@ interface HeaderProps {
 }
 
 const Offcanvas = ({ openNav, setOpenNav }: HeaderProps) => {
+    const { openModal } = useProjectModal();
+
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
   const [openNestedMenu, setOpenNestedMenu] = useState<string | null>(null);
 
@@ -264,9 +267,14 @@ const Offcanvas = ({ openNav, setOpenNav }: HeaderProps) => {
           </div>
           <div className="offcanvas-menu__options nav-fade">
             <div className="offcanvas__mobile-options d-flex">
-              <Link href="contact-us" className="btn btn--secondary">
-               Get Your Systems Plan
-              </Link>
+               {/* Changed: button instead of Link, calls openModal() */}
+    <button
+      type="button"
+      className="btn btn--secondary"
+      onClick={() => openModal()}   // no serviceName on navbar — generic message
+    >
+      Get Your Systems Plan
+    </button>
             </div>
           </div>
           <div className="offcanvas-menu__social social nav-fade">
