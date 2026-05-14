@@ -126,11 +126,11 @@ const FooterTwo = () => {
               <div className="section__content-cta">
                 <h2>
                   <Link
-                    href="mailto:info@gmail.com"
+                    href="mailto:systems@gmail.com"
                     className="folks-text animated-text"
                     ref={animatedTextRef}
                   >
-                    info@devrolin.com
+                    systems@devrolin.com
                     {animatedTextContent.split("").map((char, index) => (
                       <span
                         aria-hidden="true"
@@ -181,9 +181,9 @@ const FooterTwo = () => {
                   <i className="fa-sharp fa-solid fa-phone-volume"></i>
                   (406) 555-0120
                 </Link>
-                <Link href="mailto:info@xpovio.com">
+                <Link href="mailto:systems@xpovio.com">
                   <i className="fa-sharp fa-solid fa-envelope"></i>
-                  info@devrolin.com
+                  systems@devrolin.com
                 </Link>
               </div>
             </div>

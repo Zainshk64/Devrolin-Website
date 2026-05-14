@@ -36,9 +36,9 @@ const FooterThree = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="mailto:info@xpovio.com">
+                    <Link href="mailto:systems@xpovio.com">
                       <i className="fa-sharp fa-solid fa-envelope"></i>
-                      info@xpovio.com
+                      systems@xpovio.com
                     </Link>
                   </li>
                 </ul>
@@ -77,9 +77,9 @@ const FooterThree = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="mailto:info@xpovio.com">
+                    <Link href="mailto:systems@xpovio.com">
                       <i className="fa-sharp fa-solid fa-envelope"></i>
-                      info@xpovio.com
+                      systems@xpovio.com
                     </Link>
                   </li>
                 </ul>
@@ -114,9 +114,9 @@ const FooterThree = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="mailto:info@xpovio.com">
+                    <Link href="mailto:systems@xpovio.com">
                       <i className="fa-sharp fa-solid fa-envelope"></i>
-                      info@xpovio.com
+                      systems@xpovio.com
                     </Link>
                   </li>
                 </ul>
@@ -155,9 +155,9 @@ const FooterThree = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="mailto:info@xpovio.com">
+                    <Link href="mailto:systems@xpovio.com">
                       <i className="fa-sharp fa-solid fa-envelope"></i>
-                      info@xpovio.com
+                      systems@xpovio.com
                     </Link>
                   </li>
                 </ul>
@@ -192,9 +192,9 @@ const FooterThree = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="mailto:info@xpovio.com">
+                    <Link href="mailto:systems@xpovio.com">
                       <i className="fa-sharp fa-solid fa-envelope"></i>
-                      info@xpovio.com
+                      systems@xpovio.com
                     </Link>
                   </li>
                 </ul>

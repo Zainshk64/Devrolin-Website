@@ -45,7 +45,7 @@ interface ProjectModalProps {
 }
 
 const WA_NUMBER = "971522347966";
-const EMAIL     = "info@devrolin.com";
+const EMAIL     = "systems@devrolin.com";
 
 const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
   const waMessage = serviceName
