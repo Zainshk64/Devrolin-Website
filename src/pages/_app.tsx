@@ -2,15 +2,14 @@
 import React, { Suspense, useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
+import { ProjectModalProvider } from "@/components/ProjectModalContext";
+
 // bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
-
 // font awesome 6
 import "public/icons/font-awesome/css/all.css";
-
 // custom icons
 import "public/icons/glyphter/css/xpovio.css";
-
 // main scss
 import "@/styles/main.scss";
 
@@ -25,11 +24,9 @@ const ModernLoader = () => {
             className="company-logo"
           />
         </div>
-
         <div className="progress-bar-container">
           <div className="progress-bar-fill"></div>
         </div>
-
         <p className="loading-text">Your Future, Our Technology</p>
       </div>
 
@@ -83,20 +80,20 @@ const ModernLoader = () => {
         }
         @keyframes fadeIn {
           from { opacity: 0; }
-          to { opacity: 1; }
+          to   { opacity: 1; }
         }
         @keyframes pulse {
           0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
+          50%       { transform: scale(1.05); }
         }
         @keyframes fillProgress {
-          0% { width: 0%; transform: translateX(0); }
-          50% { width: 100%; transform: translateX(0); }
+          0%   { width: 0%;   transform: translateX(0); }
+          50%  { width: 100%; transform: translateX(0); }
           100% { width: 100%; transform: translateX(100%); }
         }
         @keyframes textPulse {
           0%, 100% { opacity: 0.6; }
-          50% { opacity: 1; }
+          50%       { opacity: 1; }
         }
       `}</style>
     </div>
@@ -123,9 +120,12 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <Suspense fallback={null}>
-      <Component {...pageProps} />
-      <Toaster position="bottom-left" />
-    </Suspense>
+    // ✅ ProjectModalProvider wraps everything — modal works on every page
+    <ProjectModalProvider>
+      <Suspense fallback={null}>
+        <Component {...pageProps} />
+        <Toaster position="bottom-left" />
+      </Suspense>
+    </ProjectModalProvider>
   );
 }

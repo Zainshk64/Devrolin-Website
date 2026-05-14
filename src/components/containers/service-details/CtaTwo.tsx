@@ -1,7 +1,15 @@
+"use client";
 import React from "react";
 import Link from "next/link";
+import { useProjectModal } from "@/components/ProjectModalContext"; // adjust path as needed
 
-const CtaTwo = () => {
+interface CtaTwoProps {
+  serviceName?: string; // pass the current service name from the page
+}
+
+const CtaTwo = ({ serviceName }: CtaTwoProps) => {
+  const { openModal } = useProjectModal();
+
   return (
     <section className="cta-two section">
       <div className="container">
@@ -25,10 +33,15 @@ const CtaTwo = () => {
                 </div>
                 <div className="col-12 col-lg-4">
                   <div className="text-start text-lg-end">
-                    <Link href="contact-us" className="btn btn--tertiary">
-                      start a project
+                    {/* Opens the modal instead of navigating */}
+                    <button
+                      type="button"
+                      className="btn btn--tertiary"
+                      onClick={() => openModal(serviceName)}
+                    >
+                      Get My System Plan
                       <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>

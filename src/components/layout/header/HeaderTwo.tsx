@@ -6,6 +6,10 @@ import logo from "public/images/Company-Logo-Normal-1/1.svg";
 import logoLight from "public/images/logo-light.png";
 import Offcanvas from "./Offcanvas";
 
+import { useProjectModal } from "@/components/ProjectModalContext";
+//  1. Import the hook at the top of your navbar file:
+//
+// 2. Inside the component function, add:
 interface HeaderProps {
   openNav: boolean;
   setOpenNav: (value: boolean) => void;
@@ -13,6 +17,7 @@ interface HeaderProps {
 }
 
 const HeaderTwo = ({ openNav, handleNav, setOpenNav }: HeaderProps) => {
+  const { openModal } = useProjectModal();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -126,14 +131,7 @@ const HeaderTwo = ({ openNav, handleNav, setOpenNav }: HeaderProps) => {
                         >
                           SERVICES
                         </Link>
-                        {/* <ul className="navbar__sub-menu">
-                          <li>
-                            <Link href="our-services">Our Services</Link>
-                          </li>
-                          <li>
-                            <Link href="service-single">Service Details</Link>
-                          </li>
-                        </ul> */}
+                       
                       </li>
                       <li className="navbar__item  nav-fade">
                         <Link href="/our-projects">PROJECTS</Link>
@@ -219,9 +217,14 @@ const HeaderTwo = ({ openNav, handleNav, setOpenNav }: HeaderProps) => {
                   </div>
                   <div className="navbar__options">
                     <div className="navbar__mobile-options d-none d-sm-flex">
-                      <Link href="/contact-us" className="btn btn--secondary">
-                        Get Your Systems Plan
-                      </Link>
+                       {/* Changed: button instead of Link, calls openModal() */}
+    <button
+      type="button"
+      className="btn btn--secondary"
+      onClick={() => openModal()}   // no serviceName on navbar — generic message
+    >
+      Get Your Systems Plan
+    </button>
                     </div>
                     <button
                       className="open-mobile-menu d-flex d-xl-none"

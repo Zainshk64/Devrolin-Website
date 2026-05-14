@@ -138,7 +138,7 @@ Dubai-based firm building AI, SaaS, and CRM systems that turn your business into
                   <div className="footer__copyright-text text-center text-lg-start">
                     <p>
                       Copyright &copy;
-                      <span id="copyYear">2024</span> DevRolin. All Rights Reserved
+                      <span id="copyYear">2026</span> DevRolin. All Rights Reserved
                     </p>
                   </div>
                 </div>

@@ -16,7 +16,7 @@ const OurServices = () => {
       <HomeTwoModal />
       {/* <UxProcessTwo /> */}
       <HomeTestimonial/>
-      <CtaTwo />
+      <CtaTwo/>
     </Layout>
   );
 };
