@@ -199,9 +199,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           position: relative;
         }
 
-        /* ── Filter bar ── */
-        .ps-filter-bar { padding: 0 60px; margin-bottom: 32px; }
-       
+        
         /* ── Rows ── */
         .ps-rows { display: flex; flex-direction: column; gap: 20px; }
 
