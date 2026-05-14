@@ -3,23 +3,23 @@ import React, { useState, useCallback, useRef } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface FormData {
-  // Step 1 — Company
+  // Step 1 — About Your Business
   fullName: string;
   email: string;
-  phone: string;
+  whatsapp: string;
   company: string;
   website: string;
-  country: string;
 
-  // Step 2 — Project
+  // Step 2 — What Do You Need?
   services: string[];
-  projectDesc: string;
+  biggestBottleneck: string;
+  currentTools: string;
+
+  // Step 3 — Project Direction
+  shortDescription: string;
+  timeline: string;
   budget: string;
   files: File[];
-
-  // Step 3 — Source
-  source: string;
-  sourceOther: string;
 
   // Step 4 — Schedule
   selectedDay: string;
@@ -36,6 +36,42 @@ interface ConsultFormModalProps {
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
+const SERVICE_OPTIONS = [
+  "AI Automation Systems",
+  "AI Integration",
+  "CRM & Revenue Systems",
+  "SaaS / MVP Development",
+  "Web & Custom Platforms",
+  "AI Agents",
+  "API Integrations",
+  "Dashboard & Internal Tools",
+  "Workflow Automation",
+  "Lead Management Systems",
+  "Client Portals / Platforms",
+  "Internal Operations Systems",
+  "Not Sure Yet",
+];
+
+const BOTTLENECK_OPTIONS = [
+  "Too Much Manual Work",
+  "Team Repeating Same Tasks",
+  "Leads Not Properly Managed",
+  "Systems Not Connected",
+  "Slow Operations",
+  "No Automation Infrastructure",
+  "Scaling Problems",
+  "Need Better Reporting",
+  "Need Faster Execution",
+];
+
+const TIMELINE_OPTIONS = [
+  "ASAP",
+  "1-2 Months",
+  "3-6 Months",
+  "6+ Months",
+  "Just Exploring",
+];
+
 const BUDGET_OPTIONS = [
   "$10K to $25K",
   "$25K to $50K",
@@ -43,36 +79,6 @@ const BUDGET_OPTIONS = [
   "$200K to $500K",
   "$500K+",
   "Not Sure",
-];
-
-const SERVICE_OPTIONS = [
-
-"AI Automation Systems",
-"AI Integrations & APIs",
-"CRM & Revenue Systems",
-"SaaS / MVP Development",
-"Web & Custom Platforms",
-"AI Agents & Workflows",
-"Internal Operations Systems",
-"Not Sure Yet"
-];
-
-const SOURCE_OPTIONS = [
-  // "Google Search",
-  // "LinkedIn",
-  // "Referral",
-  // "Social Media",
-  // "Blog / Article",
-  // "Other",
-  "Too Much Manual Work",
-"Team Repeating Same Tasks",
-"Leads Not Properly Managed",
-"Systems Not Connected",
-"Slow Operations",
-"No Automation Infrastructure",
-"Scaling Problems",
-"Need Better Reporting",
-"Need Faster Execution",
 ];
 
 const TIME_SLOTS = [
@@ -99,34 +105,20 @@ const TIMEZONES = [
   "UTC+09:00 (JST)",
   "UTC+10:00 (AEST)",
 ];
-// Company	About You
-// Project	Your Project
-// Source	Goals & Requirements
-// Schedule	Next Step
-const STEPS = ["About You", "Your Project", "Requirements", "Next Step"];
+
+const STEPS = ["About Your Business", "What You Need", "Project Direction", "Next Step"];
 
 // ─── Calendar Helper ──────────────────────────────────────────────────────────
 const getUpcomingDays = (startOffset = 0, count = 7) => {
   const days = [];
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
   ];
 
-  // Use local date without timezone issues
   const today = new Date();
-  today.setHours(12, 0, 0, 0); // Set to noon to avoid timezone issues
+  today.setHours(12, 0, 0, 0);
 
   let added = 0;
   let offset = startOffset;
@@ -137,7 +129,6 @@ const getUpcomingDays = (startOffset = 0, count = 7) => {
     const dow = d.getDay();
 
     if (dow !== 0 && dow !== 6) {
-      // Format date as YYYY-MM-DD in local timezone
       const year = d.getFullYear();
       const month = String(d.getMonth() + 1).padStart(2, "0");
       const day = String(d.getDate()).padStart(2, "0");
@@ -156,6 +147,7 @@ const getUpcomingDays = (startOffset = 0, count = 7) => {
   }
   return days;
 };
+
 // ─── Main Modal Component ─────────────────────────────────────────────────────
 const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
   const [step, setStep] = useState(0);
@@ -166,21 +158,29 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
   const [dragOver, setDragOver] = useState(false);
 
   const [form, setForm] = useState<FormData>({
+    // Step 1
     fullName: "",
     email: "",
-    phone: "",
+    whatsapp: "",
     company: "",
     website: "",
-    country: "",
+
+    // Step 2
     services: [],
-    projectDesc: "",
+    biggestBottleneck: "",
+    currentTools: "",
+
+    // Step 3
+    shortDescription: "",
+    timeline: "",
     budget: "",
     files: [],
-    source: "",
-    sourceOther: "",
+
+    // Step 4
     selectedDay: "",
     selectedSlot: "",
     timezone: "UTC+05:00 (PKT)",
+
     consentSMS: false,
     consentMarketing: false,
   });
@@ -202,18 +202,18 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
     const arr = Array.from(newFiles).slice(0, 5 - form.files.length);
     set("files", [...form.files, ...arr]);
   };
+
   const removeFile = (i: number) =>
-    set(
-      "files",
-      form.files.filter((_, idx) => idx !== i),
-    );
+    set("files", form.files.filter((_, idx) => idx !== i));
 
   // Step validation
   const canProceed = () => {
     if (step === 0)
-      return form.fullName.trim() && form.email.trim() && form.company.trim();
-    if (step === 1) return form.projectDesc.trim() && form.budget;
-    if (step === 2) return form.source;
+      return form.fullName.trim() && form.email.trim() && form.whatsapp.trim();
+    if (step === 1)
+      return form.services.length > 0 && form.biggestBottleneck;
+    if (step === 2)
+      return form.shortDescription.trim();
     if (step === 3)
       return form.selectedDay && form.selectedSlot && form.consentSMS;
     return true;
@@ -226,20 +226,21 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
   const handleBack = () => {
     if (step > 0) setStep((s) => s - 1);
   };
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      // Upload files to Cloudinary first
+      // Upload files to Cloudinary
       const uploadedFileUrls: string[] = [];
 
       for (const file of form.files) {
         const cloudinaryData = new FormData();
         cloudinaryData.append("file", file);
-        cloudinaryData.append("upload_preset", "formspree_uploads"); // Your preset name
-        cloudinaryData.append("cloud_name", "drdpqf3ns"); // Replace with your cloud name
+        cloudinaryData.append("upload_preset", "formspree_uploads");
+        cloudinaryData.append("cloud_name", "drdpqf3ns");
 
         const cloudinaryRes = await fetch(
-          "https://api.cloudinary.com/v1_1/drdpqf3ns/auto/upload", // Replace YOUR_CLOUD_NAME
+          "https://api.cloudinary.com/v1_1/drdpqf3ns/auto/upload",
           {
             method: "POST",
             body: cloudinaryData,
@@ -252,37 +253,35 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
         }
       }
 
-      // Now send form data with file URLs to Formspree
+      // Send to Formspree
       const formDataObj = {
-        // Step 1 — Company Info
+        // Step 1 — About Your Business
         fullName: form.fullName,
         email: form.email,
-        phone: form.phone || "Not provided",
-        company: form.company,
+        whatsapp: form.whatsapp,
+        company: form.company || "Not provided",
         website: form.website || "Not provided",
-        country: form.country || "Not provided",
 
-        // Step 2 — Project Info
-        services:
-          form.services.length > 0 ? form.services.join(", ") : "None selected",
-        projectDesc: form.projectDesc || "No description",
-        budget: form.budget,
+        // Step 2 — What Do You Need?
+        services: form.services.join(", "),
+        biggestBottleneck: form.biggestBottleneck,
+        currentTools: form.currentTools || "Not provided",
 
-        // File URLs from Cloudinary
+        // Step 3 — Project Direction
+        shortDescription: form.shortDescription,
+        timeline: form.timeline || "Not specified",
+        budget: form.budget || "Not specified",
+
+        // File URLs
         attachments:
           uploadedFileUrls.length > 0
             ? uploadedFileUrls.join("\n")
             : "No attachments",
 
-        // File names for reference
         fileNames:
           form.files.length > 0
             ? form.files.map((f) => f.name).join(", ")
             : "None",
-
-        // Step 3 — Source
-        source: form.source,
-        sourceOther: form.source === "Other" ? form.sourceOther : "",
 
         // Step 4 — Schedule
         selectedDay: form.selectedDay,
@@ -320,7 +319,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
     }
   };
 
-  // Backdrop click
   const handleBackdrop = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) onClose();
   };
@@ -334,24 +332,34 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
         <div className="cf-modal">
           <div className="cf-success">
             <div className="cf-success__icon">✓</div>
-            <h2 className="cf-success__title">You're all set!</h2>
+            <h2 className="cf-success__title">Your project request has been received.</h2>
             <p className="cf-success__sub">
-              Thanks, <strong>{form.fullName.split(" ")[0]}</strong>! We've
-              received your project details. Our team will reach out within 24
-              hours to confirm your <strong>{form.selectedSlot}</strong> call on{" "}
-              <strong>{form.selectedDay}</strong>.
+              Our team reviews every inquiry manually to identify the fastest and highest-impact solution path. 
+              Expect a response within a few hours.
             </p>
-            <a href="/">
-              <button className="cf-success__close" onClick={onClose}>
-                Back to Home
-              </button>
-            </a>
+            
+            {/* WhatsApp Quick Action */}
+            <div className="cf-success__whatsapp">
+              <p className="cf-success__whatsapp-title">Need faster communication?</p>
+              <a
+                href={`https://wa.me/971522347966?text=${encodeURIComponent(`Hi DevRolin, I just submitted a project inquiry. My name is ${form.fullName}. Looking forward to connecting!`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cf-success__whatsapp-btn"
+              >
+                <i className="fa-brands fa-whatsapp"></i>
+                Continue on WhatsApp
+              </a>
+            </div>
+
+            <button className="cf-success__close" onClick={onClose}>
+              Back to Home
+            </button>
           </div>
         </div>
       </div>
     );
   }
-
   return (
     <div className="cf-backdrop" onClick={handleBackdrop}>
       <div className="cf-modal">
@@ -360,9 +368,9 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
           <div className="cf-header__top">
             <div className="cf-header__text">
               <span className="cf-header__eyebrow">Start Your System</span>
-              <h2 className="cf-header__title">Let's Design Your System</h2>
+              <h2 className="cf-header__title">Let's Build Your System</h2>
               <p className="cf-header__sub">
-                Share your idea or problem. We’ll map the right solution and show you how to build it the right way.{" "}
+                Share your operational challenge. We'll design the right solution and show you exactly how to build it.
                 <br />
                 Looking for a job?{" "}
                 <a href="/careers" onClick={onClose}>
@@ -370,7 +378,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                 </a>
               </p>
             </div>
-            {/* <button className="cf-header__close" onClick={onClose} aria-label="Close">✕</button> */}
           </div>
 
           {/* Step indicators */}
@@ -398,10 +405,10 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
 
         {/* ── Body ── */}
         <div className="cf-body">
-          {/* STEP 0 — Company */}
+          {/* STEP 0 — About Your Business */}
           {step === 0 && (
             <div className="cf-step">
-              <p className="cf-step__title">Quick Info About Business</p>
+              <p className="cf-step__title">About Your Business</p>
               <div className="cf-row">
                 <div className="cf-group">
                   <label className="cf-label">
@@ -427,11 +434,22 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                   />
                 </div>
               </div>
+
               <div className="cf-row">
                 <div className="cf-group">
                   <label className="cf-label">
-                    Company Name <span>*</span>
+                    WhatsApp Number <span>*</span>
                   </label>
+                  <input
+                    className="cf-input"
+                    type="tel"
+                    placeholder="+1 (555) 000-0000"
+                    value={form.whatsapp}
+                    onChange={(e) => set("whatsapp", e.target.value)}
+                  />
+                </div>
+                <div className="cf-group">
+                  <label className="cf-label">Company Name (Optional)</label>
                   <input
                     className="cf-input"
                     placeholder="Acme Corp"
@@ -439,64 +457,29 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                     onChange={(e) => set("company", e.target.value)}
                   />
                 </div>
-                <div className="cf-group">
-                  <label className="cf-label">Phone Number</label>
-                  <input
-                    className="cf-input"
-                    type="tel"
-                    placeholder="+1 (555) 000-0000"
-                    value={form.phone}
-                    onChange={(e) => set("phone", e.target.value)}
-                  />
-                </div>
               </div>
-              <div className="cf-row">
-                <div className="cf-group">
-                  <label className="cf-label">Website</label>
-                  <input
-                    className="cf-input"
-                    placeholder="https://yoursite.com"
-                    value={form.website}
-                    onChange={(e) => set("website", e.target.value)}
-                  />
-                </div>
-                <div className="cf-group">
-                  <label className="cf-label">Country</label>
-                  <select
-                    className="cf-select"
-                    value={form.country}
-                    onChange={(e) => set("country", e.target.value)}
-                  >
-                    <option value="">Select country...</option>
-                    {[
-                      "United States",
-                      "United Kingdom",
-                      "Canada",
-                      "Australia",
-                      "UAE",
-                      "Pakistan",
-                      "India",
-                      "Germany",
-                      "Singapore",
-                      "Other",
-                    ].map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+
+              <div className="cf-group">
+                <label className="cf-label">Website (Optional)</label>
+                <input
+                  className="cf-input"
+                  placeholder="https://yoursite.com"
+                  value={form.website}
+                  onChange={(e) => set("website", e.target.value)}
+                />
               </div>
             </div>
           )}
 
-          {/* STEP 1 — Project */}
+          {/* STEP 1 — What Do You Need? */}
           {step === 1 && (
             <div className="cf-step">
-              <p className="cf-step__title">Tell us more about your project</p>
+              <p className="cf-step__title">What Do You Need?</p>
 
-              <div className="cf-group" style={{ marginBottom: 16 }}>
-                <label className="cf-label">Services Needed</label>
+              <div className="cf-group" style={{ marginBottom: 20 }}>
+                <label className="cf-label">
+                  Service Needed <span>*</span>
+                </label>
                 <div className="cf-service-grid">
                   {SERVICE_OPTIONS.map((s) => (
                     <label
@@ -517,40 +500,96 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              <div className="cf-group" style={{ marginBottom: 16 }}>
+              <div className="cf-group" style={{ marginBottom: 20 }}>
                 <label className="cf-label">
-                  Project Description <span>*</span>
+                  Biggest Bottleneck <span>*</span>
+                </label>
+                <div className="cf-source-grid">
+                  {BOTTLENECK_OPTIONS.map((b) => (
+                    <label
+                      key={b}
+                      className={`cf-source-pill${form.biggestBottleneck === b ? " cf-source-pill--active" : ""}`}
+                    >
+                      <input
+                        type="radio"
+                        name="bottleneck"
+                        value={b}
+                        checked={form.biggestBottleneck === b}
+                        onChange={() => set("biggestBottleneck", b)}
+                      />
+                      {b}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="cf-group">
+                <label className="cf-label">Current Tools Used (Optional)</label>
+                <input
+                  className="cf-input"
+                  placeholder="e.g. HubSpot, Zapier, ClickUp..."
+                  value={form.currentTools}
+                  onChange={(e) => set("currentTools", e.target.value)}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* STEP 2 — Project Direction */}
+          {step === 2 && (
+            <div className="cf-step">
+              <p className="cf-step__title">Project Direction</p>
+
+              <div className="cf-group" style={{ marginBottom: 20 }}>
+                <label className="cf-label">
+                  Short Description <span>*</span>
                 </label>
                 <textarea
                   className="cf-textarea"
-                  placeholder="Describe what you want to build, your goals, timeline, and any technical requirements..."
-                  value={form.projectDesc}
-                  onChange={(e) => set("projectDesc", e.target.value)}
+                  placeholder="Describe what you want to achieve, main pain points, and what success looks like for you..."
+                  value={form.shortDescription}
+                  onChange={(e) => set("shortDescription", e.target.value)}
                   rows={4}
                 />
               </div>
 
-              <div className="cf-group" style={{ marginBottom: 16 }}>
-                <label className="cf-label">
-                  Budget Range <span>*</span>
-                </label>
-                <div className="cf-budget-grid">
-                  {BUDGET_OPTIONS.map((b) => (
-                    <button
-                      key={b}
-                      type="button"
-                      className={`cf-budget-pill${form.budget === b ? " cf-budget-pill--active" : ""}`}
-                      onClick={() => set("budget", b)}
-                    >
-                      {b}
-                    </button>
-                  ))}
+              <div className="cf-row">
+                <div className="cf-group">
+                  <label className="cf-label">Timeline (Optional)</label>
+                  <select
+                    className="cf-select"
+                    value={form.timeline}
+                    onChange={(e) => set("timeline", e.target.value)}
+                  >
+                    <option value="">Select timeline...</option>
+                    {TIMELINE_OPTIONS.map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="cf-group">
+                  <label className="cf-label">Budget (Optional)</label>
+                  <select
+                    className="cf-select"
+                    value={form.budget}
+                    onChange={(e) => set("budget", e.target.value)}
+                  >
+                    <option value="">Select budget...</option>
+                    {BUDGET_OPTIONS.map((b) => (
+                      <option key={b} value={b}>
+                        {b}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
               {/* File Upload */}
               <div className="cf-group">
-                <label className="cf-label">Attachments (optional)</label>
+                <label className="cf-label">File Upload (Optional)</label>
                 <div
                   className={`cf-upload${dragOver ? " cf-upload--drag" : ""}`}
                   onClick={() => fileInputRef.current?.click()}
@@ -597,46 +636,11 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
             </div>
           )}
 
-          {/* STEP 2 — Source */}
-          {step === 2 && (
-            <div className="cf-step">
-              <p className="cf-step__title">What Is Slowing Your Business Down?</p>
-              <div className="cf-source-grid">
-                {SOURCE_OPTIONS.map((s) => (
-                  <label
-                    key={s}
-                    className={`cf-source-pill${form.source === s ? " cf-source-pill--active" : ""}`}
-                  >
-                    <input
-                      type="radio"
-                      name="source"
-                      value={s}
-                      checked={form.source === s}
-                      onChange={() => set("source", s)}
-                    />
-                    {s}
-                  </label>
-                ))}
-              </div>
-              {form.source === "Other" && (
-                <div className="cf-group" style={{ marginTop: 14 }}>
-                  <label className="cf-label">Please specify</label>
-                  <input
-                    className="cf-input"
-                    placeholder="Tell us more..."
-                    value={form.sourceOther}
-                    onChange={(e) => set("sourceOther", e.target.value)}
-                  />
-                </div>
-              )}
-            </div>
-          )}
-
           {/* STEP 3 — Schedule */}
           {step === 3 && (
             <div className="cf-step">
               <p className="cf-step__title">
-                Schedule a free 30-min tech consultation
+                Schedule a free 30-min consultation
               </p>
 
               <div className="cf-calendar">

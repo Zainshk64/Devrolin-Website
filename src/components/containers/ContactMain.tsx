@@ -84,7 +84,7 @@ const ContactMain = () => {
               <div className="content">
                 <h4>Email Us</h4>
                 <p>
-                  <Link href="mailto:info@devrolin.com">info@devrolin.com</Link>
+                  <Link href="mailto:systems@devrolin.com">systems@devrolin.com</Link>
                 </p>
               </div>
             </div>

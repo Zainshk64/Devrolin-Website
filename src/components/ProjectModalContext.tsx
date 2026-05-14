@@ -50,7 +50,7 @@ const EMAIL     = "info@devrolin.com";
 const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
   const waMessage = serviceName
     ? `Hey DevRolin, I was checking your ${serviceName} page and wanted to discuss my project.`
-    : `Hey DevRolin, I wanted to discuss my project with you.`;
+    : ` Hey DevRolin, I think my business needs better systems and wanted to discuss a potential project with your team`;
 
   const waLink     = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
   const mailtoLink = `mailto:${EMAIL}?subject=Project%20Inquiry&body=${encodeURIComponent(waMessage)}`;
@@ -76,6 +76,7 @@ const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
           justify-content: center;
           padding: 20px;
           animation: pm-fade-in 0.25s ease;
+          overflow-y: auto; /* ✅ Allow scroll on backdrop */
         }
 
         @keyframes pm-fade-in {
@@ -90,10 +91,29 @@ const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
           border-radius: 20px;
           width: 100%;
           max-width: 520px;
+          max-height: 90vh; /* ✅ Limit height to 90% of viewport */
           padding: 40px 36px 36px;
           position: relative;
           animation: pm-slide-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
           box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(249,115,22,0.08);
+          overflow-y: auto; /* ✅ Enable vertical scroll inside modal */
+          margin: auto; /* ✅ Center vertically when scrolling */
+        }
+
+        /* ✅ Custom scrollbar for modal */
+        .pm-box::-webkit-scrollbar {
+          width: 6px;
+        }
+        .pm-box::-webkit-scrollbar-track {
+          background: #1a1a1a;
+          border-radius: 10px;
+        }
+        .pm-box::-webkit-scrollbar-thumb {
+          background: #333;
+          border-radius: 10px;
+        }
+        .pm-box::-webkit-scrollbar-thumb:hover {
+          background: #f97316;
         }
 
         @keyframes pm-slide-up {
@@ -103,9 +123,10 @@ const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
 
         /* ── Close ── */
         .pm-close {
-          position: absolute;
+          position: sticky; /* ✅ Make close button sticky */
           top: 18px;
           right: 18px;
+          margin-left: auto; /* ✅ Push to right */
           width: 36px;
           height: 36px;
           border-radius: 50%;
@@ -118,6 +139,8 @@ const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
           align-items: center;
           justify-content: center;
           transition: border-color 0.2s, color 0.2s, background 0.2s;
+          z-index: 10; /* ✅ Ensure it stays above content */
+          margin-bottom: 12px; /* ✅ Spacing below button */
         }
         .pm-close:hover { border-color: #f97316; color: #f97316; background: rgba(249,115,22,0.08); }
 
@@ -316,12 +339,23 @@ const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
           .pm-box {
             padding: 32px 22px 28px;
             border-radius: 16px;
+            max-height: 85vh; /* ✅ Slightly smaller on mobile */
           }
           .pm-title { font-size: 1.35rem; }
           .pm-card  { padding: 15px 16px; gap: 13px; }
           .pm-card__icon-wrap { width: 42px; height: 42px; font-size: 19px; }
           .pm-card__label     { font-size: 13.5px; }
           .pm-card__desc      { font-size: 12px; }
+        }
+
+        /* ✅ Extra small screens */
+        @media (max-height: 700px) {
+          .pm-box {
+            max-height: 80vh;
+            padding: 24px 20px 20px;
+          }
+          .pm-title { font-size: 1.3rem; }
+          .pm-subtitle { font-size: 12.5px; margin-bottom: 20px; }
         }
       `}</style>
 

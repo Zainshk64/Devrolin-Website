@@ -67,7 +67,7 @@ $font-b:      'DM Sans', sans-serif;
 
 // ── Header ────────────────────────────────────────────────────────────────────
 .cf-header {
-  padding: 28px 32px 24px;
+  padding: 28px 20px 24px;
   border-bottom: 1px solid $border-soft;
   background: linear-gradient(135deg, #0f0f0f 0%, #140c04 100%);
   position: relative;
@@ -149,8 +149,10 @@ $font-b:      'DM Sans', sans-serif;
 // ── Step Progress ─────────────────────────────────────────────────────────────
 .cf-steps {
   display: flex;
+  flex-wrap:wrap;
+
   align-items: center;
-  gap: 0;
+  gap: 5px;
 }
 
 .cf-step-item {
@@ -230,7 +232,7 @@ $font-b:      'DM Sans', sans-serif;
 
 // ── Body / Step Content ───────────────────────────────────────────────────────
 .cf-body {
-  padding: 28px 32px;
+  padding: 28px 20px;
   min-height: 320px;
 
   @media (max-width: 640px) { padding: 20px; }
@@ -828,25 +830,28 @@ $font-b:      'DM Sans', sans-serif;
 
 // ── Success Screen ────────────────────────────────────────────────────────────
 .cf-success {
-  padding: 52px 32px;
+  padding: 60px 40px;
   text-align: center;
-  animation: cf-step-in 0.3s $ease;
+  animation: cf-success-pop 0.5s $ease;
 
-  @media (max-width: 640px) { padding: 36px 20px; }
+  @media (max-width: 640px) {
+    padding: 40px 24px;
+  }
 }
 
 .cf-success__icon {
-  width: 72px;
-  height: 72px;
-  background: rgba(43,232,123,0.12);
-  border: 1.5px solid rgba(43,232,123,0.35);
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
+  background: rgba(43, 232, 123, 0.15);
+  border: 2px solid $green;
+  color: $green;
+  font-size: 2.5rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 20px;
-  font-size: 1.8rem;
-  animation: cf-success-pop 0.5s $ease;
+  margin: 0 auto 24px;
 }
 
 .cf-success__title {
@@ -854,42 +859,86 @@ $font-b:      'DM Sans', sans-serif;
   font-size: 1.6rem;
   font-weight: 800;
   color: $text;
-  margin: 0 0 10px;
+  margin: 0 0 16px;
+  line-height: 1.2;
+
+  @media (max-width: 640px) {
+    font-size: 1.3rem;
+  }
 }
 
 .cf-success__sub {
   font-family: $font-b;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: $text-2;
-  font-weight: 300;
-  max-width: 400px;
-  margin: 0 auto 28px;
   line-height: 1.6;
+  margin: 0 0 32px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.cf-success__close {
+// ── WhatsApp Quick Action ─────────────────────────────────────────────────────
+.cf-success__whatsapp {
+  background: rgba(37, 211, 102, 0.08);
+  border: 1px solid rgba(37, 211, 102, 0.25);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 0 0 28px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cf-success__whatsapp-title {
+  font-family: $font-b;
+  font-size: 0.85rem;
+  color: $text-2;
+  margin: 0 0 12px;
+}
+
+.cf-success__whatsapp-btn {
   display: inline-flex;
-  margin-top:10px;
   align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, $orange 0%, $orange-lt 100%);
-  color: $bg;
-  border: none;
-  padding: 12px 32px;
-  border-radius: $radius-sm;
-  font-family: $font-d;
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 18px rgba(232,123,43,0.3);
-  transition: all 0.18s ease;
+  gap: 10px;
+  background: #25D366;
+  color: #fff;
+  font-family: $font-b;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.2s $ease;
 
   &:hover {
+    background: #20bd5a;
     transform: translateY(-2px);
-    box-shadow: 0 8px 26px rgba(232,123,43,0.45);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+  }
+
+  i {
+    font-size: 1.2rem;
   }
 }
 
+.cf-success__close {
+  background: transparent;
+  border: 1px solid $border;
+  color: $text-2;
+  font-family: $font-b;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 12px 32px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s $ease;
+
+  &:hover {
+    border-color: $orange;
+    color: $orange;
+  }
+}
 // ── Trigger Button (exported separately) ─────────────────────────────────────
 .cf-trigger-btn {
   display: inline-flex;
