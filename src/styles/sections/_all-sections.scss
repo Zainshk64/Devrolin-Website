@@ -1876,6 +1876,45 @@
           transform: translateY(0px);
         }
       }
+      // ✅ FIX 2: Simple black fade overlay with name + job
+      .thumb__overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 30px 20px;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.6) 60%,
+          transparent 100%
+        );
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+
+        h4 {
+          color: #fff;
+          font-size: 20px;
+          font-weight: 700;
+          margin: 0 0 4px;
+        }
+
+        p {
+          color: var(--primary-color);
+          margin: 0;
+          font-size: 14px;
+          font-weight: 500;
+        }
+      }
+
+      &:hover {
+        .thumb__overlay {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    
       .thumb__content {
         position: absolute;
         bottom: 0px;
@@ -2077,7 +2116,8 @@
       padding: 0px 15px;
       margin-left: auto;
       margin-right: auto;
-      display: none;
+      // display: none;
+      opacity:0;
 
       button {
         background-color: var(--white);
@@ -2090,7 +2130,8 @@
     }
     &:hover {
       .slide-group {
-        display: flex;
+        // display: flex;
+        opacity:1
       }
     }
   }

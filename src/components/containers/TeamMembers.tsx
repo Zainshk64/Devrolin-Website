@@ -78,10 +78,15 @@ const TeamMembers = () => {
                     <div className="team-wrap">
 
                       {/* ── Thumbnail with hover overlay ── */}
-                      <div className="thumb">
+                       <div className="thumb">
                         <Link href={`/team-single/${item._id}`}>
                           <img src={item.image?.url} width={400} alt={item.name} />
                         </Link>
+                        {/* ✅ Simple black fade overlay with name + job */}
+                        <div className="thumb__overlay">
+                          <h4>{item.name}</h4>
+                          <p>{item.jobTitle}</p>
+                        </div>
                         <div
                           className="thumb__content"
                           style={{ backgroundImage: "url('/images/teams/bg.png')" }}
