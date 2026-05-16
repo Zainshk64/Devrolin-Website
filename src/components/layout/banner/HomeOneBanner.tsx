@@ -124,8 +124,8 @@ const HomeOneBanner = () => {
         <Image src={star} alt="Image" className="star" />
 
         <div className="banner-left-text banner-social-text d-none d-md-flex">
-          <Link href="mailto:systems@devrolin.com">mail : systems@devrolin.com</Link>
-          <Link href="tel:+971522347966">Whatsapp : +971-522347966</Link>
+          <a href="mailto:systems@devrolin.com">mail : systems@devrolin.com</a>
+          <a href="https://wa.me/devrolin" target="_black">Whatsapp : +971-522347966</a>
         </div>
 
         <div className="banner-right-text banner-social-text d-none d-md-flex">

@@ -129,7 +129,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
     if (!track) return;
 
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const walk = (startX - clientX) * 2;
+    const walk = (startX - clientX) * 0;
     track.scrollLeft = scrollLeft + walk;
     e.preventDefault();
   };
@@ -274,7 +274,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           display: flex;
           gap: var(--card-gap);
           padding: 10px 60px;
-          // width:;
+          width: max-content;
           overflow-x: auto;
           overflow-y: hidden;
           -webkit-overflow-scrolling: touch;
@@ -461,7 +461,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
             {/* Row 1 */}
             {items1.length > 0 && (
               <div className="ps-row-wrapper">
-                <div className="ps-nav-controls">
+                {/* <div className="ps-nav-controls">
                   <button
                     className="ps-nav-btn"
                     onClick={() => scrollRow(1, 'left')}
@@ -476,7 +476,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
                   >
                     <i className="fa-solid fa-chevron-right"></i>
                   </button>
-                </div>
+                </div> */}
                 <div className="ps-viewport">
                   <div
                     ref={track1Ref}
@@ -518,7 +518,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
             {/* Row 2 */}
             {items2.length > 0 && (
               <div className="ps-row-wrapper">
-                <div className="ps-nav-controls">
+                {/* <div className="ps-nav-controls">
                   <button
                     className="ps-nav-btn"
                     onClick={() => scrollRow(2, 'left')}
@@ -533,7 +533,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
                   >
                     <i className="fa-solid fa-chevron-right"></i>
                   </button>
-                </div>
+                </div> */}
                 <div className="ps-viewport">
                   <div
                     ref={track2Ref}
