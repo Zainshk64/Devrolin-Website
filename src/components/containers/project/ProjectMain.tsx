@@ -3,7 +3,6 @@ import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-// ── Types ──────────────────────────────────────────────────────────────────────
 type CategoryType =
   | "All"
   | "AI Automation & Integration Systems"
@@ -11,7 +10,6 @@ type CategoryType =
   | "SaaS & MVP Development"
   | "Web & Custom Platforms";
 
-// ── Constants ──────────────────────────────────────────────────────────────────
 const CATEGORIES: CategoryType[] = [
   "All",
   "AI Automation & Integration Systems",
@@ -24,43 +22,37 @@ const CATEGORY_ICONS: Record<CategoryType, string> = {
   "All":                                 "fa-layer-group",
   "AI Automation & Integration Systems": "fa-robot",
   "CRM & Revenue Systems":               "fa-chart-line",
-  "SaaS & MVP Development":              "fa-gears",
+  "SaaS & MVP Development":             "fa-gears",
   "Web & Custom Platforms":              "fa-code",
 };
 
-// ── Component ──────────────────────────────────────────────────────────────────
 const ProjectMain = ({ projects }: { projects: any[] }) => {
   const router   = useRouter();
   const dropRef  = useRef<HTMLDivElement>(null);
   const track1Ref = useRef<HTMLDivElement>(null);
   const track2Ref = useRef<HTMLDivElement>(null);
-  
+
   const [isPaused1, setIsPaused1] = useState(false);
   const [isPaused2, setIsPaused2] = useState(false);
   const [activeFilter, setActiveFilter] = useState<CategoryType>("All");
-  const [dropOpen,     setDropOpen]     = useState(false);
-  
+  const [dropOpen, setDropOpen] = useState(false);
+
   // Drag state
   const [isDragging, setIsDragging] = useState(false);
   const [draggedRow, setDraggedRow] = useState<1 | 2 | null>(null);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  
-  // ── Filter logic ─────────────────────────────────────────────────────────────
+
   const filtered =
     activeFilter === "All"
       ? projects
       : projects.filter((p: any) => p.category === activeFilter);
 
-  // Split into two rows: odd indices → row1, even indices → row2
   const row1 = filtered.filter((_: any, i: number) => i % 2 === 0);
   const row2 = filtered.filter((_: any, i: number) => i % 2 === 1);
-
-  // Duplicate each row for seamless infinite loop
   const items1 = row1.length > 0 ? [...row1, ...row1] : [];
   const items2 = row2.length > 0 ? [...row2, ...row2] : [];
 
-  // ── Close dropdown on outside click ─────────────────────────────────────────
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropRef.current && !dropRef.current.contains(e.target as Node)) {
@@ -78,26 +70,33 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
     setIsPaused2(false);
   };
 
-  // ── Full card click → details page ──────────────────────────────────────────
   const handleCardClick = (id: string) => {
     if (!isDragging) {
       router.push(`/project-single/${id}`);
     }
   };
 
-  // ── Navigation Controls ──────────────────────────────────────────────────────
+  // ── Simple Button Scroll: scrollLeft approach ─────────────────────────────
   const scrollRow = (row: 1 | 2, direction: 'left' | 'right') => {
     const track = row === 1 ? track1Ref.current : track2Ref.current;
     if (!track) return;
 
-    const cardWidth = 420 + 24; // card width + gap
-    const scrollAmount = cardWidth * 2; // Scroll 2 cards at a time
-
+    // Pause animation while scrolling
     if (row === 1) setIsPaused1(true);
     else setIsPaused2(true);
 
-    track.scrollBy({
-      left: direction === 'right' ? scrollAmount : -scrollAmount,
+    const cardWidth = 420;
+    const gap = 24;
+    const scrollAmount = (cardWidth + gap) * 2; // 2 cards
+
+    const currentScroll = track.scrollLeft;
+    const targetScroll = direction === 'right' 
+      ? currentScroll + scrollAmount 
+      : currentScroll - scrollAmount;
+
+    // Smooth scroll
+    track.scrollTo({
+      left: targetScroll,
       behavior: 'smooth'
     });
 
@@ -108,42 +107,37 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
     }, 800);
   };
 
-  // ── Drag/Scroll Handlers ─────────────────────────────────────────────────────
+  // ── Drag Handlers ─────────────────────────────────────────────────────────
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent, row: 1 | 2) => {
     const track = row === 1 ? track1Ref.current : track2Ref.current;
     if (!track) return;
 
     setIsDragging(true);
     setDraggedRow(row);
-    
     if (row === 1) setIsPaused1(true);
     else setIsPaused2(true);
-    
+
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     setStartX(clientX);
     setScrollLeft(track.scrollLeft);
-    
     e.preventDefault();
   };
 
   const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging || draggedRow === null) return;
-    
     const track = draggedRow === 1 ? track1Ref.current : track2Ref.current;
     if (!track) return;
-    
+
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const walk = (startX - clientX) * 2;
-    
     track.scrollLeft = scrollLeft + walk;
     e.preventDefault();
   };
 
   const handleDragEnd = () => {
     if (!isDragging) return;
-    
     setIsDragging(false);
-    
+
     setTimeout(() => {
       if (draggedRow === 1) setIsPaused1(false);
       else if (draggedRow === 2) setIsPaused2(false);
@@ -212,19 +206,16 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           line-height: 1.7; font-family: Georgia, serif; margin: 0;
         }
 
-        /* ── Two-row wrapper ── */
         .ps-rows {
           display: flex;
           flex-direction: column;
           gap: 20px;
         }
 
-        /* ── Row Container with Controls ── */
         .ps-row-wrapper {
           position: relative;
         }
 
-        /* ── Navigation Controls ── */
         .ps-nav-controls {
           position: absolute;
           top: 50%;
@@ -265,7 +256,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
 
         .ps-nav-btn:hover {
           border-color: var(--accent);
-          // background: ;
+          background: var(--accent);
           transform: scale(1.1);
         }
 
@@ -273,29 +264,27 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           transform: scale(0.95);
         }
 
-        /* ── Scroll viewport ── */
         .ps-viewport {
           overflow: hidden;
           position: relative;
         }
-        
-        /* ── Track base ── */
+
+        /* ✅ KEY FIX: Use overflow-x auto for scrollLeft to work */
         .ps-track {
           display: flex;
           gap: var(--card-gap);
           padding: 10px 60px;
-          width: max-content;
+          // width:;
           overflow-x: auto;
           overflow-y: hidden;
           -webkit-overflow-scrolling: touch;
           scrollbar-width: none;
-          -ms-overflow-style: none;
           cursor: grab;
           user-select: none;
           scroll-behavior: smooth;
-          animation: ps-scroll-ltr 28s linear infinite;
+          /* DO NOT use animation here - let scrollLeft handle it */
         }
-        
+
         .ps-track::-webkit-scrollbar {
           display: none;
         }
@@ -304,13 +293,21 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           cursor: grabbing;
         }
 
-        .ps-track--reverse {
+        /* Only use animation when not being manually scrolled */
+        .ps-track:not(.scrolling) {
+          animation: ps-scroll-ltr 28s linear infinite;
+        }
+
+        .ps-track--reverse:not(.scrolling) {
           animation: ps-scroll-rtl 28s linear infinite;
         }
 
-        .ps-track.paused,
-        .ps-track--reverse.paused { 
-          animation-play-state: paused !important; 
+        .ps-track.paused {
+          animation-play-state: paused !important;
+        }
+
+        .ps-track--reverse.paused {
+          animation-play-state: paused !important;
         }
 
         @keyframes ps-scroll-ltr {
@@ -322,7 +319,6 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           100% { transform: translateX(0); }
         }
 
-        /* ── Card ── */
         .ps-card {
           flex-shrink: 0;
           width: var(--card-w);
@@ -360,7 +356,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           pointer-events: none;
         }
 
-        .ps-card__content { 
+        .ps-card__content {
           padding: 20px 24px 24px;
           pointer-events: none;
         }
@@ -379,7 +375,6 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
         }
         .ps-card:hover .ps-card__arrow { gap: 10px; }
 
-        /* Edge fades */
         .ps-section::before,
         .ps-section::after {
           content: ''; position: absolute; top: 0; bottom: 0;
@@ -388,34 +383,21 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
         .ps-section::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
         .ps-section::after  { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
 
-        /* ── Empty state ── */
         .ps-empty {
           text-align: center; padding: 60px 24px;
           color: #555; font-size: 15px; font-family: Georgia, serif;
         }
         .ps-empty strong { display: block; font-size: 2rem; margin-bottom: 12px; color: #333; }
 
-        /* ── Mobile ── */
         @media (max-width: 768px) {
           :root { --card-w: 260px; }
-
           .ps-section { padding: 48px 0 64px; }
           .ps-section::before,
           .ps-section::after { display: none; }
-
           .ps-filter-bar { padding: 0 20px; margin-bottom: 32px; }
-          // .uxp-drop-trigger { min-width: 0; width: 100%; font-size: 13px; height: 46px; }
-          // .uxp-select-wrap  { width: 100%; max-width: 360px; }
-
           .ps-rows  { gap: 14px; }
           .ps-track { padding: 20px 20px; gap: 16px; }
-
-          .ps-nav-btn {
-            width: 40px;
-            height: 40px;
-            font-size: 16px;
-          }
-
+          .ps-nav-btn { width: 40px; height: 40px; font-size: 16px; }
           .ps-card           { border-radius: 12px; }
           .ps-card__thumb    { height: 280px; }
           .ps-card__content  { padding: 14px 16px 18px; }
@@ -426,7 +408,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
 
       <section className="ps-section">
 
-        {/* ── Filter Dropdown ── */}
+        {/* Filter */}
         <div className="ps-filter-bar">
           <div className="uxp-select-wrap" ref={dropRef}>
             <button
@@ -468,7 +450,6 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           </div>
         </div>
 
-        {/* ── Two-row Slider ── */}
         {filtered.length === 0 ? (
           <div className="ps-empty">
             <strong>( ˘︹˘ )</strong>
@@ -477,27 +458,25 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
         ) : (
           <div className="ps-rows">
 
-            {/* ── Row 1: scrolls right → left ── */}
+            {/* Row 1 */}
             {items1.length > 0 && (
               <div className="ps-row-wrapper">
-                {/* Navigation Controls for Row 1 */}
                 <div className="ps-nav-controls">
                   <button
                     className="ps-nav-btn"
                     onClick={() => scrollRow(1, 'left')}
-                    aria-label="Scroll row 1 left"
+                    aria-label="Scroll left"
                   >
                     <i className="fa-solid fa-chevron-left"></i>
                   </button>
                   <button
                     className="ps-nav-btn"
                     onClick={() => scrollRow(1, 'right')}
-                    aria-label="Scroll row 1 right"
+                    aria-label="Scroll right"
                   >
                     <i className="fa-solid fa-chevron-right"></i>
                   </button>
                 </div>
-
                 <div className="ps-viewport">
                   <div
                     ref={track1Ref}
@@ -524,9 +503,6 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
                             alt={project.thumbnail?.alt || project.title}
                             draggable={false}
                           />
-                          {project.category && (
-                            <span className="ps-card__badge">{project.category}</span>
-                          )}
                         </div>
                         <div className="ps-card__content">
                           <span className="ps-card__title">{project.title}</span>
@@ -539,27 +515,25 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
               </div>
             )}
 
-            {/* ── Row 2: scrolls left → right ── */}
+            {/* Row 2 */}
             {items2.length > 0 && (
               <div className="ps-row-wrapper">
-                {/* Navigation Controls for Row 2 */}
                 <div className="ps-nav-controls">
                   <button
                     className="ps-nav-btn"
                     onClick={() => scrollRow(2, 'left')}
-                    aria-label="Scroll row 2 left"
+                    aria-label="Scroll left"
                   >
                     <i className="fa-solid fa-chevron-left"></i>
                   </button>
                   <button
                     className="ps-nav-btn"
                     onClick={() => scrollRow(2, 'right')}
-                    aria-label="Scroll row 2 right"
+                    aria-label="Scroll right"
                   >
                     <i className="fa-solid fa-chevron-right"></i>
                   </button>
                 </div>
-
                 <div className="ps-viewport">
                   <div
                     ref={track2Ref}
@@ -586,9 +560,6 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
                             alt={project.thumbnail?.alt || project.title}
                             draggable={false}
                           />
-                          {project.category && (
-                            <span className="ps-card__badge">{project.category}</span>
-                          )}
                         </div>
                         <div className="ps-card__content">
                           <span className="ps-card__title">{project.title}</span>
@@ -603,7 +574,6 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
 
           </div>
         )}
-
       </section>
     </>
   );

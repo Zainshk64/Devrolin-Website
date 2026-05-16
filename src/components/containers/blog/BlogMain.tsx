@@ -131,52 +131,7 @@ const BlogMain = () => {
                     </div>
                   </div>
                 </div> */}
-                <div className="blog-main__single fade-top">
-                  <div className="thumb">
-                    <div className="thumb-radio ">
-                      <h4 className="h4">Insert Audio Title Here</h4>
-                      <div className="radio">
-                        <div className="audio-player">
-                          <audio controls>
-                            <source
-                              src="https://ia800905.us.archive.org/19/items/FREE_background_music_dhalius/backsound.mp3"
-                              type="audio/mp3"
-                            />
-                          </audio>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="meta">
-                      <div className="meta__left">
-                        <p>
-                          <strong>Written by :</strong>
-                          Marry biden
-                        </p>
-                        <span></span>
-                        <p>10/01/2023</p>
-                      </div>
-                      <div className="meta__right">
-                        <Link href="blog">Nature</Link>
-                        <Link href="blog">Health</Link>
-                      </div>
-                    </div>
-                  </div>
-                  {/* <div className="content ">
-                    <h4 className="h4">
-                      <Link href="blog-single">
-                        There are also natural sources of methane - from
-                      </Link>
-                    </h4>
-                    <p>
-                      Daily Star News published on Feb 2nd, 2022, Sangbad
-                      Protidin dated January 31st, 2022 and HRCBM&apos;s
-                      investigation. Bangladesh again witnessing uptick in
-                      violence against minorities in the country.
-                    </p>
-                   
-                  </div> */}
-                </div>
-                {/* <div className="pagination-wrapper">
+                 {/* <div className="pagination-wrapper">
                   <ul className="pagination">
                     <li>
                       <Link href="blog">01</Link>
