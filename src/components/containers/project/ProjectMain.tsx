@@ -85,6 +85,29 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
     }
   };
 
+  // ── Navigation Controls ──────────────────────────────────────────────────────
+  const scrollRow = (row: 1 | 2, direction: 'left' | 'right') => {
+    const track = row === 1 ? track1Ref.current : track2Ref.current;
+    if (!track) return;
+
+    const cardWidth = 420 + 24; // card width + gap
+    const scrollAmount = cardWidth * 2; // Scroll 2 cards at a time
+
+    if (row === 1) setIsPaused1(true);
+    else setIsPaused2(true);
+
+    track.scrollBy({
+      left: direction === 'right' ? scrollAmount : -scrollAmount,
+      behavior: 'smooth'
+    });
+
+    // Resume animation after scroll
+    setTimeout(() => {
+      if (row === 1) setIsPaused1(false);
+      else setIsPaused2(false);
+    }, 800);
+  };
+
   // ── Drag/Scroll Handlers ─────────────────────────────────────────────────────
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent, row: 1 | 2) => {
     const track = row === 1 ? track1Ref.current : track2Ref.current;
@@ -100,7 +123,6 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
     setStartX(clientX);
     setScrollLeft(track.scrollLeft);
     
-    // Prevent text selection
     e.preventDefault();
   };
 
@@ -111,11 +133,9 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
     if (!track) return;
     
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const walk = (startX - clientX) * 2; // Scroll speed multiplier
+    const walk = (startX - clientX) * 2;
     
     track.scrollLeft = scrollLeft + walk;
-    
-    // Prevent default to stop any unwanted behavior
     e.preventDefault();
   };
 
@@ -124,7 +144,6 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
     
     setIsDragging(false);
     
-    // Resume animation after a short delay
     setTimeout(() => {
       if (draggedRow === 1) setIsPaused1(false);
       else if (draggedRow === 2) setIsPaused2(false);
@@ -132,7 +151,6 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
     }, 1500);
   };
 
-  // Handle mouse enter/leave for hover pause
   const handleMouseEnter = (row: 1 | 2) => {
     if (!isDragging) {
       if (row === 1) setIsPaused1(true);
@@ -193,22 +211,66 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           max-width: 420px; color: #aaa; font-size: 15px;
           line-height: 1.7; font-family: Georgia, serif; margin: 0;
         }
-        .ps-controls { display: flex; gap: 12px; flex-shrink: 0; }
-        .ps-btn {
-          width: 52px; height: 52px; border-radius: 50%;
-          border: 2px solid #333; background: transparent; color: var(--text);
-          font-size: 20px; cursor: pointer; display: flex;
-          align-items: center; justify-content: center;
-          transition: border-color 0.2s, background 0.2s, transform 0.15s;
-        }
-        .ps-btn:hover { border-color: var(--accent); background: var(--accent); transform: scale(1.08); }
 
-       
         /* ── Two-row wrapper ── */
         .ps-rows {
           display: flex;
           flex-direction: column;
           gap: 20px;
+        }
+
+        /* ── Row Container with Controls ── */
+        .ps-row-wrapper {
+          position: relative;
+        }
+
+        /* ── Navigation Controls ── */
+        .ps-nav-controls {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          right: 0;
+          transform: translateY(-50%);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          pointer-events: none;
+          z-index: 100;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .ps-row-wrapper:hover .ps-nav-controls {
+          opacity: 1;
+        }
+
+        .ps-nav-btn {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          border: 2px solid #333;
+          background: rgba(17, 17, 17, 0.95);
+          color: var(--text);
+          font-size: 18px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          pointer-events: auto;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .ps-nav-btn:hover {
+          border-color: var(--accent);
+          // background: ;
+          transform: scale(1.1);
+        }
+
+        .ps-nav-btn:active {
+          transform: scale(0.95);
         }
 
         /* ── Scroll viewport ── */
@@ -230,7 +292,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           -ms-overflow-style: none;
           cursor: grab;
           user-select: none;
-          /* Row 1: right → left */
+          scroll-behavior: smooth;
           animation: ps-scroll-ltr 28s linear infinite;
         }
         
@@ -242,7 +304,6 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           cursor: grabbing;
         }
 
-        /* Row 2: left → right */
         .ps-track--reverse {
           animation: ps-scroll-rtl 28s linear infinite;
         }
@@ -318,13 +379,6 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
         }
         .ps-card:hover .ps-card__arrow { gap: 10px; }
 
-        .ps-dots { display: flex; justify-content: center; gap: 8px; margin-top: 40px; }
-        .ps-dot {
-          width: 8px; height: 8px; border-radius: 4px; background: #333;
-          transition: width 0.3s, background 0.3s; cursor: pointer; border: none;
-        }
-        .ps-dot.active { width: 28px; background: var(--accent); }
-
         /* Edge fades */
         .ps-section::before,
         .ps-section::after {
@@ -346,18 +400,21 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
           :root { --card-w: 260px; }
 
           .ps-section { padding: 48px 0 64px; }
-
-          /* Remove edge fades so next card peeks through */
           .ps-section::before,
           .ps-section::after { display: none; }
 
           .ps-filter-bar { padding: 0 20px; margin-bottom: 32px; }
-
-          .uxp-drop-trigger { min-width: 0; width: 100%; font-size: 13px; height: 46px; }
-          .uxp-select-wrap  { width: 100%; max-width: 360px; }
+          // .uxp-drop-trigger { min-width: 0; width: 100%; font-size: 13px; height: 46px; }
+          // .uxp-select-wrap  { width: 100%; max-width: 360px; }
 
           .ps-rows  { gap: 14px; }
           .ps-track { padding: 20px 20px; gap: 16px; }
+
+          .ps-nav-btn {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+          }
 
           .ps-card           { border-radius: 12px; }
           .ps-card__thumb    { height: 280px; }
@@ -422,84 +479,124 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
 
             {/* ── Row 1: scrolls right → left ── */}
             {items1.length > 0 && (
-              <div className="ps-viewport">
-                <div
-                  ref={track1Ref}
-                  className={`ps-track${isPaused1 ? " paused" : ""}${isDragging && draggedRow === 1 ? " grabbing" : ""}`}
-                  style={{ "--item-count": row1.length } as React.CSSProperties}
-                  onMouseEnter={() => handleMouseEnter(1)}
-                  onMouseLeave={() => handleMouseLeave(1)}
-                  onMouseDown={(e) => handleDragStart(e, 1)}
-                  onMouseMove={handleDragMove}
-                  onMouseUp={handleDragEnd}
-                  onTouchStart={(e) => handleDragStart(e, 1)}
-                  onTouchMove={handleDragMove}
-                  onTouchEnd={handleDragEnd}
-                >
-                  {items1.map((project: any, i: number) => (
-                    <div
-                      key={`r1-${project._id}-${i}`}
-                      className="ps-card"
-                      onClick={() => handleCardClick(project._id)}
-                    >
-                      <div className="ps-card__thumb">
-                        <img
-                          src={project.thumbnail?.url}
-                          alt={project.thumbnail?.alt || project.title}
-                          draggable={false}
-                        />
-                        {project.category && (
-                          <span className="ps-card__badge">{project.category}</span>
-                        )}
+              <div className="ps-row-wrapper">
+                {/* Navigation Controls for Row 1 */}
+                <div className="ps-nav-controls">
+                  <button
+                    className="ps-nav-btn"
+                    onClick={() => scrollRow(1, 'left')}
+                    aria-label="Scroll row 1 left"
+                  >
+                    <i className="fa-solid fa-chevron-left"></i>
+                  </button>
+                  <button
+                    className="ps-nav-btn"
+                    onClick={() => scrollRow(1, 'right')}
+                    aria-label="Scroll row 1 right"
+                  >
+                    <i className="fa-solid fa-chevron-right"></i>
+                  </button>
+                </div>
+
+                <div className="ps-viewport">
+                  <div
+                    ref={track1Ref}
+                    className={`ps-track${isPaused1 ? " paused" : ""}${isDragging && draggedRow === 1 ? " grabbing" : ""}`}
+                    style={{ "--item-count": row1.length } as React.CSSProperties}
+                    onMouseEnter={() => handleMouseEnter(1)}
+                    onMouseLeave={() => handleMouseLeave(1)}
+                    onMouseDown={(e) => handleDragStart(e, 1)}
+                    onMouseMove={handleDragMove}
+                    onMouseUp={handleDragEnd}
+                    onTouchStart={(e) => handleDragStart(e, 1)}
+                    onTouchMove={handleDragMove}
+                    onTouchEnd={handleDragEnd}
+                  >
+                    {items1.map((project: any, i: number) => (
+                      <div
+                        key={`r1-${project._id}-${i}`}
+                        className="ps-card"
+                        onClick={() => handleCardClick(project._id)}
+                      >
+                        <div className="ps-card__thumb">
+                          <img
+                            src={project.thumbnail?.url}
+                            alt={project.thumbnail?.alt || project.title}
+                            draggable={false}
+                          />
+                          {project.category && (
+                            <span className="ps-card__badge">{project.category}</span>
+                          )}
+                        </div>
+                        <div className="ps-card__content">
+                          <span className="ps-card__title">{project.title}</span>
+                          <span className="ps-card__arrow">View Project →</span>
+                        </div>
                       </div>
-                      <div className="ps-card__content">
-                        <span className="ps-card__title">{project.title}</span>
-                        <span className="ps-card__arrow">View Project →</span>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
 
             {/* ── Row 2: scrolls left → right ── */}
             {items2.length > 0 && (
-              <div className="ps-viewport">
-                <div
-                  ref={track2Ref}
-                  className={`ps-track ps-track--reverse${isPaused2 ? " paused" : ""}${isDragging && draggedRow === 2 ? " grabbing" : ""}`}
-                  style={{ "--item-count": row2.length } as React.CSSProperties}
-                  onMouseEnter={() => handleMouseEnter(2)}
-                  onMouseLeave={() => handleMouseLeave(2)}
-                  onMouseDown={(e) => handleDragStart(e, 2)}
-                  onMouseMove={handleDragMove}
-                  onMouseUp={handleDragEnd}
-                  onTouchStart={(e) => handleDragStart(e, 2)}
-                  onTouchMove={handleDragMove}
-                  onTouchEnd={handleDragEnd}
-                >
-                  {items2.map((project: any, i: number) => (
-                    <div
-                      key={`r2-${project._id}-${i}`}
-                      className="ps-card"
-                      onClick={() => handleCardClick(project._id)}
-                    >
-                      <div className="ps-card__thumb">
-                        <img
-                          src={project.thumbnail?.url}
-                          alt={project.thumbnail?.alt || project.title}
-                          draggable={false}
-                        />
-                        {project.category && (
-                          <span className="ps-card__badge">{project.category}</span>
-                        )}
+              <div className="ps-row-wrapper">
+                {/* Navigation Controls for Row 2 */}
+                <div className="ps-nav-controls">
+                  <button
+                    className="ps-nav-btn"
+                    onClick={() => scrollRow(2, 'left')}
+                    aria-label="Scroll row 2 left"
+                  >
+                    <i className="fa-solid fa-chevron-left"></i>
+                  </button>
+                  <button
+                    className="ps-nav-btn"
+                    onClick={() => scrollRow(2, 'right')}
+                    aria-label="Scroll row 2 right"
+                  >
+                    <i className="fa-solid fa-chevron-right"></i>
+                  </button>
+                </div>
+
+                <div className="ps-viewport">
+                  <div
+                    ref={track2Ref}
+                    className={`ps-track ps-track--reverse${isPaused2 ? " paused" : ""}${isDragging && draggedRow === 2 ? " grabbing" : ""}`}
+                    style={{ "--item-count": row2.length } as React.CSSProperties}
+                    onMouseEnter={() => handleMouseEnter(2)}
+                    onMouseLeave={() => handleMouseLeave(2)}
+                    onMouseDown={(e) => handleDragStart(e, 2)}
+                    onMouseMove={handleDragMove}
+                    onMouseUp={handleDragEnd}
+                    onTouchStart={(e) => handleDragStart(e, 2)}
+                    onTouchMove={handleDragMove}
+                    onTouchEnd={handleDragEnd}
+                  >
+                    {items2.map((project: any, i: number) => (
+                      <div
+                        key={`r2-${project._id}-${i}`}
+                        className="ps-card"
+                        onClick={() => handleCardClick(project._id)}
+                      >
+                        <div className="ps-card__thumb">
+                          <img
+                            src={project.thumbnail?.url}
+                            alt={project.thumbnail?.alt || project.title}
+                            draggable={false}
+                          />
+                          {project.category && (
+                            <span className="ps-card__badge">{project.category}</span>
+                          )}
+                        </div>
+                        <div className="ps-card__content">
+                          <span className="ps-card__title">{project.title}</span>
+                          <span className="ps-card__arrow">View Project →</span>
+                        </div>
                       </div>
-                      <div className="ps-card__content">
-                        <span className="ps-card__title">{project.title}</span>
-                        <span className="ps-card__arrow">View Project →</span>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
