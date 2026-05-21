@@ -494,6 +494,7 @@ $font-b:      'DM Sans', sans-serif;
   }
 }
 
+
 // ── Source Radio ──────────────────────────────────────────────────────────────
 .cf-source-grid {
   display: grid;
@@ -877,6 +878,266 @@ $font-b:      'DM Sans', sans-serif;
   margin-left: auto;
   margin-right: auto;
 }
+
+
+
+
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MOBILE EXPANDABLE LIST + SELECTED TAGS + FOOTER FIX
+// ══════════════════════════════════════════════════════════════════════════════
+
+// ── Desktop / Mobile visibility toggles ───────────────────────────────────────
+.cf-desktop-only {
+  display: grid; // or flex — inherits from parent grid class
+
+  @media (max-width: 640px) {
+    display: none !important;
+  }
+}
+
+.cf-mobile-only {
+  display: none;
+
+  @media (max-width: 640px) {
+    display: block;
+  }
+}
+
+// ── Mobile Expandable Container ───────────────────────────────────────────────
+.cf-mobile-expandable {
+  .cf-service-grid,
+  .cf-source-grid {
+    // On mobile inside expandable, always single column
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Show More / Show Less Toggle Button ───────────────────────────────────────
+.cf-mobile-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 16px;
+  background: rgba(232, 123, 43, 0.06);
+  border: 1px dashed rgba(232, 123, 43, 0.3);
+  border-radius: 8px;
+  color: $orange;
+  font-family: $font-d;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+
+  &:hover,
+  &:active {
+    background: rgba(232, 123, 43, 0.12);
+    border-color: $orange;
+  }
+
+  svg {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+}
+
+// ── Selected Tags (shows selections made inside collapsed area) ───────────────
+.cf-selected-tags {
+  margin-bottom: 12px;
+}
+
+.cf-selected-tags__label {
+  font-family: $font-d;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $text-3;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.cf-selected-tags__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cf-selected-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: $orange-dim;
+  border: 1px solid $orange;
+  border-radius: 100px;
+  font-family: $font-b;
+  font-size: 0.75rem;
+  color: $orange;
+  white-space: nowrap;
+  animation: cf-tag-in 0.2s ease;
+}
+
+.cf-selected-tag__remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(232, 123, 43, 0.2);
+  color: $orange;
+  font-size: 0.6rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(232, 123, 43, 0.4);
+  }
+}
+
+@keyframes cf-tag-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// FOOTER MOBILE FIX
+// ══════════════════════════════════════════════════════════════════════════════
+
+.cf-footer {
+  @media (max-width: 480px) {
+    padding: 12px 16px;
+    gap: 8px;
+  }
+
+  // Ensure it doesn't overflow
+  @media (max-width: 380px) {
+    padding: 10px 12px;
+    gap: 6px;
+  }
+}
+
+// Back button — hide "Back" text on very small screens, keep arrow
+.cf-footer__back {
+  @media (max-width: 480px) {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    min-width: auto;
+  }
+
+  @media (max-width: 380px) {
+    padding: 8px 10px;
+  }
+}
+
+.cf-footer__back-text {
+  @media (max-width: 360px) {
+    display: none;
+  }
+}
+
+// Step count — compact on mobile
+.cf-footer__step-count {
+  @media (max-width: 480px) {
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+}
+
+// Next / Submit button — shorter text on mobile
+.cf-footer__next {
+  @media (max-width: 480px) {
+    padding: 8px 16px;
+    font-size: 0.78rem;
+    gap: 6px;
+  }
+
+  @media (max-width: 380px) {
+    padding: 8px 12px;
+    font-size: 0.74rem;
+  }
+}
+
+.cf-footer__next-text {
+  @media (max-width: 340px) {
+    display: none; // Only show icon on very tiny screens
+  }
+}
+
+// ── Source grid (Bottleneck pills) mobile single-column ───────────────────────
+.cf-source-grid {
+  @media (max-width: 640px) {
+    // Ensure pills stack nicely on mobile
+    gap: 8px;
+  }
+}
+
+.cf-source-pill {
+  @media (max-width: 640px) {
+    font-size: 0.76rem;
+    padding: 8px 14px;
+  }
+}
+
+// ── Step indicators mobile fix ────────────────────────────────────────────────
+.cf-steps {
+  @media (max-width: 480px) {
+    gap: 2px;
+    padding: 0 4px;
+  }
+}
+
+.cf-step-item__label {
+  @media (max-width: 480px) {
+    font-size: 0.58rem;
+  }
+
+  @media (max-width: 380px) {
+    display: none; // Hide step labels on very small screens
+  }
+}
+
+.cf-step-item__dot {
+  @media (max-width: 480px) {
+    width: 24px;
+    height: 24px;
+    font-size: 0.65rem;
+  }
+}
+
+.cf-step-item__line {
+  @media (max-width: 480px) {
+    min-width: 12px;
+  }
+
+  @media (max-width: 380px) {
+    min-width: 16px;
+    flex: 1;
+  }
+}
+
+
+
+
+
+
+
 
 // ── WhatsApp Quick Action ─────────────────────────────────────────────────────
 .cf-success__whatsapp {
@@ -1562,6 +1823,7 @@ $font-b:      'DM Sans', sans-serif;
   border-radius: 16px;
   overflow: hidden;
   position: relative;
+  z-index:1;
 }
 
 .coming-soon-inner {
@@ -1574,6 +1836,7 @@ $font-b:      'DM Sans', sans-serif;
   position: relative;
   min-width: 480px;
   min-height: 320px;
+  z-index:1;
 
   @media (max-width: 576px) {
     min-width: unset;
@@ -1593,9 +1856,39 @@ $font-b:      'DM Sans', sans-serif;
     );
     pointer-events: none;
     animation: cs-pulse 3s ease-in-out infinite;
+    z-index:-1;
   }
 }
 
+
+// ✅ Add this new rule for the close button
+.close-video-popup {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(249, 115, 22, 0.15);
+  color: #f97316;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10; // ✅ Ensure it's above everything
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: rgba(249, 115, 22, 0.25);
+    transform: scale(1.1);
+  }
+
+  i {
+    pointer-events: none;
+  }
+}
 // ── decorative scan lines ────────────────────────────────────────────────────
 
 .coming-soon-lines {

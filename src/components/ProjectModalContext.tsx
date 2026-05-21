@@ -54,6 +54,7 @@ const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
 
   const waLink     = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
   const mailtoLink = `mailto:${EMAIL}?subject=Project%20Inquiry&body=${encodeURIComponent(waMessage)}`;
+  const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Project%20Inquiry&body=${encodeURIComponent(waMessage)}`;
 
   // Close on backdrop click
   const handleBackdrop = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -423,7 +424,8 @@ const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
 
             {/* ── Email ── */}
             <a
-              href={mailtoLink}
+              href={gmailLink}
+              target="_blank"
               className="pm-card pm-card--mail"
             >
               <div className="pm-card__icon-wrap">

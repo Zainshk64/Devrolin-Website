@@ -8,13 +8,13 @@ import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 
 const ServiceDetails = () => {
-  const { id } = useRouter().query;
+  const { slug } = useRouter().query;
   const [mainService, setServices] = useState(null);
 
   const fetchServices = async () => {
     try {
       const res = await fetch(
-        `https://devrolin-backend-production.up.railway.app/api/services/${id}`,
+        `https://devrolin-backend-production.up.railway.app/api/services/name/${encodeURIComponent(slug as string)}`,
       );
       const data = await res.json();
       setServices(data);
@@ -24,8 +24,8 @@ const ServiceDetails = () => {
   };
 
   useEffect(() => {
-    if (id) fetchServices();
-  }, [id]);
+    if (slug) fetchServices();
+  }, [slug]);
 
   if (!mainService) return <p className="text-white text-center">Loading...</p>;
 

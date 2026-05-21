@@ -3,30 +3,21 @@ import React, { useState, useCallback, useRef } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface FormData {
-  // Step 1 — About Your Business
   fullName: string;
   email: string;
   whatsapp: string;
   company: string;
   website: string;
-
-  // Step 2 — What Do You Need?
   services: string[];
   biggestBottleneck: string;
   currentTools: string;
-
-  // Step 3 — Project Direction
   shortDescription: string;
   timeline: string;
   budget: string;
   files: File[];
-
-  // Step 4 — Schedule
   selectedDay: string;
   selectedSlot: string;
   timezone: string;
-
-  // Consents
   consentSMS: boolean;
   consentMarketing: boolean;
 }
@@ -35,7 +26,6 @@ interface ConsultFormModalProps {
   onClose: () => void;
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
 const SERVICE_OPTIONS = [
   "AI Automation Systems",
   "AI Integration",
@@ -106,9 +96,15 @@ const TIMEZONES = [
   "UTC+10:00 (AEST)",
 ];
 
-const STEPS = ["About Your Business", "What You Need", "Project Direction", "Next Step"];
+const STEPS = [
+  "About Your Business",
+  "What You Need",
+  "Project Direction",
+  "Next Step",
+];
 
-// ─── Calendar Helper ──────────────────────────────────────────────────────────
+const MOBILE_VISIBLE_COUNT = 3;
+
 const getUpcomingDays = (startOffset = 0, count = 7) => {
   const days = [];
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -116,24 +112,19 @@ const getUpcomingDays = (startOffset = 0, count = 7) => {
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
   ];
-
   const today = new Date();
   today.setHours(12, 0, 0, 0);
-
   let added = 0;
   let offset = startOffset;
-
   while (added < count) {
     const d = new Date(today);
     d.setDate(today.getDate() + offset);
     const dow = d.getDay();
-
     if (dow !== 0 && dow !== 6) {
       const year = d.getFullYear();
       const month = String(d.getMonth() + 1).padStart(2, "0");
       const day = String(d.getDate()).padStart(2, "0");
       const dateKey = `${year}-${month}-${day}`;
-
       days.push({
         key: dateKey,
         name: dayNames[dow],
@@ -148,6 +139,91 @@ const getUpcomingDays = (startOffset = 0, count = 7) => {
   return days;
 };
 
+// ─── Mobile Expandable List Component ─────────────────────────────────────────
+interface MobileExpandableProps {
+  items: string[];
+  visibleCount: number;
+  expanded: boolean;
+  onToggle: () => void;
+  renderItem: (item: string, index: number) => React.ReactNode;
+  gridClassName: string;
+}
+
+const MobileExpandableList: React.FC<MobileExpandableProps> = ({
+  items,
+  visibleCount,
+  expanded,
+  onToggle,
+  renderItem,
+  gridClassName,
+}) => {
+  const visibleItems = expanded ? items : items.slice(0, visibleCount);
+  const hiddenCount = items.length - visibleCount;
+  const hasMore = hiddenCount > 0;
+
+  return (
+    <div className="cf-mobile-expandable">
+      <div className={gridClassName}>
+        {visibleItems.map((item, i) => renderItem(item, i))}
+      </div>
+
+      {hasMore && (
+        <button
+          type="button"
+          className="cf-mobile-toggle"
+          onClick={onToggle}
+        >
+          {expanded ? (
+            <>
+              <span>Show Less</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="18 15 12 9 6 15" />
+              </svg>
+            </>
+          ) : (
+            <>
+              <span>Show {hiddenCount} More</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </>
+          )}
+        </button>
+      )}
+    </div>
+  );
+};
+
+// ─── Selected Tags Display ────────────────────────────────────────────────────
+interface SelectedTagsProps {
+  items: string[];
+  onRemove: (item: string) => void;
+  label: string;
+}
+
+const SelectedTags: React.FC<SelectedTagsProps> = ({ items, onRemove, label }) => {
+  if (items.length === 0) return null;
+  return (
+    <div className="cf-selected-tags">
+      <span className="cf-selected-tags__label">{label}:</span>
+      <div className="cf-selected-tags__list">
+        {items.map((item) => (
+          <span key={item} className="cf-selected-tag">
+            {item}
+            <button
+              type="button"
+              className="cf-selected-tag__remove"
+              onClick={() => onRemove(item)}
+            >
+              ✕
+            </button>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // ─── Main Modal Component ─────────────────────────────────────────────────────
 const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
   const [step, setStep] = useState(0);
@@ -157,30 +233,26 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
 
+  // Mobile expand states
+  const [servicesExpanded, setServicesExpanded] = useState(false);
+  const [bottleneckExpanded, setBottleneckExpanded] = useState(false);
+
   const [form, setForm] = useState<FormData>({
-    // Step 1
     fullName: "",
     email: "",
     whatsapp: "",
     company: "",
     website: "",
-
-    // Step 2
     services: [],
     biggestBottleneck: "",
     currentTools: "",
-
-    // Step 3
     shortDescription: "",
     timeline: "",
     budget: "",
     files: [],
-
-    // Step 4
     selectedDay: "",
     selectedSlot: "",
     timezone: "UTC+05:00 (PKT)",
-
     consentSMS: false,
     consentMarketing: false,
   });
@@ -196,7 +268,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
         : [...form[key], val],
     );
 
-  // File handling
   const addFiles = (newFiles: FileList | null) => {
     if (!newFiles) return;
     const arr = Array.from(newFiles).slice(0, 5 - form.files.length);
@@ -206,14 +277,11 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
   const removeFile = (i: number) =>
     set("files", form.files.filter((_, idx) => idx !== i));
 
-  // Step validation
   const canProceed = () => {
     if (step === 0)
       return form.fullName.trim() && form.email.trim() && form.whatsapp.trim();
-    if (step === 1)
-      return form.services.length > 0 && form.biggestBottleneck;
-    if (step === 2)
-      return form.shortDescription.trim();
+    if (step === 1) return form.services.length > 0 && form.biggestBottleneck;
+    if (step === 2) return form.shortDescription.trim();
     if (step === 3)
       return form.selectedDay && form.selectedSlot && form.consentSMS;
     return true;
@@ -230,69 +298,47 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      // Upload files to Cloudinary
       const uploadedFileUrls: string[] = [];
-
       for (const file of form.files) {
         const cloudinaryData = new FormData();
         cloudinaryData.append("file", file);
         cloudinaryData.append("upload_preset", "formspree_uploads");
         cloudinaryData.append("cloud_name", "drdpqf3ns");
-
         const cloudinaryRes = await fetch(
           "https://api.cloudinary.com/v1_1/drdpqf3ns/auto/upload",
-          {
-            method: "POST",
-            body: cloudinaryData,
-          },
+          { method: "POST", body: cloudinaryData },
         );
-
         if (cloudinaryRes.ok) {
           const cloudinaryJson = await cloudinaryRes.json();
           uploadedFileUrls.push(cloudinaryJson.secure_url);
         }
       }
 
-      // Send to Formspree
       const formDataObj = {
-        // Step 1 — About Your Business
         fullName: form.fullName,
         email: form.email,
         whatsapp: form.whatsapp,
         company: form.company || "Not provided",
         website: form.website || "Not provided",
-
-        // Step 2 — What Do You Need?
         services: form.services.join(", "),
         biggestBottleneck: form.biggestBottleneck,
         currentTools: form.currentTools || "Not provided",
-
-        // Step 3 — Project Direction
         shortDescription: form.shortDescription,
         timeline: form.timeline || "Not specified",
         budget: form.budget || "Not specified",
-
-        // File URLs
         attachments:
           uploadedFileUrls.length > 0
             ? uploadedFileUrls.join("\n")
             : "No attachments",
-
         fileNames:
           form.files.length > 0
             ? form.files.map((f) => f.name).join(", ")
             : "None",
-
-        // Step 4 — Schedule
         selectedDay: form.selectedDay,
         selectedSlot: form.selectedSlot,
         timezone: form.timezone,
-
-        // Consents
         consentSMS: form.consentSMS ? "Yes" : "No",
         consentMarketing: form.consentMarketing ? "Yes" : "No",
-
-        // Metadata
         submittedAt: new Date().toLocaleString(),
       };
 
@@ -305,11 +351,7 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
         body: JSON.stringify(formDataObj),
       });
 
-      if (!res.ok) {
-        throw new Error("Form submission failed");
-      }
-
-      console.log("Form submitted successfully");
+      if (!res.ok) throw new Error("Form submission failed");
       setSubmitted(true);
     } catch (err) {
       console.error("Submission error:", err);
@@ -325,22 +367,24 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
 
   const days = getUpcomingDays(calOffset, 5);
 
-  // ─── Success screen ──────────────────────────────────────────────────────────
   if (submitted) {
     return (
       <div className="cf-backdrop" onClick={handleBackdrop}>
         <div className="cf-modal">
           <div className="cf-success">
             <div className="cf-success__icon">✓</div>
-            <h2 className="cf-success__title">Your project request has been received.</h2>
+            <h2 className="cf-success__title">
+              Your project request has been received.
+            </h2>
             <p className="cf-success__sub">
-              Our team reviews every inquiry manually to identify the fastest and highest-impact solution path. 
-              Expect a response within a few hours.
+              Our team reviews every inquiry manually to identify the fastest
+              and highest-impact solution path. Expect a response within a few
+              hours.
             </p>
-            
-            {/* WhatsApp Quick Action */}
             <div className="cf-success__whatsapp">
-              <p className="cf-success__whatsapp-title">Need faster communication?</p>
+              <p className="cf-success__whatsapp-title">
+                Need faster communication?
+              </p>
               <a
                 href={`https://wa.me/971522347966?text=${encodeURIComponent(`Hi DevRolin, I just submitted a project inquiry. My name is ${form.fullName}. Looking forward to connecting!`)}`}
                 target="_blank"
@@ -351,7 +395,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                 Continue on WhatsApp
               </a>
             </div>
-
             <button className="cf-success__close" onClick={onClose}>
               Back to Home
             </button>
@@ -360,6 +403,7 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
       </div>
     );
   }
+
   return (
     <div className="cf-backdrop" onClick={handleBackdrop}>
       <div className="cf-modal">
@@ -370,7 +414,8 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
               <span className="cf-header__eyebrow">Start Your System</span>
               <h2 className="cf-header__title">Let's Build Your System</h2>
               <p className="cf-header__sub">
-                Share your operational challenge. We'll design the right solution and show you exactly how to build it.
+                Share your operational challenge. We'll design the right
+                solution and show you exactly how to build it.
                 <br />
                 Looking for a job?{" "}
                 <a href="/careers" onClick={onClose}>
@@ -405,7 +450,7 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
 
         {/* ── Body ── */}
         <div className="cf-body">
-          {/* STEP 0 — About Your Business */}
+          {/* STEP 0 */}
           {step === 0 && (
             <div className="cf-step">
               <p className="cf-step__title">About Your Business</p>
@@ -434,7 +479,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                   />
                 </div>
               </div>
-
               <div className="cf-row">
                 <div className="cf-group">
                   <label className="cf-label">
@@ -458,7 +502,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                   />
                 </div>
               </div>
-
               <div className="cf-group">
                 <label className="cf-label">Website (Optional)</label>
                 <input
@@ -471,16 +514,29 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
             </div>
           )}
 
-          {/* STEP 1 — What Do You Need? */}
+          {/* STEP 1 — What Do You Need? (UPDATED FOR MOBILE) */}
           {step === 1 && (
             <div className="cf-step">
               <p className="cf-step__title">What Do You Need?</p>
+
+              {/* Selected services tags — visible on mobile when collapsed */}
+              <SelectedTags
+                items={form.services.filter(
+                  (s) =>
+                    !servicesExpanded &&
+                    SERVICE_OPTIONS.indexOf(s) >= MOBILE_VISIBLE_COUNT,
+                )}
+                onRemove={(s) => toggleArr("services", s)}
+                label="Also selected"
+              />
 
               <div className="cf-group" style={{ marginBottom: 20 }}>
                 <label className="cf-label">
                   Service Needed <span>*</span>
                 </label>
-                <div className="cf-service-grid">
+
+                {/* Desktop: show all normally */}
+                <div className="cf-service-grid cf-desktop-only">
                   {SERVICE_OPTIONS.map((s) => (
                     <label
                       key={s}
@@ -498,13 +554,64 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                     </label>
                   ))}
                 </div>
+
+                {/* Mobile: expandable list */}
+                <div className="cf-mobile-only">
+                  <MobileExpandableList
+                    items={SERVICE_OPTIONS}
+                    visibleCount={MOBILE_VISIBLE_COUNT}
+                    expanded={servicesExpanded}
+                    onToggle={() => setServicesExpanded((p) => !p)}
+                    gridClassName="cf-service-grid"
+                    renderItem={(s) => (
+                      <label
+                        key={s}
+                        className={`cf-service-check${form.services.includes(s) ? " cf-service-check--active" : ""}`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={form.services.includes(s)}
+                          onChange={() => toggleArr("services", s)}
+                        />
+                        <div className="cf-service-check__box">
+                          {form.services.includes(s) ? "✓" : ""}
+                        </div>
+                        <span className="cf-service-check__label">{s}</span>
+                      </label>
+                    )}
+                  />
+                </div>
               </div>
+
+              {/* Selected bottleneck tag — visible on mobile when collapsed */}
+              {!bottleneckExpanded &&
+                form.biggestBottleneck &&
+                BOTTLENECK_OPTIONS.indexOf(form.biggestBottleneck) >=
+                  MOBILE_VISIBLE_COUNT && (
+                  <div className="cf-selected-tags cf-mobile-only">
+                    <span className="cf-selected-tags__label">Selected:</span>
+                    <div className="cf-selected-tags__list">
+                      <span className="cf-selected-tag">
+                        {form.biggestBottleneck}
+                        <button
+                          type="button"
+                          className="cf-selected-tag__remove"
+                          onClick={() => set("biggestBottleneck", "")}
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                )}
 
               <div className="cf-group" style={{ marginBottom: 20 }}>
                 <label className="cf-label">
                   Biggest Bottleneck <span>*</span>
                 </label>
-                <div className="cf-source-grid">
+
+                {/* Desktop */}
+                <div className="cf-source-grid cf-desktop-only">
                   {BOTTLENECK_OPTIONS.map((b) => (
                     <label
                       key={b}
@@ -521,10 +628,38 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                     </label>
                   ))}
                 </div>
+
+                {/* Mobile */}
+                <div className="cf-mobile-only">
+                  <MobileExpandableList
+                    items={BOTTLENECK_OPTIONS}
+                    visibleCount={MOBILE_VISIBLE_COUNT}
+                    expanded={bottleneckExpanded}
+                    onToggle={() => setBottleneckExpanded((p) => !p)}
+                    gridClassName="cf-source-grid"
+                    renderItem={(b) => (
+                      <label
+                        key={b}
+                        className={`cf-source-pill${form.biggestBottleneck === b ? " cf-source-pill--active" : ""}`}
+                      >
+                        <input
+                          type="radio"
+                          name="bottleneck-mobile"
+                          value={b}
+                          checked={form.biggestBottleneck === b}
+                          onChange={() => set("biggestBottleneck", b)}
+                        />
+                        {b}
+                      </label>
+                    )}
+                  />
+                </div>
               </div>
 
               <div className="cf-group">
-                <label className="cf-label">Current Tools Used (Optional)</label>
+                <label className="cf-label">
+                  Current Tools Used (Optional)
+                </label>
                 <input
                   className="cf-input"
                   placeholder="e.g. HubSpot, Zapier, ClickUp..."
@@ -535,11 +670,10 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
             </div>
           )}
 
-          {/* STEP 2 — Project Direction */}
+          {/* STEP 2 */}
           {step === 2 && (
             <div className="cf-step">
               <p className="cf-step__title">Project Direction</p>
-
               <div className="cf-group" style={{ marginBottom: 20 }}>
                 <label className="cf-label">
                   Short Description <span>*</span>
@@ -552,7 +686,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                   rows={4}
                 />
               </div>
-
               <div className="cf-row">
                 <div className="cf-group">
                   <label className="cf-label">Timeline (Optional)</label>
@@ -569,7 +702,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                     ))}
                   </select>
                 </div>
-
                 <div className="cf-group">
                   <label className="cf-label">Budget (Optional)</label>
                   <select
@@ -586,8 +718,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                   </select>
                 </div>
               </div>
-
-              {/* File Upload */}
               <div className="cf-group">
                 <label className="cf-label">File Upload (Optional)</label>
                 <div
@@ -636,13 +766,12 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
             </div>
           )}
 
-          {/* STEP 3 — Schedule */}
+          {/* STEP 3 */}
           {step === 3 && (
             <div className="cf-step">
               <p className="cf-step__title">
                 Schedule a free 30-min consultation
               </p>
-
               <div className="cf-calendar">
                 <div className="cf-calendar__header">
                   <button
@@ -662,7 +791,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                     ›
                   </button>
                 </div>
-
                 <div className="cf-calendar__days">
                   {days.map((d) => (
                     <div
@@ -676,7 +804,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                     </div>
                   ))}
                 </div>
-
                 {form.selectedDay && (
                   <div className="cf-calendar__slots">
                     {TIME_SLOTS.map((slot) => (
@@ -690,7 +817,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                     ))}
                   </div>
                 )}
-
                 <div className="cf-tz-row">
                   <span className="cf-tz-label">Timezone</span>
                   <select
@@ -706,8 +832,6 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                   </select>
                 </div>
               </div>
-
-              {/* Consents */}
               <div className="cf-consents" style={{ marginTop: 20 }}>
                 <label
                   className={`cf-consent${form.consentSMS ? " cf-consent--checked" : ""}`}
@@ -723,7 +847,8 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                   <span className="cf-consent__text">
                     I agree to receive conversational text messages from
                     Devrolin. Message & data rates may apply. Reply STOP to
-                    unsubscribe. <span style={{ color: "#e87b2b" }}>*</span>
+                    unsubscribe.{" "}
+                    <span style={{ color: "#e87b2b" }}>*</span>
                   </span>
                 </label>
                 <label
@@ -740,8 +865,8 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                     {form.consentMarketing ? "✓" : ""}
                   </div>
                   <span className="cf-consent__text">
-                    I agree to receive marketing updates. By clicking Submit you
-                    accept our{" "}
+                    I agree to receive marketing updates. By clicking Submit
+                    you accept our{" "}
                     <a href="/privacy" target="_blank">
                       Privacy Policy
                     </a>
@@ -753,18 +878,18 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
           )}
         </div>
 
-        {/* ── Footer ── */}
+        {/* ── Footer (UPDATED FOR MOBILE) ── */}
         <div className="cf-footer">
           <button
             className="cf-footer__back"
             onClick={handleBack}
             disabled={step === 0}
           >
-            ← Back
+            ← <span className="cf-footer__back-text">Back</span>
           </button>
 
           <span className="cf-footer__step-count">
-            Step {step + 1} of {STEPS.length}
+            {step + 1}/{STEPS.length}
           </span>
 
           {step < STEPS.length - 1 ? (
@@ -773,7 +898,7 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
               onClick={handleNext}
               disabled={!canProceed()}
             >
-              Continue
+              <span className="cf-footer__next-text">Continue</span>
               <svg
                 width="16"
                 height="16"
@@ -793,11 +918,12 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
             >
               {loading ? (
                 <>
-                  Submitting… <div className="cf-spinner" />
+                  <span className="cf-footer__next-text">Submitting…</span>
+                  <div className="cf-spinner" />
                 </>
               ) : (
                 <>
-                  Submit Request
+                  <span className="cf-footer__next-text">Submit</span>
                   <svg
                     width="16"
                     height="16"

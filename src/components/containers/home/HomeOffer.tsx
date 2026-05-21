@@ -114,7 +114,7 @@ const HomeOffer = () => {
                       <i className="fa-solid fa-arrow-right"></i>
                     </span>
                     <h2>
-                      <Link href={`/service-single/${service._id}`}>
+                      <Link href={`/service-single/${encodeURIComponent(service.title)}`}>
                         {service.title}
                         <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
                       </Link>

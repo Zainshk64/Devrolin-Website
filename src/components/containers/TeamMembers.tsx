@@ -79,7 +79,7 @@ const TeamMembers = () => {
 
                       {/* ── Thumbnail with hover overlay ── */}
                        <div className="thumb">
-                        <Link href={`/team-single/${item._id}`}>
+                        <Link href={`/team-single/${encodeURIComponent(item.name)}`}>
                           <img src={item.image?.url} width={400} alt={item.name} />
                         </Link>
                         {/* ✅ Simple black fade overlay with name + job */}

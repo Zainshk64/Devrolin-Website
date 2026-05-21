@@ -34,7 +34,7 @@ const TeamMain = () => {
             <div className="col-12 col-md-6 col-xl-4">
               <div className="team-m__single fade-top">
                 <div className="thumb">
-                  <Link href={`/team-single/${member._id}`}>
+                  <Link href={`/team-single/${member.name}`}>
                     <img
                       src={member.image?.url}
                       alt={member.image?.alt || "Profile"}

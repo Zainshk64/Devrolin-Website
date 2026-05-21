@@ -147,7 +147,7 @@ const PortfolioText = () => {
                   }
                   onMouseEnter={() => setHover((h) => h + 1)}
                 >
-                  <Link href={`/project-single/${portfo._id}`}>
+                  <Link href={`/project-single/${portfo.title}`}>
                     <Image
                       src={portfo.thumbnail?.url}
                       width={400}
@@ -156,11 +156,11 @@ const PortfolioText = () => {
                     />
                   </Link>
                   <div className="portfolio__single-content">
-                    <Link href={`/project-single/${portfo._id}`}>
+                    <Link href={`/project-single/${portfo.title}`}>
                       <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
                     </Link>
                     <h4>
-                      <Link href={`/project-single/${portfo._id}`}>
+                      <Link href={`/project-single/${portfo.title}`}>
                         Explore Our Work
                       </Link>
                     </h4>

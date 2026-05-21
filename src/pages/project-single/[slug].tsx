@@ -29,20 +29,16 @@ interface Project {
 }
 
 export default function ProjectDetailsPage() {
-  const { id } = useRouter().query;
   const [project, setProject] = useState<Project | null>(null);
+  const { slug } = useRouter().query;
 
   const fetchProject = async () => {
     try {
       const res = await fetch(
-        `https://devrolin-backend-production.up.railway.app/api/projects/${id}`
+        `https://devrolin-backend-production.up.railway.app/api/projects/name/${encodeURIComponent(slug as string)}`
       );
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch project");
-      }
-
-      const data: Project = await res.json();
+      if (!res.ok) throw new Error("Failed to fetch project");
+      const data = await res.json();
       setProject(data);
     } catch (err) {
       toast.error("Failed to fetch project details");
@@ -50,9 +46,8 @@ export default function ProjectDetailsPage() {
   };
 
   useEffect(() => {
-    if (id) fetchProject();
-  }, [id]);
-
+    if (slug) fetchProject();
+  }, [slug]);
   if (!project) {
     return <p className="text-white text-center">Loading...</p>;
   }

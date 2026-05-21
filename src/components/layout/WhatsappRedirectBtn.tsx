@@ -1,31 +1,47 @@
 import React, { useState, useEffect } from "react";
 
+const FIRST_DELAY_MS = 15_000;      // 15 seconds — very first time ever
+const COOLDOWN_MS    = 5 * 60_000;  // 5 minutes — between subsequent shows
+const STORAGE_KEY    = "wa_tooltip_last_shown";
+
 const WhatsappRedirectBtn = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible,    setIsVisible]    = useState(false);
   const [tooltipState, setTooltipState] = useState<"hidden" | "in" | "shown" | "out">("hidden");
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsVisible(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsVisible(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Auto tooltip: show after 15s, hold 4.5s, then slide out
   useEffect(() => {
-    const showTimer = setTimeout(() => {
+    // Calculate how long to wait before showing the tooltip on this page mount
+    const getDelay = (): number => {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+
+      // Never shown in this session → show after 15s
+      if (!raw) return FIRST_DELAY_MS;
+
+      const lastShown = parseInt(raw, 10);
+      const elapsed   = Date.now() - lastShown;
+      const remaining = COOLDOWN_MS - elapsed;
+
+      // Cooldown already passed (e.g. user was on another page for >5min) → show immediately
+      return remaining > 0 ? remaining : 0;
+    };
+
+    const runTooltip = () => {
+      // Stamp the time so next page navigation counts from now
+      sessionStorage.setItem(STORAGE_KEY, String(Date.now()));
+
       setTooltipState("in");
 
-      // After slide-in finishes (0.5s), hold it
       const holdTimer = setTimeout(() => {
         setTooltipState("shown");
 
-        // After hold (4s), slide out
         const outTimer = setTimeout(() => {
           setTooltipState("out");
 
-          // After slide-out finishes, hide completely
           const hideTimer = setTimeout(() => {
             setTooltipState("hidden");
           }, 500);
@@ -37,10 +53,12 @@ const WhatsappRedirectBtn = () => {
       }, 500);
 
       return () => clearTimeout(holdTimer);
-    }, 15000);
+    };
 
+    const delay     = getDelay();
+    const showTimer = setTimeout(runTooltip, delay);
     return () => clearTimeout(showTimer);
-  }, []);
+  }, []); // runs once per page mount — correct behaviour for Next.js page transitions
 
   const handleProgressClick = () => {
     window.location.href = "https://wa.me/+971522347966";
@@ -122,7 +140,6 @@ const WhatsappRedirectBtn = () => {
             white-space: nowrap;
             pointer-events: none;
 
-            /* hidden by default */
             opacity: 0;
             max-width: 0;
             overflow: hidden;
@@ -136,7 +153,7 @@ const WhatsappRedirectBtn = () => {
               padding 0.45s ease;
           }
 
-          /* slide IN from right */
+          /* slide IN */
           .tooltip--in,
           .tooltip--shown {
             opacity: 1;
@@ -145,7 +162,7 @@ const WhatsappRedirectBtn = () => {
             transform: translateX(0);
           }
 
-          /* slide OUT back to right */
+          /* slide OUT */
           .tooltip--out {
             opacity: 0;
             max-width: 0;

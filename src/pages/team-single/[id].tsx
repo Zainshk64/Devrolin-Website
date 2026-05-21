@@ -9,12 +9,14 @@ import CtaTwo from '@/components/containers/service-details/CtaTwo';
 
 export default function TeamMemberPage() {
   const router = useRouter();
-  const { id } = router.query;
   const [member, setMember] = useState<any>(null);
+  const { slug } = useRouter().query;
 
   const fetchMember = async () => {
     try {
-      const res = await fetch(`https://devrolin-backend-production.up.railway.app/api/members/${id}`);
+      const res = await fetch(
+        `https://devrolin-backend-production.up.railway.app/api/members/name/${encodeURIComponent(slug as string)}`
+      );
       const data = await res.json();
       setMember(data);
     } catch (err) {
@@ -23,9 +25,8 @@ export default function TeamMemberPage() {
   };
 
   useEffect(() => {
-    if (id) fetchMember();
-  }, [id]);
-
+    if (slug) fetchMember();
+  }, [slug]);
   if (!member) return <p className="text-white text-center">Loading...</p>;
 
   return (
