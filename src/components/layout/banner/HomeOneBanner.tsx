@@ -80,6 +80,9 @@ const HomeOneBanner = () => {
     fetchVideo();
   }, []);
 
+  const EMAIL = "systems@devrolin.com"
+  const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Project%20Inquiry`;
+
   return (
     <>
       <section className="banner">
@@ -124,7 +127,7 @@ const HomeOneBanner = () => {
         <Image src={star} alt="Image" className="star" />
 
         <div className="banner-left-text banner-social-text d-none d-md-flex">
-          <a href="mailto:systems@devrolin.com">mail : systems@devrolin.com</a>
+          <a target='_blank' href={gmailLink}>mail : systems@devrolin.com</a>
           <a href="https://wa.me/devrolin" target="_black">Whatsapp : +971-522347966</a>
         </div>
 

@@ -12,6 +12,7 @@ import "public/icons/font-awesome/css/all.css";
 import "public/icons/glyphter/css/xpovio.css";
 // main scss
 import "@/styles/main.scss";
+import Head from "next/head";
 
 const ModernLoader = () => {
   return (
@@ -121,11 +122,51 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     // ✅ ProjectModalProvider wraps everything — modal works on every page
+    <>
+      <Head>
+        {/* Basic Meta */}
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        {/* Favicon */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        
+        {/* Global SEO Defaults */}
+        <meta name="author" content="DevRolin" />
+        <meta name="robots" content="index, follow" />
+        
+        {/* Organization Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "DevRolin",
+              url: "https://devrolin.com",
+              logo: "https://devrolin.com/images/Company-Logo-Normal-1/1.svg",
+              description: "AI automation, CRM, SaaS, and custom business systems company.",
+              sameAs: [
+                "https://linkedin.com/company/devrolin",
+                "https://instagram.com/devrolin",
+              ],
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Business Bay",
+                addressLocality: "Dubai",
+                addressCountry: "UAE",
+              },
+            }),
+          }}
+        />
+      </Head>
     <ProjectModalProvider>
       <Suspense fallback={null}>
         <Component {...pageProps} />
         <Toaster position="bottom-left" />
       </Suspense>
     </ProjectModalProvider>
+    </>
   );
 }

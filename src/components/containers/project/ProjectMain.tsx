@@ -495,7 +495,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
                       <div
                         key={`r1-${project._id}-${i}`}
                         className="ps-card"
-                        onClick={() => handleCardClick(project._id)}
+                        onClick={() => handleCardClick(project.title)}
                       >
                         <div className="ps-card__thumb">
                           <img
@@ -552,7 +552,7 @@ const ProjectMain = ({ projects }: { projects: any[] }) => {
                       <div
                         key={`r2-${project._id}-${i}`}
                         className="ps-card"
-                        onClick={() => handleCardClick(project._id)}
+                        onClick={() => handleCardClick(project.title)}
                       >
                         <div className="ps-card__thumb">
                           <img
