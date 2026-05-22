@@ -12,7 +12,7 @@ import "public/icons/font-awesome/css/all.css";
 import "public/icons/glyphter/css/xpovio.css";
 // main scss
 import "@/styles/main.scss";
-import Head from "next/head";
+// import Head from "next/head";
 
 const ModernLoader = () => {
   return (
@@ -121,22 +121,17 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   return (
-    // ✅ ProjectModalProvider wraps everything — modal works on every page
     <>
-      <Head>
-        {/* Basic Meta */}
+      {/* <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
-        {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         
-        {/* Global SEO Defaults */}
         <meta name="author" content="DevRolin" />
         <meta name="robots" content="index, follow" />
         
-        {/* Organization Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -160,7 +155,7 @@ export default function App({ Component, pageProps }: AppProps) {
             }),
           }}
         />
-      </Head>
+      </Head> */}
     <ProjectModalProvider>
       <Suspense fallback={null}>
         <Component {...pageProps} />

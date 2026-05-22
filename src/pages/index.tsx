@@ -8,11 +8,11 @@ import HomeTestimonial from "@/components/containers/home/HomeTestimonial";
 import HomeBlog from "@/components/containers/home/HomeBlog";
 import HomeSponsor from "@/components/containers/home/HomeSponsor";
 import NextPage from "@/components/containers/home/NextPage";
-import Head from "next/head";
+// import Head from "next/head";
 const Home = () => {
   return (
     <>
-       <Head>
+       {/* <Head>
         <title>DevRolin | AI Automation, CRM & SaaS Systems Company</title>
         
         <meta 
@@ -35,12 +35,11 @@ const Home = () => {
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content="DevRolin" />
         
-        {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="DevRolin | AI Systems That Scale Revenue" />
         <meta name="twitter:description" content="AI automation, CRM, SaaS, and custom business systems." />
         <meta name="twitter:image" content="https://devrolin.com/og-image.jpg" />
-      </Head>
+      </Head> */}
 
     <Layout header={1} footer={1} video={true}>
       <HomeOneBanner />
@@ -52,7 +51,6 @@ const Home = () => {
       <HomeBlog />
       <NextPage />
     </Layout>
-    
     </>
   );
 };
