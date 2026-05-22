@@ -430,6 +430,10 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
   animation: slideUp 0.4s $ease;
 }
 
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.9; }
+}
 .closeBtn {
   position: absolute;
   top: 40px;

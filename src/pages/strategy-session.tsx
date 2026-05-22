@@ -121,39 +121,57 @@ useEffect(() => {
                 </p>
               </div>
 
-              {/* RIGHT — FLOATING TESTIMONIAL CARDS */}
-              <div className={styles.heroRight}>
-                <div className={styles.testimonialStack}>
-                  {testimonials.map((t, i) => (
-                    <div
-                      key={i}
-                      className={`${styles.testimonialCard} ${
-                        i === activeCard ? styles.active : ""
-                      } ${i === (activeCard + 1) % testimonials.length ? styles.next : ""} ${
-                        i === (activeCard + 2) % testimonials.length ? styles.hidden : ""
-                      }`}
-                      style={{ zIndex: testimonials.length - i }}
-                    >
-                      <div className={styles.cardMedia}>
-      <img src={t.image?.url || "/default-avatar.png"} alt={t.image?.alt || t.name} />
-                        {/* <div className={styles.playIcon}>▶</div> */}
-                      </div>
-                      <div className={styles.cardContent}>
-                        <p className={styles.result}>"{t.feedback}"</p>
-                        <div className={styles.cardFooter}>
-                          <div className={styles.client}>
-                            <span className={styles.clientName}>{t.name}</span>
-                            <span className={styles.clientRole}>{t.job}</span>
-                          </div>
-                          <div className={styles.branding}>
-                            <span className={styles.brandLogo}>DevRolin</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+             {/* RIGHT — FLOATING TESTIMONIAL CARDS */}
+<div className={styles.heroRight}>
+  <div className={styles.testimonialStack}>
+    {loading ? (
+      [0, 1, 2].map((i) => (
+        <div key={i} className={`${styles.testimonialCard} ${i === 0 ? styles.active : i === 1 ? styles.next : styles.hidden}`} style={{ zIndex: 3 - i }}>
+          <div className={styles.cardMedia} style={{ background: "rgba(255,255,255,0.05)", borderRadius: "8px", height: "80px", animation: "pulse 1.5s infinite" }} />
+          <div className={styles.cardContent}>
+            <div style={{ height: "14px", width: "85%", background: "rgba(255,255,255,0.07)", borderRadius: "6px", marginBottom: "10px", animation: "pulse 1.5s infinite" }} />
+            <div style={{ height: "14px", width: "60%", background: "rgba(255,255,255,0.07)", borderRadius: "6px", marginBottom: "16px", animation: "pulse 1.5s infinite" }} />
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div>
+                <div style={{ height: "12px", width: "90px", background: "rgba(255,255,255,0.07)", borderRadius: "4px", marginBottom: "6px", animation: "pulse 1.5s infinite" }} />
+                <div style={{ height: "10px", width: "60px", background: "rgba(255,255,255,0.05)", borderRadius: "4px", animation: "pulse 1.5s infinite" }} />
               </div>
+              <div style={{ height: "12px", width: "60px", background: "rgba(255,255,255,0.05)", borderRadius: "4px", animation: "pulse 1.5s infinite" }} />
+            </div>
+          </div>
+        </div>
+      ))
+    ) : (
+      testimonials.map((t, i) => (
+        <div
+          key={i}
+          className={`${styles.testimonialCard} ${
+            i === activeCard ? styles.active : ""
+          } ${i === (activeCard + 1) % testimonials.length ? styles.next : ""} ${
+            i === (activeCard + 2) % testimonials.length ? styles.hidden : ""
+          }`}
+          style={{ zIndex: testimonials.length - i }}
+        >
+          <div className={styles.cardMedia}>
+            <img src={t.image?.url || "/default-avatar.png"} alt={t.image?.alt || t.name} />
+          </div>
+          <div className={styles.cardContent}>
+            <p className={styles.result}>"{t.feedback}"</p>
+            <div className={styles.cardFooter}>
+              <div className={styles.client}>
+                <span className={styles.clientName}>{t.name}</span>
+                <span className={styles.clientRole}>{t.job}</span>
+              </div>
+              <div className={styles.branding}>
+                <span className={styles.brandLogo}>DevRolin</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))
+    )}
+  </div>
+</div>
             </div>
           </div>
 
