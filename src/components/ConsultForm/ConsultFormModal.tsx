@@ -194,6 +194,19 @@ const MobileExpandableList: React.FC<MobileExpandableProps> = ({
   );
 };
 
+// ─── Desktop Service List Generator ───────────────────────────────────────────
+const getDesktopServiceList = (allServices: string[], expanded: boolean) => {
+  if (expanded) {
+    return allServices; // Show all in original order
+  }
+  
+  // Collapsed: show first 5 + "Not Sure Yet" at 6th position
+  const first5 = allServices.slice(0, 5);
+  const notSureYet = allServices.find(s => s === "Not Sure Yet");
+  
+  return notSureYet ? [...first5, notSureYet] : first5;
+};
+
 // ─── Selected Tags Display ────────────────────────────────────────────────────
 interface SelectedTagsProps {
   items: string[];
@@ -236,6 +249,8 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
   // Mobile expand states
   const [servicesExpanded, setServicesExpanded] = useState(false);
   const [bottleneckExpanded, setBottleneckExpanded] = useState(false);
+  const [desktopServicesExpanded, setDesktopServicesExpanded] = useState(false);
+
 
   const [form, setForm] = useState<FormData>({
     fullName: "",
@@ -519,41 +534,68 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
             <div className="cf-step">
               <p className="cf-step__title">What Do You Need?</p>
 
-              {/* Selected services tags — visible on mobile when collapsed */}
-              {/* <SelectedTags
-                items={form.services.filter(
-                  (s) =>
-                    !servicesExpanded &&
-                    SERVICE_OPTIONS.indexOf(s) >= MOBILE_VISIBLE_COUNT,
-                )}
-                onRemove={(s) => toggleArr("services", s)}
-                label="Also selected"
-              /> */}
-
               <div className="cf-group" style={{ marginBottom: 20 }}>
                 <label className="cf-label">
                   Service Needed <span>*</span>
                 </label>
 
-                {/* Desktop: show all normally */}
-                <div className="cf-service-grid cf-desktop-only">
-                  {SERVICE_OPTIONS.map((s) => (
-                    <label
-                      key={s}
-                      className={`cf-service-check${form.services.includes(s) ? " cf-service-check--active" : ""}`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={form.services.includes(s)}
-                        onChange={() => toggleArr("services", s)}
-                      />
-                      <div className="cf-service-check__box">
-                        {form.services.includes(s) ? "✓" : ""}
-                      </div>
-                      <span className="cf-service-check__label">{s}</span>
-                    </label>
-                  ))}
-                </div>
+               {/* Desktop: show first 5 + "Not Sure Yet" at 6th, expand for all */}
+<div className="cf-desktop-only">
+  {/* Selected tags for hidden items when collapsed */}
+  <SelectedTags
+    items={form.services.filter(
+      (s) => 
+        !desktopServicesExpanded && 
+        !getDesktopServiceList(SERVICE_OPTIONS, false).includes(s)
+    )}
+    onRemove={(s) => toggleArr("services", s)}
+    label="Also selected"
+  />
+
+  <div className="cf-service-grid">
+    {getDesktopServiceList(SERVICE_OPTIONS, desktopServicesExpanded).map((s) => (
+      <label
+        key={s}
+        className={`cf-service-check${form.services.includes(s) ? " cf-service-check--active" : ""}`}
+      >
+        <input
+          type="checkbox"
+          checked={form.services.includes(s)}
+          onChange={() => toggleArr("services", s)}
+        />
+        <div className="cf-service-check__box">
+          {form.services.includes(s) ? "✓" : ""}
+        </div>
+        <span className="cf-service-check__label">{s}</span>
+      </label>
+    ))}
+  </div>
+
+  {/* Show More / Show Less Button */}
+  {SERVICE_OPTIONS.length > 6 && (
+    <button
+      type="button"
+      className="cf-desktop-toggle"
+      onClick={() => setDesktopServicesExpanded((p) => !p)}
+    >
+      {desktopServicesExpanded ? (
+        <>
+          <span>Show Less</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </>
+      ) : (
+        <>
+          <span>Show {SERVICE_OPTIONS.length - 6} More Services</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </>
+      )}
+    </button>
+  )}
+</div>
 
                 {/* Mobile: expandable list */}
                 <div className="cf-mobile-only">

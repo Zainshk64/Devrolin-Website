@@ -6,7 +6,7 @@ import UxProcessTwo from "@/components/containers/service-details/UxProcessTwo";
 import CtaTwo from "@/components/containers/service-details/CtaTwo";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
-// import Head from 'next/head'
+import Head from 'next/head'
 const serviceData = {
 "ai-automation-systems": {
   title: "AI Automation & Integration Systems",
@@ -51,7 +51,7 @@ const ServiceDetails = () => {
 
   return (
     <>
-     {/* <Head>
+     <Head>
         <title>{service.title} | DevRolin</title>
         <meta name="description" content={service.description} />
         <link rel="canonical" href={`https://devrolin.com/service-single/${slug}`} />
@@ -61,6 +61,7 @@ const ServiceDetails = () => {
         <meta property="og:url" content={`https://devrolin.com/service-single/${slug}`} />
         <meta property="og:image" content="https://devrolin.com/og-image.jpg" />
         
+        {/* Service Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -76,7 +77,7 @@ const ServiceDetails = () => {
             }),
           }}
         />
-      </Head> */}
+      </Head>
     <Layout header={2} footer={5} video={false}>
       <ServiceDetailsBanner mainService={mainService} />
       <ServiceDetailsMain mainService={mainService} />

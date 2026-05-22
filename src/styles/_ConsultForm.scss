@@ -882,6 +882,48 @@ $font-b:      'DM Sans', sans-serif;
 
 
 
+// ══════════════════════════════════════════════════════════════════════════════
+// DESKTOP SERVICE TOGGLE
+// ══════════════════════════════════════════════════════════════════════════════
+
+.cf-desktop-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 14px;
+  padding: 11px 18px;
+  background: rgba(232, 123, 43, 0.05);
+  border: 1px solid rgba(232, 123, 43, 0.2);
+  border-radius: 8px;
+  color: $orange;
+  font-family: $font-d;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+
+  &:hover,
+  &:active {
+    background: rgba(232, 123, 43, 0.1);
+    border-color: $orange;
+    transform: translateY(-1px);
+  }
+
+  svg {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  @media (max-width: 640px) {
+    display: none; // Only show on desktop
+  }
+}
+
 
 // ══════════════════════════════════════════════════════════════════════════════
 // MOBILE EXPANDABLE LIST + SELECTED TAGS + FOOTER FIX

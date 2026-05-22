@@ -5,7 +5,7 @@ import ProjectMain from "@/components/containers/project/ProjectMain";
 import WorkStepsProject from "@/components/containers/project/WorkStepsProject";
 import CtaTwo from "@/components/containers/service-details/CtaTwo";
 import { toast } from "react-hot-toast";
-// import Head from 'next/head'
+import Head from 'next/head'
 const OurProjects = () => {
   const [projects, setProjects] = useState([]);
   
@@ -36,7 +36,7 @@ const OurProjects = () => {
     }, []);
   return (
     <>
-    {/* <Head>
+    <Head>
         <title>Our Projects | DevRolin</title>
         <meta 
           name="description" 
@@ -46,7 +46,7 @@ const OurProjects = () => {
         
         <meta property="og:title" content="Our Projects | DevRolin" />
         <meta property="og:url" content="https://devrolin.com/our-projects" />
-      </Head> */}
+      </Head>
     <Layout header={2} footer={5} video={0}>
       <CmnBanner title="Our Projects" navigation="Our Projects" />
       <ProjectMain projects={projects} />
