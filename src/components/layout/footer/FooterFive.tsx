@@ -108,6 +108,8 @@ const FooterFive = () => {
     }
   }, []);
 
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Project%20Inquiry`;
+  
   return (
     <footer className="footer-two footer-cmn section pb-0">
       <div className="container">
@@ -126,7 +128,7 @@ Dubai-based firm building AI, SaaS, and CRM systems that turn your business into
               <div className="section__content-cta">
                 <h2>
                   <Link
-                    href="mailto:systems@gmail.com"
+                    href={gmailLink}
                     className="folks-text animated-text"
                     ref={animatedTextRef}
                   >
@@ -177,7 +179,7 @@ Dubai-based firm building AI, SaaS, and CRM systems that turn your business into
                 <Image src={whatsapp} width={45} height={20} alt="Dubai Flag" />
                  +971-52347966
                 </Link>
-                <Link href="mailto:info@devrolin.com"  style={{display:"flex", alignItems:"center", gap:'13px'}}>
+                <Link href={gmailLink}  style={{display:"flex", alignItems:"center", gap:'13px'}}>
                 <Image src={Email} width={35} height={10} alt="Email Logo" />
                   systems@devrolin.com
                 </Link>

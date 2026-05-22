@@ -10,6 +10,8 @@ import ukFlag from "public/images/Company-Logo-Normal-1/Uk-Logo.webp";
 import pakistanFlag from "public/images/Company-Logo-Normal-1/Pakistan-Logo.webp";
 
 const Footer = () => {
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Project%20Inquiry`;
+
   return (
     <footer
       className="footer section pb-0"
@@ -35,7 +37,7 @@ const Footer = () => {
                 <Image src={whatsapp} width={45} height={20} alt="Dubai Flag" />
                  +971-52347966
                 </Link>
-                <Link href="mailto:systems@devrolin.com" style={{display:"flex", alignItems:"center", gap:'13px'}}>
+                <Link href={gmailLink} style={{display:"flex", alignItems:"center", gap:'13px'}}>
                 <Image src={Email} width={35} height={10} alt="Email Logo" />
                   systems@devrolin.com
                 </Link>
