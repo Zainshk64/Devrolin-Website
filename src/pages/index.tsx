@@ -52,6 +52,7 @@ const Home = () => {
       <HomeBlog />
       <NextPage />
     </Layout>
+    
     </>
   );
 };
