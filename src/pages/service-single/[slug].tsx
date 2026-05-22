@@ -7,27 +7,44 @@ import CtaTwo from "@/components/containers/service-details/CtaTwo";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 import Head from 'next/head'
-const serviceData = {
-"ai-automation-systems": {
-  title: "AI Automation & Integration Systems",
-  description: "Automate workflows, integrate disconnected tools, and scale operations using AI systems.",
-},
-"crm-revenue-automation": {
-  title: "CRM & Revenue Systems",
-  description: "Custom CRM and revenue automation systems designed to improve lead management and sales operations.",
-},
-"saas-mvp-development": {
-  title: "SaaS & MVP Development",
-  description: "Launch scalable SaaS products and MVPs with modern infrastructure and payment systems.",
-},
-"custom-web-platforms": {
-  title: "Custom Web Platforms",
-  description: "Custom business platforms and operational systems designed for scalable growth.",
-},
+type ServiceSlug =
+  | "ai-automation-systems"
+  | "crm-revenue-automation"
+  | "saas-mvp-development"
+  | "custom-web-platforms";
+
+const serviceData: Record<
+  ServiceSlug,
+  { title: string; description: string }
+> = {
+  "ai-automation-systems": {
+    title: "AI Automation & Integration Systems",
+    description:
+      "Automate workflows, integrate disconnected tools, and scale operations using AI systems.",
+  },
+
+  "crm-revenue-automation": {
+    title: "CRM & Revenue Systems",
+    description:
+      "Custom CRM and revenue automation systems designed to improve lead management and sales operations.",
+  },
+
+  "saas-mvp-development": {
+    title: "SaaS & MVP Development",
+    description:
+      "Launch scalable SaaS products and MVPs with modern infrastructure and payment systems.",
+  },
+
+  "custom-web-platforms": {
+    title: "Custom Web Platforms",
+    description:
+      "Custom business platforms and operational systems designed for scalable growth.",
+  },
 };
 const ServiceDetails = () => {
-  const service = serviceData[slug as string] || serviceData["ai-automation-systems"];
   const { slug } = useRouter().query;
+const service =
+  serviceData[(slug as ServiceSlug) || "ai-automation-systems"];  
   const [mainService, setServices] = useState(null);
 
 
