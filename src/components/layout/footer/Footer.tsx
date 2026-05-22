@@ -10,6 +10,7 @@ import ukFlag from "public/images/Company-Logo-Normal-1/Uk-Logo.webp";
 import pakistanFlag from "public/images/Company-Logo-Normal-1/Pakistan-Logo.webp";
 
 const Footer = () => {
+  const EMAIL = 'systems@devrolin.com'
     const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Project%20Inquiry`;
 
   return (

@@ -107,6 +107,7 @@ const FooterFive = () => {
       animatedText.innerHTML = "";
     }
   }, []);
+  const EMAIL = "systems@devrolin.com"
 
     const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Project%20Inquiry`;
   
