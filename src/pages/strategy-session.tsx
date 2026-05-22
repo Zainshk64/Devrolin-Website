@@ -3,43 +3,45 @@ import React, { useState, useEffect } from "react";
 import Layout from "@/components/layout/Layout";
 import { InlineWidget } from "react-calendly";
 import styles from "@/styles/strategy-session.module.scss";
+import toast from "react-hot-toast";
 
 const StrategySession = () => {
-  const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
-  const [activeCard, setActiveCard] = useState(0);
+interface TestimonialItem {
+  _id: string;
+  name: string;
+  job: string;
+  feedback: string;
+  image?: { url?: string; alt?: string };
+}
 
-  // Auto-rotate testimonial cards
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveCard((prev) => (prev + 1) % testimonials.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
+const [testimonials, setTestimonials] = useState<TestimonialItem[]>([]);
+const [activeCard, setActiveCard] = useState(0);
+const [loading, setLoading] = useState(true);
 
-  const testimonials = [
-    {
-      name: "Sarah Chen",
-      role: "CEO, ScaleOps",
-      result: "Saved 20+ operational hours weekly through automation.",
-      video: "https://res.cloudinary.com/drdpqf3ns/video/upload/v1234567890/testimonial1.mp4",
-      thumbnail: "https://i.pravatar.cc/150?img=1",
-    },
-    {
-      name: "Michael Torres",
-      role: "Founder, RevSys",
-      result: "3x revenue pipeline with automated CRM infrastructure.",
-      video: "https://res.cloudinary.com/drdpqf3ns/video/upload/v1234567890/testimonial2.mp4",
-      thumbnail: "https://i.pravatar.cc/150?img=3",
-    },
-    {
-      name: "Jessica Park",
-      role: "COO, BuildFlow",
-      result: "Cut manual workflows by 80% in first 60 days.",
-      video: "https://res.cloudinary.com/drdpqf3ns/video/upload/v1234567890/testimonial3.mp4",
-      thumbnail: "https://i.pravatar.cc/150?img=5",
-    },
-  ];
+const fetchTestimonials = async () => {
+  try {
+    const res = await fetch("https://devrolin-backend-production.up.railway.app/api/testimonials/");
+    const data = await res.json();
+    setTestimonials(Array.isArray(data) ? data : []);
+  } catch {
+    toast.error("Failed to fetch testimonials");
+  } finally {
+    setLoading(false);
+  }
+};
 
+useEffect(() => {
+  fetchTestimonials();
+}, []);
+
+useEffect(() => {
+  if (testimonials.length === 0) return;
+  const interval = setInterval(() => {
+    setActiveCard((prev) => (prev + 1) % testimonials.length);
+  }, 4000);
+  return () => clearInterval(interval);
+}, [testimonials.length]);
   const services = [
     {
       title: "AI Integration & Automation Systems",
@@ -133,15 +135,15 @@ const StrategySession = () => {
                       style={{ zIndex: testimonials.length - i }}
                     >
                       <div className={styles.cardMedia}>
-                        <img src={t.thumbnail} alt={t.name} />
-                        <div className={styles.playIcon}>▶</div>
+      <img src={t.image?.url || "/default-avatar.png"} alt={t.image?.alt || t.name} />
+                        {/* <div className={styles.playIcon}>▶</div> */}
                       </div>
                       <div className={styles.cardContent}>
-                        <p className={styles.result}>"{t.result}"</p>
+                        <p className={styles.result}>"{t.feedback}"</p>
                         <div className={styles.cardFooter}>
                           <div className={styles.client}>
                             <span className={styles.clientName}>{t.name}</span>
-                            <span className={styles.clientRole}>{t.role}</span>
+                            <span className={styles.clientRole}>{t.job}</span>
                           </div>
                           <div className={styles.branding}>
                             <span className={styles.brandLogo}>DevRolin</span>
