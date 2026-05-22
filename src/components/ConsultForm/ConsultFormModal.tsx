@@ -520,7 +520,7 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
               <p className="cf-step__title">What Do You Need?</p>
 
               {/* Selected services tags — visible on mobile when collapsed */}
-              <SelectedTags
+              {/* <SelectedTags
                 items={form.services.filter(
                   (s) =>
                     !servicesExpanded &&
@@ -528,7 +528,7 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                 )}
                 onRemove={(s) => toggleArr("services", s)}
                 label="Also selected"
-              />
+              /> */}
 
               <div className="cf-group" style={{ marginBottom: 20 }}>
                 <label className="cf-label">
