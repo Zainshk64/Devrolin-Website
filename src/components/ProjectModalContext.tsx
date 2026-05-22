@@ -342,6 +342,9 @@ const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
             border-radius: 16px;
             max-height: 85vh; /* ✅ Slightly smaller on mobile */
           }
+            .pm-card__badge{
+            display:none;
+            }
           .pm-title { font-size: 1.35rem; }
           .pm-card  { padding: 15px 16px; gap: 13px; }
           .pm-card__icon-wrap { width: 42px; height: 42px; font-size: 19px; }
