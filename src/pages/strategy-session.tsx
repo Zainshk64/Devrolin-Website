@@ -117,21 +117,38 @@ useEffect(() => {
                 </p>
 
                 <button
-                  className={styles.ctaBtn}
-                  onClick={() => setIsCalendlyOpen(true)}
-                >
-                  <span>Schedule Strategy Session</span>
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </button>
+  className={styles.ctaBtn}
+  onClick={() => setIsCalendlyOpen(true)}
+>
+  {/* Left Icon */}
+  <div className={styles.iconWrap}>
+    <i className="fa-light fa-calendar-days"></i>
+  </div>
+
+  {/* Text Content */}
+  <div className={styles.btnContent}>
+    <span className={styles.mainText}>
+      Schedule Strategy Session
+    </span>
+
+    <span className={styles.subText}>
+      15 mins • 1-on-1 frameworks
+    </span>
+  </div>
+
+  {/* Arrow */}
+  <svg
+    className={styles.arrowIcon}
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+  >
+    <path d="M5 12h14M12 5l7 7-7 7" />
+  </svg>
+</button>
 
                 <p className={styles.trustLine}>
                 Trusted by scaling founders and teams streamlining workflows, CRM systems, and 500K+ audience operations through AI and automation.
