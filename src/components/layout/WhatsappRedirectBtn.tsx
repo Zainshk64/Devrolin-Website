@@ -60,9 +60,15 @@ const WhatsappRedirectBtn = () => {
     return () => clearTimeout(showTimer);
   }, []); // runs once per page mount — correct behaviour for Next.js page transitions
 
-  const handleProgressClick = () => {
-    window.location.href = "https://wa.me/+971522347966";
-  };
+const handleProgressClick = () => {
+  const message =
+    "Hey DevRolin, I think my business needs better systems and wanted to discuss a potential project with your team";
+
+  window.open(
+    `https://wa.me/971522347966?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
+};
 
   return (
     <>

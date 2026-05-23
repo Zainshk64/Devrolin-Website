@@ -57,6 +57,9 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
 
 .heroLeft {
   animation: fadeUp 0.8s $ease;
+   @media (max-width: 991px) {
+    margin-bottom: 60px;
+  }
 }
 .badge {
   display: inline-flex;
