@@ -43,27 +43,48 @@ useEffect(() => {
   return () => clearInterval(interval);
 }, [testimonials.length]);
   const services = [
-    {
-      title: "AI Integration & Automation Systems",
-      description: "Remove repetitive manual workflows using scalable AI-powered systems.",
-      icon: "🤖",
-    },
-    {
-      title: "CRM & Revenue Infrastructure",
-      description: "Build intelligent pipelines that turn leads into predictable revenue.",
-      icon: "📊",
-    },
-    {
-      title: "SaaS / MVP Development",
-      description: "Launch market-ready products with battle-tested tech architecture.",
-      icon: "🚀",
-    },
-    {
-      title: "Web & Custom Internal Platforms",
-      description: "Create tools that make your team 10x more efficient internally.",
-      icon: "⚡",
-    },
-  ];
+  {
+    title: "AI Integration & Automation Systems",
+    description: "Eliminate repetitive workflows and operational bottlenecks using scalable AI-powered systems.",
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+    ),
+  },
+  {
+    title: "CRM & Revenue Infrastructure",
+    description: "Build smarter pipelines, automate follow-ups, and create predictable revenue operations.",
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+        <line x1="12" y1="22.08" x2="12" y2="12"/>
+      </svg>
+    ),
+  },
+  {
+    title: "SaaS / MVP Development",
+    description: "Launch scalable products with production-ready architecture built for real growth.",
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </svg>
+    ),
+  },
+  {
+    title: "Web & Custom Internal Platforms",
+    description: "Build internal systems that streamline operations and increase team efficiency.",
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+    ),
+  },
+];
 
   return (
     <Layout header={1} footer={5} video={true}>
@@ -77,25 +98,22 @@ useEffect(() => {
               {/* LEFT CONTENT */}
               <div className={styles.heroLeft}>
                 <div className={styles.badge}>
-                  <span>AI</span>
+                  <span>AI Systems</span>
                   <span className={styles.dot}>•</span>
-                  <span>CRM</span>
+                  <span>CRM Infrastrucutre</span>
                   <span className={styles.dot}>•</span>
                   <span>Automation</span>
-                  <span className={styles.dot}>•</span>
-                  <span>Scaling Systems</span>
+                  
                 </div>
 
                 <h1 className={styles.headline}>
-                  Most companies don't need more people.
+                  We build systems
                   <br />
-                  <span className={styles.highlight}>They need better systems.</span>
+                  <span className={styles.highlight}>That make money</span>
                 </h1>
 
                 <p className={styles.subtext}>
-                  We help scaling businesses eliminate operational bottlenecks through AI
-                  systems, automation, CRM infrastructure, SaaS solutions, and custom
-                  internal platforms.
+                 Dubai-based firm building AI, SaaS, and CRM systems that turn your business into a revenue machine without hiring more people.
                 </p>
 
                 <button
@@ -116,8 +134,7 @@ useEffect(() => {
                 </button>
 
                 <p className={styles.trustLine}>
-                  Trusted by scaling founders, agencies, SaaS teams, and operations-heavy
-                  businesses.
+                Trusted by scaling founders and teams streamlining workflows, CRM systems, and 500K+ audience operations through AI and automation.
                 </p>
               </div>
 
@@ -184,15 +201,15 @@ useEffect(() => {
         {/* SECTION 2 — VALUE CARDS */}
         {/* ══════════════════════════════════════════════════════════════ */}
         <section className={styles.valueSection}>
-          <div className="container">
-            <h2 className={styles.sectionTitle}>What We Help Scaling Teams Fix</h2>
-            <div className={styles.serviceGrid}>
+  <div className="container">
+    <div className={styles.sectionLabel}>SYSTEMS • AUTOMATION • INFRASTRUCTURE</div>
+    <h2 className={styles.sectionTitle}>What We Help Scaling Teams Fix</h2> <div className={styles.serviceGrid}>
               {services.map((service, i) => (
-                <div key={i} className={styles.serviceCard}>
-                  {/* <div className={styles.serviceIcon}>{service.icon}</div> */}
-                  <h3 className={styles.serviceTitle}>{service.title}</h3>
-                  <p className={styles.serviceDesc}>{service.description}</p>
-                </div>
+               <div key={i} className={styles.serviceCard}>
+  <div className={styles.serviceIcon}>{service.icon}</div>
+  <h3 className={styles.serviceTitle}>{service.title}</h3>
+  <p className={styles.serviceDesc}>{service.description}</p>
+</div>
               ))}
             </div>
           </div>
@@ -211,7 +228,7 @@ useEffect(() => {
                 <i className="fa-solid fa-xmark"></i>
               </button>
               <InlineWidget
-                url="https://calendly.com/your-calendly-link"
+                url="https://calendly.com/faiqdevrolin/30min"
                 styles={{ height: "700px", width: "100%" }}
                 pageSettings={{
                   backgroundColor: "0a0a0a",

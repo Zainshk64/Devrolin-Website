@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 const metrics = [
   {
-    number: 270,
+    number: 500,
     suffix: "+",
     label: "Systems Delivered",
     sub: "AI, CRM & SaaS projects",
@@ -31,7 +31,7 @@ const metrics = [
     label: "End-to-End",
     sub: "From idea to deployment",
     icon: "fa-rocket",
-    staticText: "Automation\nBuilt",
+    staticText: "AI Automate",
     highlight: false,
   },
 ];
