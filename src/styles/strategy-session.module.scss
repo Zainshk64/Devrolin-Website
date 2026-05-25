@@ -50,6 +50,8 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
   @media (max-width: 1300px) {
     grid-template-columns: 1fr;
     gap: 50px;
+    margin-bottom:100px
+  
   }
 }
 
@@ -233,9 +235,13 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
   margin-top: 24px;
   font-style: italic;
 }
+ @media (max-width: 1300px) {
+    .trustLine , .ctaBtn{
+      width:50%;
+    }
+  }
 
-
-  @media (max-width: 900px) {
+  @media (max-width: 800px) {
     .trustLine , .ctaBtn{
       width:100%;
     }
@@ -387,6 +393,51 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
+
+.testimonialCard {
+  transition: all 0.3s ease;
+  
+  &.expanded {
+    height: auto !important;
+  }
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.result {
+  flex: 1;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.seeProofBtn {
+  display: inline;
+  background: transparent;
+  border: none;
+  color: $orange;
+  font-size: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+  transition: opacity 0.2s ease;
+  vertical-align: baseline;
+  
+  &:hover {
+    opacity: 0.8;
+    // text-decoration: underline;
+  }
+}
+
+.cardFooter {
+  margin-top: auto;
+}
+
+
 // ── Animated Background Orbs ──────────────────────────────────────────────────
 
 .orb {
@@ -425,6 +476,7 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   @media (max-width: 991px) {
     padding: 60px 0 80px;
+    margin-top:100px
   }
 }
 

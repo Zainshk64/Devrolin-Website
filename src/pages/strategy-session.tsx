@@ -20,6 +20,8 @@ const StrategySession = () => {
   const [testimonials, setTestimonials] = useState<TestimonialItem[]>([]);
   const [activeCard, setActiveCard] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [expandedCards, setExpandedCards] = useState<Set<number>>(new Set());
+
 
   // Pre-mount Calendly widget after page loads so it's ready instantly
   useEffect(() => {
@@ -45,13 +47,38 @@ const StrategySession = () => {
     fetchTestimonials();
   }, []);
 
-  useEffect(() => {
-    if (testimonials.length === 0) return;
+
+  const truncateText = (text: string, maxLines: number = 3) => {
+  const words = text.split(' ');
+  const lineLength = 15; // approximate words per line
+  const maxWords = lineLength * maxLines;
+  
+  if (words.length <= maxWords) return text;
+  return words.slice(0, maxWords).join(' ');
+};
+  const toggleCardExpansion = (index: number) => {
+  setExpandedCards(prev => {
+    const newSet = new Set(prev);
+    if (newSet.has(index)) {
+      newSet.delete(index);
+    } else {
+      newSet.add(index);
+    }
+    return newSet;
+  });
+};
+useEffect(() => {
+  if (testimonials.length === 0) return;
+  
+  // Only auto-rotate if no cards are expanded
+  if (expandedCards.size === 0) {
     const interval = setInterval(() => {
       setActiveCard((prev) => (prev + 1) % testimonials.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [testimonials.length]);
+  }
+}, [testimonials.length, expandedCards.size]);
+
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -218,38 +245,57 @@ const StrategySession = () => {
                           </div>
                         </div>
                       ))
-                    : testimonials.map((t, i) => (
-                        <div
-                          key={i}
-                          className={`${styles.testimonialCard} ${
-                            i === activeCard ? styles.active : ""
-                          } ${
-                            i === (activeCard + 1) % testimonials.length ? styles.next : ""
-                          } ${
-                            i === (activeCard + 2) % testimonials.length ? styles.hidden : ""
-                          }`}
-                          style={{ zIndex: testimonials.length - i }}
-                        >
-                          <div className={styles.cardMedia}>
-                            <img
-                              src={t.image?.url || "/default-avatar.png"}
-                              alt={t.image?.alt || t.name}
-                            />
-                          </div>
-                          <div className={styles.cardContent}>
-                            <p className={styles.result}>"{t.feedback}"</p>
-                            <div className={styles.cardFooter}>
-                              <div className={styles.client}>
-                                <span className={styles.clientName}>{t.name}</span>
-                                <span className={styles.clientRole}>{t.job}</span>
-                              </div>
-                              <div className={styles.branding}>
-                                <span className={styles.brandLogo}>DevRolin</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                  : testimonials.map((t, i) => {
+    const isExpanded = expandedCards.has(i);
+    const needsTruncation = t.feedback.split(' ').length > 25;
+    
+    return (
+      <div
+        key={i}
+        className={`${styles.testimonialCard} ${
+          i === activeCard ? styles.active : ""
+        } ${
+          i === (activeCard + 1) % testimonials.length ? styles.next : ""
+        } ${
+          i === (activeCard + 2) % testimonials.length ? styles.hidden : ""
+        } ${isExpanded ? styles.expanded : ""}`}
+        style={{ zIndex: testimonials.length - i }}
+      >
+        <div className={styles.cardMedia}>
+          <img
+            src={t.image?.url || "/default-avatar.png"}
+            alt={t.image?.alt || t.name}
+          />
+        </div>
+        <div className={styles.cardContent}>
+          <p className={styles.result}>
+            "{isExpanded ? t.feedback : truncateText(t.feedback)}"
+            {needsTruncation && (
+              <button 
+                className={styles.seeProofBtn}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleCardExpansion(i);
+                }}
+              >
+                {" "}{isExpanded ? 'Hide the proof' : '...See the proof'}
+              </button>
+            )}
+          </p>
+          <div className={styles.cardFooter}>
+            <div className={styles.client}>
+              <span className={styles.clientName}>{t.name}</span>
+              <span className={styles.clientRole}>{t.job}</span>
+            </div>
+            <div className={styles.branding}>
+              <span className={styles.brandLogo}>DevRolin</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  })
+}
                 </div>
               </div>
             </div>

@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
-const FIRST_DELAY_MS = 15_000;      // 15 seconds — very first time ever
-const COOLDOWN_MS    = 5 * 60_000;  // 5 minutes — between subsequent shows
+const FIRST_DELAY_MS = 15_000;
+const COOLDOWN_MS    = 5 * 60_000;
 const STORAGE_KEY    = "wa_tooltip_last_shown";
 
+const MESSAGES: Record<string, string> = {
+  "/strategy-session":
+    "Hey DevRolin, I just visited your Strategy Session page and I'd love to discuss how AI and automation systems can help scale my business.",
+};
+
+const DEFAULT_MESSAGE =
+  "Hey DevRolin, I think my business needs better systems and wanted to discuss a potential project with your team";
+
 const WhatsappRedirectBtn = () => {
+  const pathname = usePathname();
+
   const [isVisible,    setIsVisible]    = useState(false);
   const [tooltipState, setTooltipState] = useState<"hidden" | "in" | "shown" | "out">("hidden");
 
@@ -15,25 +26,16 @@ const WhatsappRedirectBtn = () => {
   }, []);
 
   useEffect(() => {
-    // Calculate how long to wait before showing the tooltip on this page mount
     const getDelay = (): number => {
       const raw = sessionStorage.getItem(STORAGE_KEY);
-
-      // Never shown in this session → show after 15s
       if (!raw) return FIRST_DELAY_MS;
-
-      const lastShown = parseInt(raw, 10);
-      const elapsed   = Date.now() - lastShown;
+      const elapsed   = Date.now() - parseInt(raw, 10);
       const remaining = COOLDOWN_MS - elapsed;
-
-      // Cooldown already passed (e.g. user was on another page for >5min) → show immediately
       return remaining > 0 ? remaining : 0;
     };
 
     const runTooltip = () => {
-      // Stamp the time so next page navigation counts from now
       sessionStorage.setItem(STORAGE_KEY, String(Date.now()));
-
       setTooltipState("in");
 
       const holdTimer = setTimeout(() => {
@@ -55,20 +57,19 @@ const WhatsappRedirectBtn = () => {
       return () => clearTimeout(holdTimer);
     };
 
-    const delay     = getDelay();
-    const showTimer = setTimeout(runTooltip, delay);
+    const showTimer = setTimeout(runTooltip, getDelay());
     return () => clearTimeout(showTimer);
-  }, []); // runs once per page mount — correct behaviour for Next.js page transitions
+  }, []);
 
-const handleProgressClick = () => {
-  const message =
-    "Hey DevRolin, I think my business needs better systems and wanted to discuss a potential project with your team";
+  const handleProgressClick = () => {
+    // Pick route-specific message, fall back to default
+    const message = MESSAGES[pathname] ?? DEFAULT_MESSAGE;
 
-  window.open(
-    `https://wa.me/971522347966?text=${encodeURIComponent(message)}`,
-    "_blank"
-  );
-};
+    window.open(
+      `https://wa.me/971522347966?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+  };
 
   return (
     <>
@@ -135,7 +136,6 @@ const handleProgressClick = () => {
             transition: all 0.3s;
           }
 
-          /* ── Tooltip base ── */
           .tooltip {
             position: absolute;
             right: 70px;
@@ -159,7 +159,6 @@ const handleProgressClick = () => {
               padding 0.45s ease;
           }
 
-          /* slide IN */
           .tooltip--in,
           .tooltip--shown {
             opacity: 1;
@@ -168,7 +167,6 @@ const handleProgressClick = () => {
             transform: translateX(0);
           }
 
-          /* slide OUT */
           .tooltip--out {
             opacity: 0;
             max-width: 0;
