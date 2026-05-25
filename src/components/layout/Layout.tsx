@@ -233,10 +233,12 @@ const Layout = ({
         {video ? <VideoModal /> : null}
         <ScrollProgressBtn />
         <WhatsappRedirectBtn />
-        <CustomCursor
-          onTitleMouseEnter={handleMouseEnterTitle}
-          onTitleMouseLeave={handleMouseLeaveTitle}
-        />
+        {router.pathname !== "/strategy-session" && (
+  <CustomCursor
+    onTitleMouseEnter={handleMouseEnterTitle}
+    onTitleMouseLeave={handleMouseLeaveTitle}
+  />
+)}
       </div>
     </Fragment>
   );
