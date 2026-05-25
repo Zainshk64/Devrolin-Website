@@ -84,10 +84,7 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
  
 
   // ── Mobile Horizontal Scroll ─────────────────────
-  @media (max-width: 768px) {
-    .badge span{
-      font-size: 10px;
-    }
+
     // overflow-x: auto;
     // overflow-y: hidden;
     // white-space: nowrap;
@@ -109,8 +106,21 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
     // .dot {
     //   display: inline-block;
     // }
-  }
 }
+
+  @media (max-width: 768px) {
+    .badge{
+      font-size: 10px;
+      // text-transform: capitalize;
+    }
+  }
+
+    @media (max-width: 400px) {
+    .badge span{
+      font-size: 14px;
+      text-transform: capitalize;
+    }
+  }
 
 // @keyframes autoScroll {
 //   0%, 100% { transform: translateX(0); }

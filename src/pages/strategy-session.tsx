@@ -245,7 +245,7 @@ useEffect(() => {
                 <i className="fa-solid fa-xmark"></i>
               </button>
               <InlineWidget
-                url="https://calendly.com/faiqdevrolin/30min"
+                url="https://calendly.com/mudasr"
                 styles={{ height: "700px", width: "100%" }}
                 pageSettings={{
                   backgroundColor: "0a0a0a",
