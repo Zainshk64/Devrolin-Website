@@ -7,7 +7,7 @@ const STORAGE_KEY    = "wa_tooltip_last_shown";
 
 const MESSAGES: Record<string, string> = {
   "/strategy-session":
-    "Hey DevRolin, I just visited your Strategy Session page and I'd love to discuss how AI and automation systems can help scale my business.",
+    "Hey Mudassir, exploring ways to improve operational efficiency and scale systems internally. Thought it made sense to reach out.",
 };
 
 const DEFAULT_MESSAGE =
