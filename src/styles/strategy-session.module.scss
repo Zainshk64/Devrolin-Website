@@ -33,7 +33,7 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
 
 .hero {
   position: relative;
-  padding: 140px 0 100px;
+  padding: 140px 0 50px;
   overflow: hidden;
 
   @media (max-width: 991px) {
@@ -44,10 +44,10 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
 .heroGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: 40px;
   align-items: center;
 
-  @media (max-width: 991px) {
+  @media (max-width: 1300px) {
     grid-template-columns: 1fr;
     gap: 50px;
   }
@@ -57,17 +57,18 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
 
 .heroLeft {
   animation: fadeUp 0.8s $ease;
-   @media (max-width: 991px) {
+
+  @media (max-width: 991px) {
     margin-bottom: 60px;
+    width: 100%;
   }
 }
+
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   padding: 8px 0px;
-  // background: $orange-dim;
-  // border: 1px solid rgba($orange, 0.2);
   border-radius: 100px;
   font-family: $font-d;
   font-size: 1px;
@@ -81,51 +82,22 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
     color: rgba($orange, 0.4);
     font-size: 0.6rem;
   }
- 
-
-  // ── Mobile Horizontal Scroll ─────────────────────
-
-    // overflow-x: auto;
-    // overflow-y: hidden;
-    // white-space: nowrap;
-    // scroll-behavior: smooth;
-    // -webkit-overflow-scrolling: touch;
-    // scrollbar-width: none; /* Firefox */
-    
-    // &::-webkit-scrollbar {
-    //   display: none; /* Chrome/Safari */
-    // }
-
-    // gap: 12px;
-    // padding: 10px 16px;
-    // font-size: 0.68rem;
-    // max-width: 100%;
-
-    // animation: autoScroll 8s linear infinite;
-
-    // .dot {
-    //   display: inline-block;
-    // }
 }
 
-  @media (max-width: 768px) {
-    .badge{
-      font-size: 10px;
-      text-transform: capitalize;
-    }
+@media (max-width: 768px) {
+  .badge {
+    font-size: 10px;
+    text-transform: capitalize;
   }
+}
 
-    @media (max-width: 400px) {
-    .badge span{
-      font-size: 14px;
-      text-transform: capitalize;
-    }
+@media (max-width: 400px) {
+  .badge span {
+    font-size: 14px;
+    text-transform: capitalize;
   }
+}
 
-// @keyframes autoScroll {
-//   0%, 100% { transform: translateX(0); }
-//   50% { transform: translateX(-20%); }
-// }
 .headline {
   font-family: $font-d;
   font-size: clamp(2.2rem, 5vw, 3.5rem);
@@ -149,29 +121,58 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
   line-height: 1.7;
   color: $text-2;
   max-width: 540px;
-  margin-bottom: 36px;
+  margin-bottom: 20px;
 }
+
+// ── FIX 3: Urgency Badge ──────────────────────────────────────────────────────
+
+.urgencyBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  background: rgba($orange, 0.08);
+  border: 1px solid rgba($orange, 0.25);
+  border-radius: 100px;
+  margin-bottom: 20px;
+  font-family: $font-b;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $orange;
+  letter-spacing: 0.02em;
+  animation: fadeUp 0.9s $ease;
+}
+
+.urgencyDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: $orange;
+  flex-shrink: 0;
+  animation: blink 1.4s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+// ── CTA Button ────────────────────────────────────────────────────────────────
 
 .ctaBtn {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   gap: 10px;
-
-  width: 100%;
+  width: 80%;
 
   padding: 10px 18px;
-
   background: $orange;
-
   border: 1px solid rgba(225, 98, 7, 0.2);
-
   border-radius: 12px;
-
   color: #fff;
-
   transition: all 0.3s ease;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-2px);
@@ -186,34 +187,25 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
 .iconWrap {
   width: 50px;
   height: 50px;
-
   min-width: 50px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 14px;
-
-
   color: #fff;
-
   font-size: 20px;
-
   border: 1px solid rgba(225, 98, 7, 0.18);
 }
 
 .btnContent {
   flex: 1;
-
   display: flex;
   flex-direction: column;
-
   text-align: left;
 }
 
 .mainText {
-  margin-top:2px;
+  margin-top: 2px;
   font-size: 15px;
   font-weight: 700;
   color: #fff;
@@ -222,27 +214,32 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
 
 .subText {
   margin-top: 2px;
-
   font-size: 12px;
   color: rgba(255, 255, 255, 0.58);
-
   letter-spacing: 0.02em;
 }
 
 .arrowIcon {
   color: #fff;
-
   flex-shrink: 0;
-
   transition: transform 0.3s ease;
 }
+
 .trustLine {
   font-family: $font-b;
   font-size: 0.82rem;
+  width:80%;
   color: $text-3;
   margin-top: 24px;
   font-style: italic;
 }
+
+
+  @media (max-width: 900px) {
+    .trustLine , .ctaBtn{
+      width:100%;
+    }
+  }
 
 // ── Right — Floating Testimonial Stack ───────────────────────────────────────
 
@@ -257,12 +254,13 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
     height: 400px;
   }
 }
+
 .testimonialStack {
   position: relative;
   width: 100%;
   max-width: 450px;
   height: 100%;
-  perspective: 1000px; // ← 3D effect
+  perspective: 1000px;
 }
 
 .testimonialCard {
@@ -274,7 +272,7 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
   border: 1px solid rgba($orange, 0.15);
   border-radius: 18px;
   overflow: hidden;
-  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); // ← BOUNCE EFFECT
+  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
 
@@ -298,15 +296,16 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   @media (max-width: 768px) {
-    &.next, &.hidden {
-      display: none; // ← HIDE STACKED CARDS ON MOBILE
+    &.next,
+    &.hidden {
+      display: none;
     }
   }
 }
 
 .cardMedia {
   position: relative;
-  height: 200px;
+  height: 150px;
   background: linear-gradient(135deg, rgba($orange, 0.08) 0%, transparent 100%);
   display: flex;
   align-items: center;
@@ -323,21 +322,21 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
-  .playIcon {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    width: 40px;
-    height: 40px;
-    background: rgba($orange, 0.2);
-    border: 1px solid $orange;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    color: $orange;
-  }
+.playIcon {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: rgba($orange, 0.2);
+  border: 1px solid $orange;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: $orange;
+}
 
 .cardContent {
   padding: 24px;
@@ -428,6 +427,7 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
     padding: 60px 0 80px;
   }
 }
+
 .sectionLabel {
   font-family: $font-d;
   font-size: 0.7rem;
@@ -442,20 +442,21 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
 
 .sectionTitle {
   font-family: $font-d;
-  font-size: clamp(1.6rem, 3.5vw, 2.2rem); // ← REDUCED SIZE
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
   font-weight: 900;
   text-align: center;
   color: $text;
   margin-bottom: 50px;
   letter-spacing: -0.01em;
 }
+
 .serviceGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); // ← MORE COMPACT
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr); // ← 2 COLUMNS ON MOBILE
+    grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
 
@@ -468,7 +469,7 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
   background: linear-gradient(145deg, #0f0f0f 0%, #0a0a0a 100%);
   border: 1px solid $border;
   border-radius: 12px;
-  padding: 28px 22px; // ← REDUCED PADDING
+  padding: 28px 22px;
   text-align: center;
   transition: all 0.3s $ease;
   position: relative;
@@ -491,8 +492,8 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   &:hover {
-    border-color: rgba($orange, 0.5); // ← ORANGE GLOW
-    transform: translateY(-6px); // ← SUBTLE LIFT
+    border-color: rgba($orange, 0.5);
+    transform: translateY(-6px);
     box-shadow: 0 8px 24px rgba($orange, 0.2);
 
     &::before {
@@ -505,6 +506,7 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
   }
 }
+
 .serviceIcon {
   display: inline-flex;
   align-items: center;
@@ -517,9 +519,10 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
     stroke: currentColor;
   }
 }
+
 .serviceTitle {
   font-family: $font-d;
-  font-size: 1rem; // ← SLIGHTLY SMALLER
+  font-size: 1rem;
   font-weight: 700;
   color: $text;
   margin-bottom: 10px;
@@ -528,12 +531,13 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
 
 .serviceDesc {
   font-family: $font-b;
-  font-size: 0.85rem; // ← SMALLER
+  font-size: 0.85rem;
   line-height: 1.65;
   color: $text-2;
 }
+
 // ══════════════════════════════════════════════════════════════════════════════
-// CALENDLY POPUP MODAL
+// CALENDLY POPUP MODAL — FIX 1 & 2
 // ══════════════════════════════════════════════════════════════════════════════
 
 .calendlyBackdrop {
@@ -559,39 +563,90 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
   animation: slideUp 0.4s $ease;
+
+  // Custom scrollbar inside modal
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-track { background: #1a1a1a; border-radius: 10px; }
+  &::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+  &::-webkit-scrollbar-thumb:hover { background: #f97316; }
+
+  @media (max-width: 600px) {
+    width: 95%;
+    max-height: 92vh;
+    border-radius: 12px;
+  }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50%       { opacity: 0.9; }
-}
+// FIX 1: Close button is OUTSIDE the modal box — floating top-right of viewport
+// Never overlaps Calendly steps, never cuts into the booking flow
 .closeBtn {
-  position: absolute;
-  top: 40px;
+  position: fixed;
+  top: 16px;
   right: 16px;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  border: none;
-  background: rgba($orange, 0.15);
+  border: 1px solid rgba($orange, 0.3);
+  background: #1a1a1a;
   color: $orange;
   font-size: 18px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 10;
+  transition: all 0.25s ease;
+  z-index: 10001; // above backdrop (9999) and modal
   display: flex;
   align-items: center;
   justify-content: center;
 
+  // Tooltip shown on hover
+  .closeBtnTooltip {
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 10px);
+    transform: translateY(-50%);
+    background: #1a1a1a;
+    border: 1px solid rgba($orange, 0.2);
+    color: $text-2;
+    font-family: $font-b;
+    font-size: 0.72rem;
+    white-space: nowrap;
+    padding: 5px 10px;
+    border-radius: 6px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
   &:hover {
-    background: rgba($orange, 0.3);
-    transform: scale(1.1) rotate(90deg);
+    background: rgba($orange, 0.15);
+    border-color: $orange;
+    transform: scale(1.08);
+
+    .closeBtnTooltip {
+      opacity: 1;
+    }
+  }
+
+  // On mobile, move tooltip below the button
+  @media (max-width: 480px) {
+    top: 12px;
+    right: 12px;
+
+    .closeBtnTooltip {
+      top: calc(100% + 8px);
+      right: 0;
+      transform: none;
+    }
   }
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ANIMATIONS
 // ══════════════════════════════════════════════════════════════════════════════
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.9; }
+}
 
 @keyframes fadeUp {
   from {
@@ -605,12 +660,8 @@ $ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes slideUp {
