@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "public/images/Company-Logo-Normal-1/1.svg";
+import logo from "public/images/Company-Logo-Normal-1/1.png";
 import dubaiFlag from "public/images/Company-Logo-Normal-1/UAE-Logo.webp";
 import Email from "public/images/Company-Logo-Normal-1/Email-Logo.svg";
 import malaysiaFlag from "public/images/Company-Logo-Normal-1/Malysia-Logo.svg";
@@ -10,9 +10,9 @@ import ukFlag from "public/images/Company-Logo-Normal-1/Uk-Logo.webp";
 import pakistanFlag from "public/images/Company-Logo-Normal-1/Pakistan-Logo.webp";
 
 const Footer = () => {
-  const EMAIL = 'systems@devrolin.com'
-    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Project%20Inquiry`;
 
+  const EMAIL = "systems@devrolin.com"
+  const mailtoLink = `mailto:${EMAIL}?subject=Project%20Inquiry&body=Hello%20Devrolin%20Team%2C%0D%0A%0D%0AI%20am%20interested%20in%20discussing%20a%20potential%20project.%20Please%20let%20me%20know%20a%20convenient%20time%20for%20a%20call.%0D%0A%0D%0AThank%20you.%0D%0A`;
   return (
     <footer
       className="footer section pb-0"
@@ -38,7 +38,7 @@ const Footer = () => {
                 <Image src={whatsapp} width={45} height={20} alt="Dubai Flag" />
                  +971-52347966
                 </Link>
-                <Link href={gmailLink} style={{display:"flex", alignItems:"center", gap:'13px'}}>
+                <Link href={mailtoLink} style={{display:"flex", alignItems:"center", gap:'13px'}}>
                 <Image src={Email} width={35} height={10} alt="Email Logo" />
                   systems@devrolin.com
                 </Link>

@@ -20,7 +20,7 @@ const ModernLoader = () => {
       <div className="loader-content">
         <div className="logo-container">
           <img
-            src="/images/Company-Logo-Normal-1/1.svg"
+            src="/images/Company-Logo-Normal-1/1.png"
             alt="OLIM Logo"
             className="company-logo"
           />
@@ -145,7 +145,7 @@ export default function App({ Component, pageProps }: AppProps) {
               "@type": "Organization",
               name: "DevRolin",
               url: "https://devrolin.com",
-              logo: "https://devrolin.com/images/Company-Logo-Normal-1/1.svg",
+              logo: "https://devrolin.com/images/Company-Logo-Normal-1/1.png",
               description: "AI automation, CRM, SaaS, and custom business systems company.",
               sameAs: [
                 "https://linkedin.com/company/devrolin",

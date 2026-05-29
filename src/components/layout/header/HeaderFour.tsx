@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import logo from "public/images/Company-Logo-Normal-1/1.svg";
+import logo from "public/images/Company-Logo-Normal-1/1.png";
 import logoLight from "public/images/logo-light.png";
 import Offcanvas from "./Offcanvas";
 

@@ -81,6 +81,8 @@ const HomeOneBanner = () => {
   }, []);
 
   const EMAIL = "systems@devrolin.com"
+  const mailtoLink = `mailto:${EMAIL}?subject=Project%20Inquiry&body=Hello%20Devrolin%20Team%2C%0D%0A%0D%0AI%20am%20interested%20in%20discussing%20a%20potential%20project.%20Please%20let%20me%20know%20a%20convenient%20time%20for%20a%20call.%0D%0A%0D%0AThank%20you.%0D%0A`;
+
   const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Project%20Inquiry`;
 
   return (
@@ -127,7 +129,7 @@ const HomeOneBanner = () => {
         <Image src={star} alt="Image" className="star" />
 
         <div className="banner-left-text banner-social-text d-none d-md-flex">
-          <a target='_blank' href={gmailLink}>mail : systems@devrolin.com</a>
+          <a target='_blank' href={mailtoLink}>mail : systems@devrolin.com</a>
           <a href="https://wa.me/devrolin" target="_black">Whatsapp : +971-522347966</a>
         </div>
 

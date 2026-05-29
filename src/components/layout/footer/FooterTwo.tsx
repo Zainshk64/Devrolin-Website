@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "public/images/Company-Logo-Normal-1/1.svg";
+import logo from "public/images/Company-Logo-Normal-1/1.png";
 import gsap from "gsap";
 import chroma from "chroma-js";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";

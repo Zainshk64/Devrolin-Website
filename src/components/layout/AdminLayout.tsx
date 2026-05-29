@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 
-import logo from "public/images/Company-Logo-Normal-1/1.svg";
+import logo from "public/images/Company-Logo-Normal-1/1.png";
 import Image from "next/image";
 
 const tabs = [
