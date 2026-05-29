@@ -124,7 +124,7 @@ const FooterFive = () => {
               </div>
               <div className="paragraph">
                 <p>
-Dubai-based firm building AI, SaaS, and CRM systems that turn your business into a revenue machine without hiring more people.                </p>
+Dubai-based firm building AI, SaaS and CRM systems that turn your business into a revenue machine without hiring more people.                </p>
               </div>
               <div className="section__content-cta">
                 <h2>

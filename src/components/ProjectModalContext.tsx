@@ -378,7 +378,7 @@ const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
           </div>
           <h2 className="pm-title">How would you<br />like to connect?</h2>
           <p className="pm-subtitle">
-            Choose the fastest way to start — we'll tailor a plan for your business.
+            Choose the fastest way to start we'll tailor a plan for your business.
           </p>
 
           {/* Options */}
@@ -427,7 +427,7 @@ const ProjectModal = ({ serviceName, onClose }: ProjectModalProps) => {
 
             {/* ── Email ── */}
             <a
-              href={gmailLink}
+              href={mailtoLink}
               target="_blank"
               className="pm-card pm-card--mail"
             >

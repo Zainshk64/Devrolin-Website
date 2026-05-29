@@ -69,12 +69,12 @@ const service =
   return (
     <>
      <Head>
-        <title>{service.title} | DevRolin</title>
-        <meta name="description" content={service.description} />
+        <title>{service?.title} | DevRolin</title>
+        <meta name="description" content={service?.description} />
         <link rel="canonical" href={`https://devrolin.com/service-single/${slug}`} />
         
-        <meta property="og:title" content={service.title} />
-        <meta property="og:description" content={service.description} />
+        <meta property="og:title" content={service?.title} />
+        <meta property="og:description" content={service?.description} />
         <meta property="og:url" content={`https://devrolin.com/service-single/${slug}`} />
         <meta property="og:image" content="https://devrolin.com/og-image.jpg" />
         
@@ -85,7 +85,7 @@ const service =
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Service",
-              serviceType: service.title,
+              serviceType: service?.title,
               provider: {
                 "@type": "Organization",
                 name: "DevRolin",

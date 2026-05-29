@@ -218,7 +218,7 @@ const Agency = () => {
               </h2>
               <div className="paragraph">
                 <p>
-                 AI, SaaS, and CRM systems with cross-platform integrations that replace manual work, eliminate bottlenecks, and turn your operations into scalable revenue.
+                 AI, SaaS, and CRM systems with cross-platform integrations that replace manual work, eliminate bottlenecks and turn your operations into scalable revenue.
                 </p>
               </div>
 

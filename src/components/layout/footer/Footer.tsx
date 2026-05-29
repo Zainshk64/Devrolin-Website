@@ -80,7 +80,7 @@ const Footer = () => {
               </div>
               <div className="footer__single-content">
                 <p>
-Dubai-based firm building AI, SaaS, and CRM systems that turn your business into a revenue machine without hiring more people.                </p>
+Dubai-based firm building AI, SaaS and CRM systems that turn your business into a revenue machine without hiring more people.                </p>
                 <div className="footer__single-form">
                   <form action="#" method="post">
                     <div className="input-email">

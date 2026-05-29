@@ -63,7 +63,7 @@ const HomeOffer = () => {
               </h2>
               <div className="paragraph">
                 <p>
-                  We design AI, SaaS, and CRM systems with deep integrations across your tools to automate operations, remove bottlenecks, and create predictable growth.
+                  We design AI, SaaS and CRM systems with deep integrations across your tools to automate operations, remove bottlenecks, and create predictable growth.
                 </p>
               </div>
               <div className="section__content-cta">
