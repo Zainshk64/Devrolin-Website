@@ -5,17 +5,17 @@ const faqs = [
   {
     question: "What Results Can You Deliver For My Business?",
     answer:
-      "We build AI, SaaS, and CRM systems that automate operations, reduce manual work, and increase conversions. The goal is simple: more efficiency and predictable revenue growth.",
+      "We build AI, SaaS and CRM systems that automate operations, reduce manual work and increase conversions. The goal is simple: more efficiency and predictable revenue growth.",
   },
   {
     question: "How Do Your AI & Automation Systems Actually Work?",
     answer:
-      "We analyze your workflows, connect your tools, and build AI-driven systems that automate tasks, manage data, and run processes without constant manual input.",
+      "We analyze your workflows, connect your tools and build AI-driven systems that automate tasks, manage data and run processes without constant manual input.",
   },
   {
     question: "What Makes DevRolin Different From Other Agencies?",
     answer:
-      "We don’t just build software — we build systems that solve real business problems. Every solution is designed for performance, scalability, and measurable outcomes.",
+      "We don’t just build software — we build systems that solve real business problems. Every solution is designed for performance, scalability and measurable outcomes.",
   },
   {
     question: "How Long Does It Take To Build A System Or MVP?",
@@ -25,12 +25,12 @@ const faqs = [
   {
     question: "Can You Integrate With Our Existing Tools And CRM?",
     answer:
-      "Yes. We specialize in integrating AI systems, CRMs, APIs, and internal tools to create one connected workflow across your business.",
+      "Yes. We specialize in integrating AI systems, CRMs, APIs and internal tools to create one connected workflow across your business.",
   },
   {
     question: "What Happens After The Project Is Completed?",
     answer:
-      "We don’t disappear after delivery. We provide support, optimization, and scaling to ensure your systems continue to perform as your business grows.",
+      "We don’t disappear after delivery. We provide support, optimization and scaling to ensure your systems continue to perform as your business grows.",
   },
 ];
 

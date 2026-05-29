@@ -26,7 +26,7 @@ const OurMission = () => {
               style={{ paddingTop: "52px" }}
             >
               <p>
-                We don't just build software. We design AI, SaaS, and CRM
+                We don't just build software. We design AI, SaaS and CRM
                 systems that solve real business problems, remove bottlenecks,
                 and create predictable growth. Every decision we make is focused
                 on performance, clarity, and long-term scalability.

@@ -28,7 +28,7 @@ const HomeTwoAward = () => {
               <div className="paragraph">
                 <p>
                  We started with a simple focus building systems that solve real business problems.
-Today, we design AI, SaaS, and CRM systems that automate operations, integrate workflows, and drive scalable growth for teams worldwide.
+Today, we design AI, SaaS and CRM systems that automate operations, integrate workflows, and drive scalable growth for teams worldwide.
 
 
                 </p>
