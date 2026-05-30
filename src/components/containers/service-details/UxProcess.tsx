@@ -59,7 +59,7 @@ const UxProcess = () => {
                 <div className="single-item p-single p-sm body-cn">
                   <p>
                     Our UI/UX experts craft modern, user-centered designs for 
-                    web, mobile, and SaaS platforms — focusing on usability, brand identity, and visual impact.
+                    web, mobile and SaaS platforms — focusing on usability, brand identity and visual impact.
                   </p>
                 </div>
                 <button
@@ -82,7 +82,7 @@ const UxProcess = () => {
                 </div>
                 <div className="single-item p-single p-sm body-cn">
                   <p>
-                    We develop scalable Web Apps, Mobile Apps, AI models, and SaaS 
+                    We develop scalable Web Apps, Mobile Apps, AI models and SaaS 
                     platforms using the latest tech stack — ensuring secure APIs and smooth integrations across systems.
                   </p>
                 </div>
@@ -106,7 +106,7 @@ const UxProcess = () => {
                 </div>
                 <div className="single-item p-single p-sm body-cn">
                   <p>
-                    Every project undergoes performance, usability, and A/B testing. 
+                    Every project undergoes performance, usability and A/B testing. 
                     From Machine Learning Operations to SEO, we optimize for both speed and accuracy.
                   </p>
                 </div>
@@ -131,7 +131,7 @@ const UxProcess = () => {
                 <div className="single-item p-single p-sm body-cn">
                   <p>
                     Once everything is ready, we deploy your product to live servers 
-                    and power it with Digital Marketing, Social Media (LinkedIn & IG), and SEO/GEO targeting for growth.
+                    and power it with Digital Marketing, Social Media (LinkedIn & IG) and SEO/GEO targeting for growth.
                   </p>
                 </div>
                 <button
@@ -154,7 +154,7 @@ const UxProcess = () => {
                 </div>
                 <div className="single-item p-single p-sm body-cn">
                   <p>
-                    After launch, we monitor performance, provide updates, and scale your 
+                    After launch, we monitor performance, provide updates and scale your 
                     systems — from AI retraining to app enhancements and marketing automation.
                   </p>
                 </div>

@@ -8,7 +8,7 @@ const FaqPage = () => {
     <>
           <Head>
         <title>FAQ | DevRolin</title>
-        <meta name="description" content="Frequently asked questions about DevRolin services, pricing, and systems." />
+        <meta name="description" content="Frequently asked questions about DevRolin services, pricing and systems." />
         <link rel="canonical" href="https://devrolin.com/faq" />
         
         {/* FAQ Schema */}
@@ -24,7 +24,7 @@ const FaqPage = () => {
                   name: "What services does DevRolin offer?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "DevRolin provides AI automation, CRM systems, SaaS development, and custom business platforms.",
+                    text: "DevRolin provides AI automation, CRM systems, SaaS development and custom business platforms.",
                   },
                 },
                 // Add more FAQs here

@@ -46,7 +46,7 @@ export const clientDummyData: Client[] = [
     avatarColor: "#e87b2b",
     projectTitle: "AI Voice Booking Agent",
     projectDetails:
-      "End-to-end AI voice assistant integrated with CRM for automated appointment booking, real-time slot management, and client follow-up. Built on GPT-4o with Twilio voice infrastructure. Deployed across 3 regional call centers.",
+      "End-to-end AI voice assistant integrated with CRM for automated appointment booking, real-time slot management and client follow-up. Built on GPT-4o with Twilio voice infrastructure. Deployed across 3 regional call centers.",
     googleDocUrl: "https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVEIupic/preview",
     paymentType: "milestone",
     currency: "USD",
@@ -72,7 +72,7 @@ export const clientDummyData: Client[] = [
     avatarColor: "#2bc5e8",
     projectTitle: "SaaS MVP Platform",
     projectDetails:
-      "Full-stack SaaS platform for B2B HR automation — employee onboarding, payroll integrations, and analytics dashboard. Built with Next.js 14, Supabase, and Stripe billing. Monthly billing cycles managed via Stripe webhooks.",
+      "Full-stack SaaS platform for B2B HR automation — employee onboarding, payroll integrations and analytics dashboard. Built with Next.js 14, Supabase and Stripe billing. Monthly billing cycles managed via Stripe webhooks.",
     googleDocUrl: "https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVEIupic/preview",
     paymentType: "hourly",
     currency: "USD",
@@ -102,7 +102,7 @@ export const clientDummyData: Client[] = [
     avatarColor: "#2be87b",
     projectTitle: "AI Document Processing System",
     projectDetails:
-      "Automated document intelligence pipeline — OCR ingestion, contract clause extraction, risk flagging, and audit trail generation for financial compliance. Integrated with SharePoint and exported to client's internal ERP via REST APIs.",
+      "Automated document intelligence pipeline — OCR ingestion, contract clause extraction, risk flagging and audit trail generation for financial compliance. Integrated with SharePoint and exported to client's internal ERP via REST APIs.",
     googleDocUrl: "https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVEIupic/preview",
     paymentType: "milestone",
     currency: "USD",

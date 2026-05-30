@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import logo from "public/images/Company-Logo-Normal-1/1.png";
+import logo from "public/images/Company-Logo-Normal-1/1.svg";
 import logoLight from "public/images/logo-light.png";
 import Offcanvas from "./Offcanvas";
 
@@ -62,7 +62,7 @@ const HeaderTwo = ({ openNav, handleNav, setOpenNav }: HeaderProps) => {
                   <div className="navbar__logo">
   <Link href="/" aria-label="go to home">
     <img
-      src={logoSrc === logo ? "/images/Company-Logo-Normal-1/1.png" : "/images/logo-light.png"}
+      src={logoSrc === logo ? "/images/Company-Logo-Normal-1/1.svg" : "/images/logo-light.png"}
       alt="Company Logo"
       className="h-[50px] w-auto md:h-[60px] lg:h-[78px]"
       style={{ imageRendering: "crisp-edges" }}

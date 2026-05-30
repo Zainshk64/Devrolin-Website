@@ -17,7 +17,7 @@ const Home = () => {
         
         <meta 
           name="description" 
-          content="DevRolin builds AI automation, CRM, SaaS, and custom business systems that eliminate manual work, automate operations, and help businesses scale revenue across 35+ countries." 
+          content="DevRolin builds AI automation, CRM, SaaS and custom business systems that eliminate manual work, automate operations and help businesses scale revenue across 35+ countries." 
         />
         
         <meta 
@@ -30,15 +30,15 @@ const Home = () => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://devrolin.com" />
         <meta property="og:title" content="DevRolin | AI Systems That Scale Revenue" />
-        <meta property="og:description" content="AI, CRM, and SaaS systems built to automate operations and scale businesses." />
+        <meta property="og:description" content="AI, CRM and SaaS systems built to automate operations and scale businesses." />
         <meta property="og:image" content="https://devrolin.com/og-image.jpg" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content="DevRolin" />
         
         {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
+        {/* <meta name="twitter:card" content="summary_large_image" /> */}
         <meta name="twitter:title" content="DevRolin | AI Systems That Scale Revenue" />
-        <meta name="twitter:description" content="AI automation, CRM, SaaS, and custom business systems." />
+        <meta name="twitter:description" content="AI automation, CRM, SaaS and custom business systems." />
         <meta name="twitter:image" content="https://devrolin.com/og-image.jpg" />
       </Head>
 

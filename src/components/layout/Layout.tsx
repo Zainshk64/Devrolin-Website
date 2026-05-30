@@ -178,7 +178,7 @@ const Layout = ({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
           rel="shortcut icon"
-          href="/images/Company-Logo-Normal-1/1.png"
+          href="/images/Company-Logo-Normal-1/1.svg"
           type="image/x-icon"
         />
         <title>DevRolin | Leading Software Company</title>

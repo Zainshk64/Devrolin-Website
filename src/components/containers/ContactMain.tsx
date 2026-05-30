@@ -171,7 +171,7 @@ const ContactMain = () => {
                           Let’s Engineer Your Growth Infrastructure
                         </h3>
                         <p className="form-subtitle">
-                          We review your operations, identify bottlenecks, and design scalable AI, CRM, SaaS, automation, and custom platform systems built to reduce manual work and improve operational speed.”{" "}
+                          We review your operations, identify bottlenecks and design scalable AI, CRM, SaaS, automation and custom platform systems built to reduce manual work and improve operational speed.”{" "}
                         </p>
                         <div>
                           <ConsultFormModal

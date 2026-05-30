@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "public/images/Company-Logo-Normal-1/1.png";
+import logo from "public/images/Company-Logo-Normal-1/1.svg";
 import whatsapp from "public/images/Company-Logo-Normal-1/Whatsapp-Logo.svg";
 import dubaiFlag from "public/images/Company-Logo-Normal-1/UAE-Logo.webp";
 import Email from "public/images/Company-Logo-Normal-1/Email-Logo.svg";

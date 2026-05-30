@@ -71,7 +71,7 @@ const HomeTwoBanner = () => {
                   <div className="paragraph">
                     <p>
                       We are a data-driven UI UX design agency delivering
-                      complete end-to-end web, mobile, and Web3 user experience
+                      complete end-to-end web, mobile and Web3 user experience
                       design solutions for better core metrics.
                     </p>
                   </div>

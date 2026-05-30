@@ -4,6 +4,8 @@ import Layout from "@/components/layout/Layout";
 import { InlineWidget } from "react-calendly";
 import styles from "@/styles/strategy-session.module.scss";
 import toast from "react-hot-toast";
+import { useCalendlyIframeFix } from "@/hooks/useCalendlyIframeFix";
+
 
 const StrategySession = () => {
   interface TestimonialItem {
@@ -21,6 +23,9 @@ const StrategySession = () => {
   const [activeCard, setActiveCard] = useState(0);
   const [loading, setLoading] = useState(true);
   const [expandedCards, setExpandedCards] = useState<Set<number>>(new Set());
+
+  useCalendlyIframeFix(isCalendlyOpen);
+
 
 
   // Pre-mount Calendly widget after page loads so it's ready instantly
@@ -168,7 +173,7 @@ useEffect(() => {
                 </h1>
 
                 <p className={styles.subtext}>
-                  We build AI, CRM, and automation infrastructure that helps businesses grow faster without hiring larger teams.
+                  We build AI, CRM and automation infrastructure that helps businesses grow faster without hiring larger teams.
                 </p>
 
                 {/* FIX 3: Limited sessions urgency text */}
@@ -207,7 +212,7 @@ useEffect(() => {
                 </button>
 
                 <p className={styles.trustLine}>
-                  ⭐⭐⭐⭐⭐ Trusted by scaling founders and teams streamlining workflows, CRM systems, and 500K+ audience operations through AI and automation.
+                  ⭐⭐⭐⭐⭐ Trusted by scaling founders and teams streamlining workflows, CRM systems and 500K+ audience operations through AI and automation.
                 </p>
               </div>
 
@@ -338,7 +343,7 @@ useEffect(() => {
               pageSettings={{
                 backgroundColor: "0a0a0a",
                 primaryColor: "E87B2B",
-                textColor: "ffffff",
+                textColor: "ccc",
               }}
             />
           </div>
@@ -371,7 +376,7 @@ useEffect(() => {
                 pageSettings={{
                   backgroundColor: "0a0a0a",
                   primaryColor: "E87B2B",
-                  textColor: "ffffff",
+                  textColor: "ccc",
                 }}
               />
             </div>

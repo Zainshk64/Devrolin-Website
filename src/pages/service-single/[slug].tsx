@@ -20,7 +20,7 @@ const serviceData: Record<
   "ai-automation-systems": {
     title: "AI Automation & Integration Systems",
     description:
-      "Automate workflows, integrate disconnected tools, and scale operations using AI systems.",
+      "Automate workflows, integrate disconnected tools and scale operations using AI systems.",
   },
 
   "crm-revenue-automation": {

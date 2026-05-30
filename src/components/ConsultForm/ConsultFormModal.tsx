@@ -722,7 +722,7 @@ const ConsultFormModal: React.FC<ConsultFormModalProps> = ({ onClose }) => {
                 </label>
                 <textarea
                   className="cf-textarea"
-                  placeholder="Describe what you want to achieve, main pain points, and what success looks like for you..."
+                  placeholder="Describe what you want to achieve, main pain points and what success looks like for you..."
                   value={form.shortDescription}
                   onChange={(e) => set("shortDescription", e.target.value)}
                   rows={4}

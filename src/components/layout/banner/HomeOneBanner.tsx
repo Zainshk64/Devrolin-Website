@@ -100,7 +100,7 @@ const HomeOneBanner = () => {
                 </h1>
                 <div className="banner__content-inner">
                   <p>
-                    Dubai-based firm building AI, SaaS, and CRM systems that
+                    Dubai-based firm building AI, SaaS and CRM systems that
                     turn your business into a revenue machine without hiring
                     more people.
                   </p>

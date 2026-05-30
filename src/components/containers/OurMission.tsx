@@ -29,7 +29,7 @@ const OurMission = () => {
                 We don't just build software. We design AI, SaaS and CRM
                 systems that solve real business problems, remove bottlenecks,
                 and create predictable growth. Every decision we make is focused
-                on performance, clarity, and long-term scalability.
+                on performance, clarity and long-term scalability.
               </p>
             </div>
           </div>
@@ -72,8 +72,8 @@ const OurMission = () => {
               <h3>We Build Systems That Create Real Value</h3>
               <div className="section__content-cta">
                 <p className="primary-text">
-                  We design AI, SaaS, and CRM systems that remove
-                  inefficiencies, connect your tools, and turn operations into
+                  We design AI, SaaS and CRM systems that remove
+                  inefficiencies, connect your tools and turn operations into
                   measurable growth. Every solution is built to perform, scale,
                   and deliver results in real-world use.
                 </p>

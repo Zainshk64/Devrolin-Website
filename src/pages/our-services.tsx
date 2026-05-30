@@ -15,7 +15,7 @@ const OurServices = () => {
         <title>Our Services | DevRolin</title>
         <meta 
           name="description" 
-          content="Explore AI automation, CRM systems, SaaS development, and custom web platforms designed to scale your business operations." 
+          content="Explore AI automation, CRM systems, SaaS development and custom web platforms designed to scale your business operations." 
         />
         <link rel="canonical" href="https://devrolin.com/our-services" />
         

@@ -9,7 +9,7 @@ const ContactUs = () => {
     <>
     <Head>
         <title>Contact Us | DevRolin</title>
-        <meta name="description" content="Get in touch with DevRolin for AI automation, CRM, SaaS, and custom system development." />
+        <meta name="description" content="Get in touch with DevRolin for AI automation, CRM, SaaS and custom system development." />
         <link rel="canonical" href="https://devrolin.com/contact-us" />
       </Head>
 
