@@ -57,13 +57,30 @@ export default function ProjectDetailsPage() {
   return (
     <>
       <Head>
-        <title>{projectTitle} | DevRolin</title>
-        <meta name="description" content={`Explore the ${projectTitle} project by DevRolin.`} />
-        <link rel="canonical" href={`https://devrolin.com/project-single/${slug}`} />
-        
-        <meta property="og:title" content={`${projectTitle} | DevRolin`} />
-        <meta property="og:url" content={`https://devrolin.com/project-single/${slug}`} />
-      </Head>
+  <title>{`${projectTitle} | AI Automation, CRM, SaaS & Custom Project | DevRolin`}</title>
+
+  <meta
+    name="description"
+    content={`Explore ${projectTitle}, a DevRolin project built with secure execution, data privacy and scalable systems across AI automation, integrations, CRM, SaaS and custom business platforms.`}
+  />
+
+  <meta
+    name="keywords"
+    content={`${projectTitle}, DevRolin project, AI automation project, AI integration project, CRM system project, SaaS development project, custom software project, business automation case study`}
+  />
+
+  <link rel="canonical" href={`https://devrolin.com/project-single/${slug}`} />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={`${projectTitle} | DevRolin Project`} />
+  <meta
+    property="og:description"
+    content={`See how DevRolin built ${projectTitle} with secure systems, data privacy and scalable execution for business growth.`}
+  />
+  <meta property="og:url" content={`https://devrolin.com/project-single/${slug}`} />
+  <meta property="og:image" content="https://devrolin.com/og-image.jpg" />
+  <meta property="og:site_name" content="DevRolin" />
+</Head>
     <Layout header={2} footer={5} video={0}>
       <CmnBanner
         title={project.title} // ✅ safe now

@@ -68,33 +68,88 @@ const service =
 
   return (
     <>
-     <Head>
-        <title>{service?.title} | DevRolin</title>
-        <meta name="description" content={service?.description} />
-        <link rel="canonical" href={`https://devrolin.com/service-single/${slug}`} />
-        
-        <meta property="og:title" content={service?.title} />
-        <meta property="og:description" content={service?.description} />
-        <meta property="og:url" content={`https://devrolin.com/service-single/${slug}`} />
-        <meta property="og:image" content="https://devrolin.com/og-image.jpg" />
-        
-        {/* Service Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Service",
-              serviceType: service?.title,
-              provider: {
-                "@type": "Organization",
-                name: "DevRolin",
-              },
-              areaServed: "Worldwide",
-            }),
-          }}
-        />
-      </Head>
+    <Head>
+  <title>{`${service?.title} | AI Automation, CRM, SaaS & Custom Systems | DevRolin`}</title>
+
+  <meta
+    name="description"
+    content={`${service?.description} DevRolin builds secure, scalable and revenue-focused systems with strong data privacy, clean execution and global delivery across 35+ countries.`}
+  />
+
+  <meta
+    name="keywords"
+    content={`${service?.title}, DevRolin services, AI automation services, AI integration services, CRM systems, revenue systems, SaaS development, custom software development, business automation, workflow automation`}
+  />
+
+  <link rel="canonical" href={`https://devrolin.com/service-single/${slug}`} />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={`${service?.title} | DevRolin`} />
+  <meta
+    property="og:description"
+    content={`${service?.description} Built with secure execution, data privacy and scalable systems for growing businesses.`}
+  />
+  <meta property="og:url" content={`https://devrolin.com/service-single/${slug}`} />
+  <meta property="og:image" content="https://devrolin.com/og-image.jpg" />
+  <meta property="og:site_name" content="DevRolin" />
+
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{
+      __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: service?.title,
+        serviceType: service?.title,
+        description: service?.description,
+        provider: {
+          "@type": "Organization",
+          name: "DevRolin",
+          url: "https://devrolin.com",
+          logo: "https://devrolin.com/og-image.jpg"
+        },
+        areaServed: {
+          "@type": "Place",
+          name: "Worldwide"
+        },
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "DevRolin Services",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "AI Automation & Integrations"
+              }
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "CRM & Revenue Systems"
+              }
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "SaaS & MVP Development"
+              }
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Web & Custom Platforms"
+              }
+            }
+          ]
+        }
+      }),
+    }}
+  />
+</Head>
     <Layout header={2} footer={5} video={false}>
       <ServiceDetailsBanner mainService={mainService} />
       <ServiceDetailsMain mainService={mainService} />

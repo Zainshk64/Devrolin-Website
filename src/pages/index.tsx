@@ -13,33 +13,21 @@ const Home = () => {
   return (
     <>
        <Head>
-        <title>DevRolin | AI Automation, CRM & SaaS Systems Company</title>
-        
-        <meta 
-          name="description" 
-          content="DevRolin builds AI automation, CRM, SaaS and custom business systems that eliminate manual work, automate operations and help businesses scale revenue across 35+ countries." 
-        />
-        
-        <meta 
-          name="keywords" 
-          content="AI Automation, CRM Systems, SaaS Development, AI Agents, Revenue Systems, Business Automation, Custom Platforms, AI Integration" 
-        />
-        
-        <link rel="canonical" href="https://devrolin.com" />
-        
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://devrolin.com" />
-        <meta property="og:title" content="DevRolin | AI Systems That Scale Revenue" />
-        <meta property="og:description" content="AI, CRM and SaaS systems built to automate operations and scale businesses." />
-        <meta property="og:image" content="https://devrolin.com/og-image.jpg" />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:site_name" content="DevRolin" />
-        
-        {/* Twitter */}
-        {/* <meta name="twitter:card" content="summary_large_image" /> */}
-        <meta name="twitter:title" content="DevRolin | AI Systems That Scale Revenue" />
-        <meta name="twitter:description" content="AI automation, CRM, SaaS and custom business systems." />
-        <meta name="twitter:image" content="https://devrolin.com/og-image.jpg" />
+        <title>DevRolin | AI Automation, CRM & Revenue Systems for Growing Businesses</title>
+
+<meta
+  name="description"
+  content="Scale faster with AI automation, CRM systems, SaaS development and custom platforms. DevRolin builds revenue-driving systems that eliminate manual work, streamline operations and accelerate business growth."
+/>
+
+<meta
+  name="keywords"
+  content="AI Automation Services, CRM Development, Revenue Operations, SaaS Development Company, AI Agents, Business Process Automation, Custom Software Development, CRM Automation, AI Integration, Revenue Systems"
+/>
+
+<meta property="og:title" content="DevRolin | AI Automation & Revenue Systems That Scale Businesses" />
+
+<meta property="og:description" content="We build AI automation, CRM, SaaS and custom business systems that reduce manual work, improve operations and increase revenue." />
       </Head>
 
     <Layout header={1} footer={1} video={true}>

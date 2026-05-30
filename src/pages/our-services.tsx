@@ -12,16 +12,96 @@ const OurServices = () => {
   return (
     <>
      <Head>
-        <title>Our Services | DevRolin</title>
-        <meta 
-          name="description" 
-          content="Explore AI automation, CRM systems, SaaS development and custom web platforms designed to scale your business operations." 
-        />
-        <link rel="canonical" href="https://devrolin.com/our-services" />
-        
-        <meta property="og:title" content="Our Services | DevRolin" />
-        <meta property="og:url" content="https://devrolin.com/our-services" />
-        <meta property="og:image" content="https://devrolin.com/og-image.jpg" />
+       <title>AI Automation, AI Integrations, CRM & SaaS Development Services | DevRolin</title>
+
+<meta
+  name="description"
+  content="Scale your business with AI automation, AI integrations, CRM systems, SaaS development and custom software solutions. DevRolin builds revenue-focused systems that streamline operations, eliminate manual work and support growth."
+/>
+
+<meta
+  name="keywords"
+  content="AI Automation Services, AI Integration Services, CRM Development, CRM Automation, SaaS Development, Custom Software Development, Business Process Automation, Revenue Operations, AI Agents, Workflow Automation"
+/>
+
+<meta property="og:title" content="AI Automation, AI Integrations, CRM & SaaS Development Services | DevRolin" />
+
+<meta property="og:description" content="AI automation, AI integrations, CRM systems, SaaS development and custom software solutions built to streamline operations and scale businesses." />
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "@id": `https://devrolin.com/service-single/${slug}#service`,
+      name: service?.title,
+      serviceType: service?.title,
+      description: service?.description,
+      url: `https://devrolin.com/service-single/${slug}`,
+      provider: {
+        "@type": "Organization",
+        "@id": "https://devrolin.com/#organization",
+        name: "DevRolin",
+        url: "https://devrolin.com",
+        logo: "https://devrolin.com/og-image.jpg"
+      },
+      areaServed: {
+        "@type": "Place",
+        name: "Worldwide"
+      },
+      audience: {
+        "@type": "BusinessAudience",
+        audienceType: "Startups, agencies, SaaS companies and operations-heavy businesses"
+      },
+      category: [
+        "AI Automation",
+        "AI Integrations",
+        "CRM Systems",
+        "Revenue Systems",
+        "SaaS Development",
+        "Custom Software Development"
+      ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "DevRolin Services",
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "AI Automation & Integrations",
+              description: "AI-powered automation and integrations built to reduce manual work and improve operational efficiency."
+            }
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "CRM & Revenue Systems",
+              description: "CRM and revenue systems designed to manage leads, automate follow-ups and improve sales operations."
+            }
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "SaaS & MVP Development",
+              description: "SaaS products and MVPs built for startups and businesses that need scalable digital platforms."
+            }
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Web & Custom Platforms",
+              description: "Custom websites, portals and business platforms built around real operational needs."
+            }
+          }
+        ]
+      }
+    }),
+  }}
+/>
       </Head>
     <Layout header={2} footer={5} video={0}>
       <CmnBanner title="Our Services" navigation="Our Services" />

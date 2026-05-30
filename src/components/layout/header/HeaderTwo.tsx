@@ -61,11 +61,9 @@ const HeaderTwo = ({ openNav, handleNav, setOpenNav }: HeaderProps) => {
                 <nav className="navbar p-0">
                   <div className="navbar__logo">
   <Link href="/" aria-label="go to home">
-    <img
-      src={logoSrc === logo ? "/images/Company-Logo-Normal-1/1.svg" : "/images/logo-light.png"}
+    <Image
+      src={logoSrc}
       alt="Company Logo"
-      className="h-[50px] w-auto md:h-[60px] lg:h-[78px]"
-      style={{ imageRendering: "crisp-edges" }}
     />
   </Link>
 </div>
