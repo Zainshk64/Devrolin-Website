@@ -63,7 +63,6 @@ export default function ProjectDetailsPage() {
     name="description"
     content={`Explore ${projectTitle}, a DevRolin project built with secure execution, data privacy and scalable systems across AI automation, integrations, CRM, SaaS and custom business platforms.`}
   />
-
   <meta
     name="keywords"
     content={`${projectTitle}, DevRolin project, AI automation project, AI integration project, CRM system project, SaaS development project, custom software project, business automation case study`}
